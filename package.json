@@ -1,0 +1,32 @@
+{
+  "name": "leetcode-javascript",
+  "version": "1.0.0",
+  "description": "Javascript solutions for leetcode problems.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "node build/index.js",
+    "create": "node create/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BaffinLee/leetcode-javascript.git"
+  },
+  "keywords": [
+    "leetcode"
+  ],
+  "author": "Baffin Lee",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BaffinLee/leetcode-javascript/issues"
+  },
+  "homepage": "https://github.com/BaffinLee/leetcode-javascript#readme",
+  "devDependencies": {
+    "axios": "^0.18.0",
+    "chalk": "^2.4.1",
+    "cheerio": "^1.0.0-rc.2",
+    "react-jsx": "^1.0.0"
+  }
+}

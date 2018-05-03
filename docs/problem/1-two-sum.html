@@ -1,0 +1,32 @@
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Two Sum - LeetCode javascript solutions</title><link rel="stylesheet" href="./static/css/problem.css"/></head><body><h1>1. Two Sum</h1><header><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/easy">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/3sum">item.name</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/4sum">item.name</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/two-sum-ii-input-array-is-sorted">item.name</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/two-sum-iii-data-structure-design">item.name</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/subarray-sum-equals-k">item.name</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/two-sum-iv-input-is-a-bst">item.name</a></li></ul></div></div></header><main><article class="markdown-body"><p>Problem</p>
+<p>Given an array of integers, return <strong>indices</strong> of the two numbers such that they add up to a specific target.</p>
+<p>You may assume that each input would have <strong>exactly</strong> one solution, and you may not use the same element twice.</p>
+<p><strong>Example:</strong></p>
+<pre><code>Given nums = [2, 7, 11, 15], target = 9,
+
+Because nums[0] + nums[1] = 2 + 7 = 9,
+return [0, 1].
+</code></pre>
+<h3 id="solution">Solution</h3>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */</span>
+<span class="hljs-keyword">var</span> twoSum = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums, target</span>) </span>{
+    <span class="hljs-keyword">var</span> hash = {};
+    <span class="hljs-keyword">var</span> len = nums.length;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+        <span class="hljs-keyword">if</span> (nums[i] <span class="hljs-keyword">in</span> hash) <span class="hljs-keyword">return</span> [hash[nums[i]], i];
+        hash[target - nums[i]] = i
+    }
+    <span class="hljs-keyword">return</span> [<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>];
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://baffinlee.github.io/leetcode-javascript" target="_blank"><img src="./static/img/github.png" alt="github"/></a></footer></body></html>

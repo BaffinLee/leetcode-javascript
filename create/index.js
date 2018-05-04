@@ -1,5 +1,6 @@
 const create = data => {
-	const fs = require('fs');
+  const fs = require('fs');
+  const fse = require('fs-extra');
 	const path = require('path');
 	const chalk = require('chalk');
 	const pageData = {
@@ -17,14 +18,44 @@ const create = data => {
 		str = str.replace(`{{${name}}}`, pageData[name]);
 	});
 
-	fs.writeFileSync(dir, str);
+	fse.outputFileSync(dir, str);
 
 	console.log(`created at: ${chalk.blue(dir)}\n`);
 };
 
 const getDescription = (description) => {
-	const cheerio = require('cheerio');
-	return cheerio.load(description).text();
+  const cheerio = require('cheerio');
+  const rules = [
+    {
+      regexp: /<pre>([\s\S]*?)<\/pre>/ig,
+      replacer: (_, $1) => `\`\`\`\n${cheerio.load($1).text()}\`\`\``
+    },
+    {
+      regexp: /<code>(.*?)<\/code>/ig,
+      replacer: (_, $1) => `\`\`\`${$1}\`\`\``
+    },
+    {
+      regexp: /<i>(.*?)<\/i>/ig,
+      replacer: (_, $1) => `*${$1}*`
+    },
+    {
+      regexp: /<b>(.*?)<\/b>/ig,
+      replacer: (_, $1) => `**${$1}**`
+    },
+    {
+      regexp: /<em>(.*?)<\/em>/ig,
+      replacer: (_, $1) => `**${$1}**`
+    },
+    {
+      regexp: /<strong>(.*?)<\/strong>/ig,
+      replacer: (_, $1) => `**${$1}**`
+    }
+  ];
+  let html = description;
+  rules.forEach(rule => {
+    html = html.replace(rule.regexp, rule.replacer);
+  });
+	return cheerio.load(html).text();
 };
 
 const getPath = (id, name) => {

@@ -1,0 +1,76 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Median of Two Sorted Arrays - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>4. Median of Two Sorted Arrays</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/binary-search">Binary Search</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/divide-and-conquer">Divide and Conquer</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/.html"></a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>There are two sorted arrays <strong>nums1</strong> and <strong>nums2</strong> of size m and n respectively.</p>
+<p>Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).</p>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs">nums1 = [<span class="hljs-number">1</span>, <span class="hljs-number">3</span>]
+nums2 = [<span class="hljs-number">2</span>]
+
+The median is <span class="hljs-number">2.0</span>
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs">nums1 = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>]
+nums2 = [<span class="hljs-number">3</span>, <span class="hljs-number">4</span>]
+
+The median is (<span class="hljs-number">2</span> + <span class="hljs-number">3</span>)/<span class="hljs-number">2</span> = <span class="hljs-number">2.5</span>
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> findMedianSortedArrays = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums1, nums2</span>) </span>{
+  <span class="hljs-keyword">var</span> len1 = nums1.length;
+  <span class="hljs-keyword">var</span> len2 = nums2.length;
+  <span class="hljs-keyword">var</span> total = len1 + len2;
+
+  <span class="hljs-keyword">if</span> (total % <span class="hljs-number">2</span>) {
+    <span class="hljs-keyword">return</span> findKthOfTwoSortedArrays(nums1, len1, nums2, len2, <span class="hljs-built_in">parseInt</span>(total / <span class="hljs-number">2</span> + <span class="hljs-number">1</span>));
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> (findKthOfTwoSortedArrays(nums1, len1, nums2, len2, total / <span class="hljs-number">2</span>)
+        + findKthOfTwoSortedArrays(nums1, len1, nums2, len2, total / <span class="hljs-number">2</span> + <span class="hljs-number">1</span>)) / <span class="hljs-number">2</span>;
+  }
+};
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">findKthOfTwoSortedArrays</span> (<span class="hljs-params">p, m, q, n, k</span>) </span>{
+
+    <span class="hljs-keyword">if</span> (m &gt; n) {
+        <span class="hljs-keyword">return</span> findKthOfTwoSortedArrays(q, n, p, m, k);
+    }
+
+    <span class="hljs-keyword">if</span> (m === <span class="hljs-number">0</span>) {
+        <span class="hljs-keyword">return</span> q[k - <span class="hljs-number">1</span>];
+    }
+
+    <span class="hljs-keyword">if</span> (k === <span class="hljs-number">1</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.min(p[<span class="hljs-number">0</span>], q[<span class="hljs-number">0</span>]);
+    }
+
+    <span class="hljs-keyword">var</span> pa = <span class="hljs-built_in">Math</span>.min(<span class="hljs-built_in">parseInt</span>(k / <span class="hljs-number">2</span>), m);
+    <span class="hljs-keyword">var</span> qa = k - pa;
+
+    <span class="hljs-keyword">if</span> (p[pa - <span class="hljs-number">1</span>] &lt; q[qa - <span class="hljs-number">1</span>]) {
+        <span class="hljs-keyword">return</span> findKthOfTwoSortedArrays(p.slice(pa), m - pa, q, n, k - pa);
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (q[qa - <span class="hljs-number">1</span>] &lt; p[pa - <span class="hljs-number">1</span>]) {
+        <span class="hljs-keyword">return</span> findKthOfTwoSortedArrays(p, m, q.slice(qa), n - qa, k - qa);
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> p[pa - <span class="hljs-number">1</span>];
+    }
+}
+</code></pre>
+<p><strong>Explain:</strong></p>
+<ul>
+<li>结论1：某个数组中有一半的元素不超过数组的中位数，有一半的元素不小于中位数（如果数组中元素个数是偶数，那么这里的一半并不是严格意义的1/2）。</li>
+<li>结论2：如果我们去掉数组比中位数小的k个数，再去掉比中位数大的k个数，得到的子数组的中位数和原来的中位数相同</li>
+</ul>
+<p>问题转化成求两个已经排序的数组的第 k 个数字的问题：</p>
+<ol>
+<li>在这两个数组的前一部分，各取出加起来为 k 的一部分，比较这两部分的最后一个</li>
+<li>更小的那部分可以去除，中位数不会出现在这里</li>
+<li>去除后更新数组及其长度，更新 k ， 递归</li>
+</ol>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(log(m+n)).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

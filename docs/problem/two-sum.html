@@ -2,10 +2,9 @@
 <p>Given an array of integers, return <strong>indices</strong> of the two numbers such that they add up to a specific target.</p>
 <p>You may assume that each input would have <strong>exactly</strong> one solution, and you may not use the same element twice.</p>
 <p><strong>Example:</strong></p>
-<pre><code>Given nums = [2, 7, 11, 15], target = 9,
-
-Because nums[0] + nums[1] = 2 + 7 = 9,
-return [0, 1].
+<pre><code class="hljs">Given nums = [<span class="hljs-number">2</span>, <span class="hljs-number">7</span>, <span class="hljs-number">11</span>, <span class="hljs-number">15</span>], target = <span class="hljs-number">9</span>,
+Because nums[<span class="hljs-number">0</span>] + nums[<span class="hljs-number">1</span>] = <span class="hljs-number">2</span> + <span class="hljs-number">7</span> = <span class="hljs-number">9</span>,
+return [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>].
 </code></pre>
 <h2 id="solution">Solution</h2>
 <pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
@@ -14,13 +13,13 @@ return [0, 1].
  * @return {number[]}
  */</span>
 <span class="hljs-keyword">var</span> twoSum = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums, target</span>) </span>{
-    <span class="hljs-keyword">var</span> hash = {};
-    <span class="hljs-keyword">var</span> len = nums.length;
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
-        <span class="hljs-keyword">if</span> (nums[i] <span class="hljs-keyword">in</span> hash) <span class="hljs-keyword">return</span> [hash[nums[i]], i];
-        hash[target - nums[i]] = i
-    }
-    <span class="hljs-keyword">return</span> [<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>];
+  <span class="hljs-keyword">var</span> hash = {};
+  <span class="hljs-keyword">var</span> len = nums.length;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+    <span class="hljs-keyword">if</span> (nums[i] <span class="hljs-keyword">in</span> hash) <span class="hljs-keyword">return</span> [hash[nums[i]], i];
+    hash[target - nums[i]] = i
+  }
+  <span class="hljs-keyword">return</span> [<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>];
 };
 </code></pre>
 <p><strong>Explain:</strong></p>
@@ -29,4 +28,4 @@ return [0, 1].
 <ul>
 <li>Time complexity : O(n).</li>
 <li>Space complexity : O(n).</li>
-</ul></article></main><footer><a href="https://baffinlee.github.io/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

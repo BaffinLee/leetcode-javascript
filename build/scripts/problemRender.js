@@ -13,13 +13,13 @@ const render = jsx.server(template, {
 const ROOT_DIR = path.resolve(__dirname, '../../');
 
 function getPath (id, slug) {
-	return path.resolve(ROOT_DIR, './docs/problem', `${id}-${slug}.html`);
+	return path.resolve(ROOT_DIR, './docs/problem', `${slug}.html`);
 }
 
 function problemRender (problem) {
 	fse.outputFileSync(
 		getPath(problem.id, problem.slug),
-		render(problem, {
+		'<!DOCTYPE html>' + render(problem, {
 			html: true
 		})
 	);

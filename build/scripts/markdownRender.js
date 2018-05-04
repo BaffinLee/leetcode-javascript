@@ -17,7 +17,7 @@ const renderCode = function (code, lang) {
 
 const renderer = new showdown.Converter({
   ghCompatibleHeaderId: true,
-  headerLevelStart: 2,
+  headerLevelStart: 1,
   parseImgDimensions: true,
   strikethrough: true,
   tables: true,
@@ -31,7 +31,7 @@ const renderer = new showdown.Converter({
 				{
           type: 'lang',
           regex: /#([\s\S]*?)##/,
-          replace: ''
+          replace: '##'
         },
         {
           type: 'lang',

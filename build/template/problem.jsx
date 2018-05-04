@@ -1,25 +1,25 @@
-{'<!DOCTYPE html>'}
 <html lang="en">
 <head>
 	<meta charSet="UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<meta httpEquiv="X-UA-Compatible" content="ie=edge"/>
 	<title>{name} - LeetCode javascript solutions</title>
-	<link rel="stylesheet" href="./static/css/problem.css"/>
+	<link rel="shortcut icon" href={url.home + '/static/img/favicon.png'} type="image/png"/>
+	<link rel="stylesheet" href={url.home + '/static/css/app.css'}/>
 </head>
 <body>
-	<h1>{id + '. ' + name}</h1>
 	<header>
+		<h1>{id + '. ' + name}</h1>
 		<div className="row">
 			<div className="name">Difficulty:</div>
 			<div className="value">
-				<a href={url.difficulty(difficulty.slug)}>{difficulty.name}</a>
+				<a href={url.difficulty(difficulty.slug)} className="tag">{difficulty.name}</a>
 			</div>
 		</div>
 		<div className="row">
 			<div className="name">Related Topics:</div>
 			<div className="value">
-				<ul>
+				<ul className="clearfix">
 					{tags.map((item, index) => (
 						<li key={index}>
 							<a href={url.tag(item.slug)}>{item.name}</a>
@@ -31,10 +31,10 @@
 		<div className="row">
 			<div className="name">Similar Questions:</div>
 			<div className="value">
-				<ul>
+				<ul className="clearfix">
 					{similarQuestions.map((item, index) => (
 						<li key={index}>
-							<a href={url.problem(item.slug)}>item.name</a>
+							<a href={url.problem(item.slug)}>{item.name}</a>
 						</li>
 					))}
 				</ul>
@@ -46,7 +46,7 @@
 	</main>
 	<footer>
 		<a href={url.home} target="_blank">
-			<img src="./static/img/github.png" alt="github"/>
+			<img src={url.home + '/static/img/github.png'} alt="github"/>
 		</a>
 	</footer>
 </body>

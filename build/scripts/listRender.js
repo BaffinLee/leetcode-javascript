@@ -21,23 +21,50 @@ function getPath (type, page) {
 	}
 }
 
-function listRender (type, url, tagList, difficultyList, list, tag, difficulty) {
+function getPages (now, all) {
+	let start = 0;
+	let end = 0;
+	const pages = [];
+
+	if (now < 3) {
+		start = 1;
+		end = Math.min(all, 5);
+	} else if (now > all - 2) {
+		end = all;
+		start = Math.max(1, all - 4);
+	} else {
+		start = now - 2;
+		end = now + 2;
+	}
+
+	while (start <= end) {
+		pages.push(start);
+		start++;
+	}
+
+	return pages;
+}
+
+function listRender (type, path, url, tagList, difficultyList, list, meta) {
 	const len = list.length;
+	const count = Math.ceil(len / PAGE_SIZE);
 	let i = 0;
 	while (i < len) {
 		fse.outputFileSync(
-			getPath(type, i + 1),
-			render({
+			getPath(path, i + 1),
+			'<!DOCTYPE html>' + render({
+				type,
 				list: list.slice(i, PAGE_SIZE),
 				paging: {
 					pageNow: i + 1,
 					pageSize: PAGE_SIZE,
-					pageCount: len
+					pageCount: count,
+					totalCount: len,
+					pages: getPages(i + 1, count)
 				},
 				tagList,
 				difficultyList,
-				tag,
-				difficulty,
+				meta,
 				url
 			}, {
 				html: true

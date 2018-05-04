@@ -9,7 +9,7 @@ function tag (slug, num = 1) {
 }
 
 function problem (slug) {
-	return `${home}/problem/${slug}`;
+	return `${home}/problem/${slug}.html`;
 }
 
 function page (num = 1) {

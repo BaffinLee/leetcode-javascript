@@ -1,44 +1,46 @@
-{'<!DOCTYPE html>'}
 <html lang="en">
 <head>
 	<meta charSet="UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<meta httpEquiv="X-UA-Compatible" content="ie=edge"/>
 	<title>LeetCode javascript solutions</title>
-	<link rel="stylesheet" href="./static/css/list.css"/>
+	<link rel="shortcut icon" href={url.home + '/static/img/favicon.png'} type="image/png"/>
+	<link rel="stylesheet" href={url.home + '/static/css/app.css'}/>
 </head>
 <body>
-	<header>
-		<span>Difficulty:</span>
-		<ul>
-			{difficultyList.map((item, index) => (
-				<li key={index}>
-					<a
-						href={item.slug === difficulty.slug ? url.home : url.difficulty(item.slug)}
-						className={item.slug === difficulty.slug ? 'seleted' : ''}
-					>{item.name}</a>
-				</li>
-			))}
-		</ul>
-		<span>Tag:</span>
-		<ul>
-			{tagList.map((item, index) => (
-				<li key={index}>
-					<a
-						href={item.slug === tag.slug ? url.home : url.tag(item.slug)}
-						className={item.slug === tag.slug ? 'seleted' : ''}
-					>{item.name}</a>
-				</li>
-			))}
-		</ul>
+	<header className="list-header">
+		<div className="row">
+			<div className="name">Difficulty:</div>
+			<div className="value">
+				<ul className="clearfix">
+					{difficultyList.map((item, index) => (
+						<li key={index} className={item.slug === meta.difficulty.slug ? 'seleted' : ''}>
+							<a href={item.slug === meta.difficulty.slug ? url.home : url.difficulty(item.slug)}>{item.name}</a>
+						</li>
+					))}
+				</ul>
+			</div>
+		</div>
+		<div className="row">
+			<div className="name">Tag:</div>
+			<div className="value">
+				<ul className="clearfix">
+					{tagList.map((item, index) => (
+						<li key={index} className={item.slug === meta.tag.slug ? 'seleted' : ''}>
+							<a href={item.slug === meta.tag.slug ? url.home : url.tag(item.slug)}>{item.name}</a>
+						</li>
+					))}
+				</ul>
+			</div>
+		</div>
 	</header>
 	<main>
 		<table>
 			<thead>
 				<tr>
-					<th>ID</th>
+					<th className="other">ID</th>
 					<th>Title</th>
-					<th>Difficulty</th>
+					<th className="other">Difficulty</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -49,16 +51,31 @@
 							<a href={url.problem(item.slug)}>{item.name}</a>
 						</td>
 						<td>
-							<span className={item.difficulty.slug}>{item.difficulty.name}</span>
+							<span className={'tag ' + item.difficulty.slug}>{item.difficulty.name}</span>
 						</td>
 					</tr>
 				))}
 			</tbody>
 		</table>
 	</main>
+	<section className="paging">
+		<ul className="clearfix">
+			<li className={paging.pageNow > 1 ? '' : 'disabled'}>
+				<a href={paging.pageNow > 1 ? url[type](meta[type].slug, paging.pageNow - 1) : '#'}>&lt;</a>
+			</li>
+			{paging.pages.map((page, index) => (
+				<li key={index} className={paging.pageNow === page ? 'selected' : ''}>
+					<a href={paging.pageNow === page ? '#' : (type === 'page' ? url[type](page) : url[type](meta[type].slug, page))}>{page}</a>
+				</li>
+			))}
+			<li className={paging.pageNow < paging.pageCount ? '' : 'disabled'}>
+				<a href={paging.pageNow < paging.pageCount ? url[type](meta[type].slug, paging.pageNow + 1) : '#'}>&gt;</a>
+			</li>
+		</ul>
+	</section>
 	<footer>
 		<a href={url.home} target="_blank">
-			<img src="./static/img/github.png" alt="github"/>
+			<img src={url.home + '/static/img/github.png'} alt="github"/>
 		</a>
 	</footer>
 </body>

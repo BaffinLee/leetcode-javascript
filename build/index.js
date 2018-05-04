@@ -11,7 +11,9 @@ const problemRender = require('./scripts/problemRender');
 
 const problemList = [];
 const difficultyMap = {};
+const difficultyList = [];
 const tagMap = {};
+const tagList = [];
 
 function buildProblems () {
 	const pathReg = /^\d{3}-\d{3}$/;
@@ -51,9 +53,23 @@ function buildProblems () {
 				difficulty,
 				tags
 			});
-			if (!difficultyMap[difficulty.slug]) difficultyMap[difficulty.slug] = difficulty.name;
+
+			if (!difficultyMap[difficulty.slug]) {
+				difficultyMap[difficulty.slug] = difficulty.name;
+				difficultyList.push({
+					name: difficulty.name,
+					slug: difficulty.slug
+				});
+			}
+			
 			tags.forEach(tag => {
-				if (!tagMap[tag.slug]) tagMap[tag.slug] = tag.name;
+				if (!tagMap[tag.slug]) {
+					tagMap[tag.slug] = tag.name;
+					tagList.push({
+						name: tag.name,
+						slug: tag.slug
+					});
+				}
 			});
 
 			problemRender({
@@ -72,13 +88,16 @@ function buildProblems () {
 
 function buildPages () {
 	listRender(
+		'page',
 		'',
 		url,
-		Object.keys(tagMap).map(t => ({ name: tagMap[t], slug: t })),
-		Object.keys(difficultyMap).map(d => ({ name: difficultyMap[d], slug: d })),
+		tagList,
+		difficultyList,
 		problemList,
-		{},
-		{}
+		{
+			tag: {},
+			difficulty: {}
+		}
 	);
 }
 
@@ -93,16 +112,19 @@ function buildTags () {
 			return res;
 		});
 		listRender(
+			'tag',
 			`./tag/${slug}`,
 			url,
-			Object.keys(tagMap).map(t => ({ name: tagMap[t], slug: t })),
-			Object.keys(difficultyMap).map(d => ({ name: difficultyMap[d], slug: d })),
+			tagList,
+			difficultyList,
 			list,
 			{
-				name: tagMap[slug],
-				slug
-			},
-			{}
+				tag: {
+					name: tagMap[slug],
+					slug
+				},
+				difficulty: {}
+			}
 		);
 	});
 }
@@ -112,15 +134,18 @@ function buildDifficulties () {
 	Object.keys(difficultyMap).forEach(slug => {
 		list = problemList.filter(item => item.difficulty.slug === slug);
 		listRender(
+			'difficulty',
 			`./difficulty/${slug}`,
 			url,
-			Object.keys(tagMap).map(t => ({ name: tagMap[t], slug: t })),
-			Object.keys(difficultyMap).map(d => ({ name: difficultyMap[d], slug: d })),
+			tagList,
+			difficultyList,
 			list,
-			{},
 			{
-				name: difficultyMap[slug],
-				slug
+				tag: {},
+				difficulty: {
+					name: difficultyMap[slug],
+					slug
+				}
 			}
 		);
 	});

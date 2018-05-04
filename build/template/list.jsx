@@ -14,7 +14,7 @@
 			<div className="value">
 				<ul className="clearfix">
 					{difficultyList.map((item, index) => (
-						<li key={index} className={item.slug === meta.difficulty.slug ? 'seleted' : ''}>
+						<li key={index} className={item.slug === meta.difficulty.slug ? 'selected' : ''}>
 							<a href={item.slug === meta.difficulty.slug ? url.home : url.difficulty(item.slug)}>{item.name}</a>
 						</li>
 					))}
@@ -26,7 +26,7 @@
 			<div className="value">
 				<ul className="clearfix">
 					{tagList.map((item, index) => (
-						<li key={index} className={item.slug === meta.tag.slug ? 'seleted' : ''}>
+						<li key={index} className={item.slug === meta.tag.slug ? 'selected' : ''}>
 							<a href={item.slug === meta.tag.slug ? url.home : url.tag(item.slug)}>{item.name}</a>
 						</li>
 					))}
@@ -74,7 +74,7 @@
 		</ul>
 	</section>
 	<footer>
-		<a href={url.home} target="_blank">
+		<a href={url.github} target="_blank">
 			<img src={url.home + '/static/img/github.png'} alt="github"/>
 		</a>
 	</footer>

@@ -45,7 +45,7 @@
 		<article className="markdown-body" dangerouslySetInnerHTML={{__html: content}}></article>
 	</main>
 	<footer>
-		<a href={url.home} target="_blank">
+		<a href={url.github} target="_blank">
 			<img src={url.home + '/static/img/github.png'} alt="github"/>
 		</a>
 	</footer>

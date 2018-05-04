@@ -1,4 +1,5 @@
 const home = 'https://baffinlee.github.io/leetcode-javascript';
+const github = 'https://github.com/BaffinLee/leetcode-javascript';
 
 function difficulty (slug, num = 1) {
 	return num === 1 ? `${home}/difficulty/${slug}` : `${home}/difficulty/${slug}/page/${num}.html`;
@@ -18,6 +19,7 @@ function page (num = 1) {
 
 module.exports = {
 	home,
+	github,
 	difficulty,
 	tag,
 	page,

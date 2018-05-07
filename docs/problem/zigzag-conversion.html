@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>ZigZag Conversion - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>6. ZigZag Conversion</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/string">String</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>The string <code>"PAYPALISHIRING"</code> is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)</p>
+<pre><code class="hljs">P   A   H   <span class="hljs-keyword">N</span>
+A P L S <span class="hljs-keyword">I</span> <span class="hljs-keyword">I</span> G
+Y   <span class="hljs-keyword">I</span>   R
+</code></pre>
+<p>And then read line by line: ```"PAHNAPLSIIGYIR"<pre><code class="hljs">
+Write <span class="hljs-keyword">the</span> code that will take <span class="hljs-keyword">a</span> <span class="hljs-keyword">string</span> <span class="hljs-keyword">and</span> make this conversion given <span class="hljs-keyword">a</span> <span class="hljs-built_in">number</span> <span class="hljs-keyword">of</span> rows:
+
+</code></pre>
+string convert(string s, int numRows);</p>
+<pre><code class="hljs">
+*<span class="hljs-strong">*Example 1:*</span>*
+
+</code></pre>
+<p>Input: s = "PAYPALISHIRING", numRows = 3
+Output: "PAHNAPLSIIGYIR"</p>
+<pre><code class="hljs">
+*<span class="hljs-strong">*Example 2:*</span>*
+
+</code></pre>
+<p>Input: s = "PAYPALISHIRING", numRows = 4
+Output: "PINALSIGYAHRPI"
+Explanation:</p>
+<p>P     I    N
+A   L S  I G
+Y A   H R
+P     I</p>
+<pre><code class="hljs"><span class="hljs-meta">
+#</span><span class="bash"><span class="hljs-comment"># Solution</span></span>
+
+</code></pre>
+<p>javascript
+/**</p>
+<ul>
+<li>@param {string} s</li>
+<li>@param {number} numRows</li>
+<li>@return {string}
+*/
+var convert = function(s, numRows) {
+if (s.length &lt;= numRows || numRows &lt; 2) return s;
+var len = s.length;
+var num = 2 * (numRows - 1);
+var res = Array(numRows).fill('');
+var tmp = 0;
+for (var i = 0; i &lt; len; i++) {
+tmp = i % num;
+if (tmp &lt; numRows) {
+  res[tmp] += s[i];
+} else {
+  res[num - tmp] += s[i];
+}
+}
+return res.join('');
+};
+```</li>
+</ul>
+<p><strong>Explain:</strong></p>
+<p>曲线每 <code>2 * (numRows - 1)</code> 个数按规律出现。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

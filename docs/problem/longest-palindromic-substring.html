@@ -10,12 +10,40 @@
 <span class="hljs-symbol">Output:</span> <span class="hljs-string">"bb"</span>
 </code></pre>
 <h2 id="solution">Solution</h2>
-<pre><code class="hljs lang-javascript">
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} s
+ * @return {string}
+ */</span>
+<span class="hljs-keyword">var</span> longestPalindrome = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+  <span class="hljs-keyword">var</span> start = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> end = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> len = s.length;
+  <span class="hljs-keyword">var</span> num = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+    num = <span class="hljs-built_in">Math</span>.max(expandAroundCenter(s, i, i), expandAroundCenter(s, i, i + <span class="hljs-number">1</span>));
+    <span class="hljs-keyword">if</span> (num &gt; end - start) {
+      start = i - <span class="hljs-built_in">Math</span>.floor((num - <span class="hljs-number">1</span>) / <span class="hljs-number">2</span>);
+      end = i + <span class="hljs-built_in">Math</span>.floor(num / <span class="hljs-number">2</span>);
+    }
+  }
+  <span class="hljs-keyword">return</span> s.slice(start, end + <span class="hljs-number">1</span>);
+};
+
+<span class="hljs-keyword">var</span> expandAroundCenter = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">s, left, right</span>) </span>{
+  <span class="hljs-keyword">var</span> l = left;
+  <span class="hljs-keyword">var</span> r = right;
+  <span class="hljs-keyword">var</span> len = s.length;
+  <span class="hljs-keyword">while</span> (l &gt;= <span class="hljs-number">0</span> &amp;&amp; r &lt; len &amp;&amp; s[l] === s[r]) {
+    l--;
+    r++;
+  }
+  <span class="hljs-keyword">return</span> r - l - <span class="hljs-number">1</span>;
+};
 </code></pre>
 <p><strong>Explain:</strong></p>
-<p>nope.</p>
+<p>遍历每个字符，检查以这个字符或相邻两个字符为中心是否回文，记录最长的回文字符位置。</p>
 <p><strong>Complexity:</strong></p>
 <ul>
-<li>Time complexity : O(n).</li>
-<li>Space complexity : O(n).</li>
+<li>Time complexity : O(n^2).</li>
+<li>Space complexity : O(1).</li>
 </ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

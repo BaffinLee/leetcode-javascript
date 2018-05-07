@@ -1,0 +1,75 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>String to Integer (atoi) - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>8. String to Integer (atoi)</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/math">Math</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/string">String</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/reverse-integer.html">Reverse Integer</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/valid-number.html">Valid Number</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Implement <code>atoi</code> which converts a string to an integer.</p>
+<p>The function first discards as many whitespace characters as necessary until the first non-whitespace character is found. Then, starting from this character, takes an optional initial plus or minus sign followed by as many numerical digits as possible, and interprets them as a numerical value.</p>
+<p>The string can contain additional characters after those that form the integral number, which are ignored and have no effect on the behavior of this function.</p>
+<p>If the first sequence of non-whitespace characters in str is not a valid integral number, or if no such sequence exists because either str is empty or it contains only whitespace characters, no conversion is performed.</p>
+<p>If no valid conversion could be performed, a zero value is returned.</p>
+<p><strong>Note:</strong></p>
+<ul>
+<li>Only the space character <code>' '</code> is considered as whitespace character.</li>
+<li>Assume we are dealing with an environment which could only store integers within the 32-bit signed integer range: [−231,  231 − 1]. If the numerical value is out of the range of representable values, INT<em>MAX (231 − 1) or INT</em>MIN (−231) is returned.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> <span class="hljs-string">"42"</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">42</span>
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs">Inpu<span class="hljs-variable">t:</span> <span class="hljs-string">"   -42"</span>
+Outpu<span class="hljs-variable">t:</span> -<span class="hljs-number">42</span>
+Explanation: The <span class="hljs-keyword">first</span> non-whitespace character <span class="hljs-keyword">is</span> <span class="hljs-string">'-'</span>, which <span class="hljs-keyword">is</span> the minus <span class="hljs-keyword">sign</span>.
+             Then take <span class="hljs-keyword">as</span> many numerical digits <span class="hljs-keyword">as</span> possible, which gets <span class="hljs-number">42</span>.
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code class="hljs">Input: <span class="hljs-string">"4193 with words"</span>
+Output: <span class="hljs-number">4193</span>
+Explanation: Conversion stops <span class="hljs-keyword">at</span> digit <span class="hljs-string">'3'</span> <span class="hljs-keyword">as</span> <span class="hljs-keyword">the</span> next <span class="hljs-keyword">character</span> is <span class="hljs-keyword">not</span> <span class="hljs-keyword">a</span> numerical digit.
+</code></pre>
+<p><strong>Example 4:</strong></p>
+<pre><code class="hljs">Inpu<span class="hljs-variable">t:</span> <span class="hljs-string">"words and 987"</span>
+Outpu<span class="hljs-variable">t:</span> <span class="hljs-number">0</span>
+Explanation: The <span class="hljs-keyword">first</span> non-whitespace character <span class="hljs-keyword">is</span> <span class="hljs-string">'w'</span>, which <span class="hljs-keyword">is</span> not <span class="hljs-keyword">a</span> numerical 
+             digit <span class="hljs-built_in">or</span> <span class="hljs-keyword">a</span> +/- <span class="hljs-keyword">sign</span>. Therefore <span class="hljs-keyword">no</span> valid conversion could <span class="hljs-keyword">be</span> performed.
+</code></pre>
+<p><strong>Example 5:</strong></p>
+<pre><code class="hljs">Input: <span class="hljs-string">"-91283472332"</span>
+Output: -<span class="hljs-number">2147483648</span>
+Explanation: The number <span class="hljs-string">"-91283472332"</span> <span class="hljs-keyword">is</span> <span class="hljs-keyword">out</span> <span class="hljs-keyword">of</span> the <span class="hljs-keyword">range</span> <span class="hljs-keyword">of</span> a <span class="hljs-number">32</span>-<span class="hljs-built_in">bit</span> <span class="hljs-built_in">signed</span> <span class="hljs-built_in">integer</span>.
+             Thefore INT_MIN (−<span class="hljs-number">231</span>) <span class="hljs-keyword">is</span> returned.
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} str
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> myAtoi = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">str</span>) </span>{
+  <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> sign = <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">var</span> res = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> len = str.length;
+  <span class="hljs-keyword">var</span> INT_MAX = <span class="hljs-number">2147483647</span>;
+  <span class="hljs-keyword">var</span> INT_MIN = - INT_MAX - <span class="hljs-number">1</span>;
+
+  <span class="hljs-keyword">while</span> (str[i] === <span class="hljs-string">' '</span>) i++;
+
+  <span class="hljs-keyword">if</span> (str[i] === <span class="hljs-string">'+'</span> || str[i] === <span class="hljs-string">'-'</span>) {
+    sign = str[i] === <span class="hljs-string">'+'</span> ? <span class="hljs-number">1</span> : <span class="hljs-number">-1</span>;
+    i++;
+  }
+
+  <span class="hljs-keyword">while</span> (str[i] &gt;= <span class="hljs-string">'0'</span> &amp;&amp; str[i] &lt;= <span class="hljs-string">'9'</span>) {
+    res = (res * <span class="hljs-number">10</span>) + (str[i] - <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">if</span> (sign === <span class="hljs-number">1</span> &amp;&amp; res &gt; INT_MAX) <span class="hljs-keyword">return</span> INT_MAX;
+    <span class="hljs-keyword">if</span> (sign === <span class="hljs-number">-1</span> &amp;&amp; res &gt; INT_MAX + <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> INT_MIN;
+    i++;
+  }
+
+  <span class="hljs-keyword">return</span> res * sign;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

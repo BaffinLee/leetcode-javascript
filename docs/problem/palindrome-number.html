@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Palindrome Number - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>9. Palindrome Number</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/math">Math</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/palindrome-linked-list.html">Palindrome Linked List</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs"><span class="hljs-attr">Input:</span> <span class="hljs-number">121</span>
+<span class="hljs-attr">Output:</span> <span class="hljs-literal">true</span>
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs">Input: <span class="hljs-number">-121</span>
+Output: <span class="hljs-literal">false</span>
+Explanation: From left <span class="hljs-built_in">to</span> <span class="hljs-literal">right</span>, <span class="hljs-keyword">it</span> reads <span class="hljs-number">-121.</span> From <span class="hljs-literal">right</span> <span class="hljs-built_in">to</span> left, <span class="hljs-keyword">it</span> becomes <span class="hljs-number">121</span>-. Therefore <span class="hljs-keyword">it</span> is <span class="hljs-keyword">not</span> <span class="hljs-keyword">a</span> palindrome.
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code class="hljs">Input: <span class="hljs-number">10</span>
+Output: <span class="hljs-literal">false</span>
+Explanation: Reads <span class="hljs-number">01</span> <span class="hljs-built_in">from</span> <span class="hljs-literal">right</span> <span class="hljs-built_in">to</span> left. Therefore <span class="hljs-keyword">it</span> is <span class="hljs-keyword">not</span> <span class="hljs-keyword">a</span> palindrome.
+</code></pre>
+<p><strong>Follow up:</strong></p>
+<p>Coud you solve it without converting the integer to a string?</p>
+<h2 id="solution-1">Solution 1</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} x
+ * @return {boolean}
+ */</span>
+<span class="hljs-keyword">var</span> isPalindrome = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">x</span>) </span>{
+  <span class="hljs-keyword">var</span> s = <span class="hljs-string">''</span> + x;
+  <span class="hljs-keyword">var</span> l = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> r = s.length - <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">while</span> (l &lt; r) {
+    <span class="hljs-keyword">if</span> (s[l] !== s[r]) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    l++;
+    r--;
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>转成字符串，判断是否回文</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(log(n)).</li>
+<li>Space complexity : O(1).</li>
+</ul>
+<h2 id="solution-2">Solution 2</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} x
+ * @return {boolean}
+ */</span>
+<span class="hljs-keyword">var</span> isPalindrome = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">x</span>) </span>{
+  <span class="hljs-keyword">if</span> (x &lt; <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  <span class="hljs-keyword">var</span> num = x;
+  <span class="hljs-keyword">var</span> res = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">while</span> (num !== <span class="hljs-number">0</span>) {
+    res = (res * <span class="hljs-number">10</span>) + (num % <span class="hljs-number">10</span>);
+    num = <span class="hljs-built_in">Math</span>.floor(num / <span class="hljs-number">10</span>);
+  }
+  <span class="hljs-keyword">return</span> res === x;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>直接翻转数字，比较是否相等</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(log(n)).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

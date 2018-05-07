@@ -21,14 +21,14 @@ function getDifficulty (markdown) {
 
 function getRelatedTopics (markdown) {
 	const reg = /-\sRelated\sTopics:\s(.*)/;
-	const process = str => str.replace(/\.$/, '').split(',').map(t => t.trim());
+	const process = str => str.replace(/\.$/, '').split(',').map(t => t.trim()).filter(t => !!t);
 	const res = reg.exec(markdown);
 	return res ? process(res[1]) : [];
 }
 
 function getSimilarQuestions (markdown) {
 	const reg = /-\sSimilar\sQuestions:\s(.*)/;
-	const process = str => str.replace(/\.$/, '').split(',').map(t => t.trim());
+	const process = str => str.replace(/\.$/, '').split(',').map(t => t.trim()).filter(t => !!t);
 	const res = reg.exec(markdown);
 	return res ? process(res[1]) : [];
 }

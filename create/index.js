@@ -28,7 +28,7 @@ const getDescription = (description) => {
   const rules = [
     {
       regexp: /<pre>([\s\S]*?)<\/pre>/ig,
-      replacer: (_, $1) => `\`\`\`\n${cheerio.load($1).text()}\`\`\``
+      replacer: (_, $1) => `\`\`\`\n${cheerio.load($1).text().replace(/\n$/, '')}\n\`\`\``
     },
     {
       regexp: /<code>(.*?)<\/code>/ig,
@@ -49,6 +49,14 @@ const getDescription = (description) => {
     {
       regexp: /<strong>(.*?)<\/strong>/ig,
       replacer: (_, $1) => `**${$1}**`
+    },
+    {
+      regexp: /<\/?ul>/ig,
+      replacer: '',
+    },
+    {
+      regexp: /<li>(.*?)<\/li>/ig,
+      replacer: (_, $1) => `\n- ${$1}`
     }
   ];
   let html = description;

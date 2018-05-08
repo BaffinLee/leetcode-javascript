@@ -86,6 +86,10 @@ function buildProblems () {
 	});
 }
 
+function sortProblems () {
+  problemList.sort((a, b) => a.id - b.id);
+}
+
 function buildPages () {
 	listRender(
 		'page',
@@ -152,6 +156,7 @@ function buildDifficulties () {
 }
 
 buildProblems();
+sortProblems();
 buildPages();
 buildTags();
 buildDifficulties();

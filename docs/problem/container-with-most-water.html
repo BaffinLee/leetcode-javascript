@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Container With Most Water - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>11. Container With Most Water</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/two-pointers">Two Pointers</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/trapping-rain-water.html">Trapping Rain Water</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given <em>n</em> non-negative integers <em>a1</em>, <em>a2</em>, …, <em>an</em>, where each represents a point at coordinate (<em>i</em>, <em>ai</em>). <em>n</em> vertical lines are drawn such that the two endpoints of line <em>i</em> is at (<em>i</em>, <em>ai</em>) and (<em>i</em>, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.</p>
+<p>Note: You may not slant the container and <em>n</em> is at least 2.</p>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} height
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> maxArea = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">height</span>) </span>{
+  <span class="hljs-keyword">var</span> max = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> l = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> r = height.length - <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">while</span> (l &lt; r) {
+    max = <span class="hljs-built_in">Math</span>.max(max, <span class="hljs-built_in">Math</span>.min(height[l], height[r]) * (r - l));
+    <span class="hljs-keyword">if</span> (height[l] &lt; height[r]) {
+      l++;
+    } <span class="hljs-keyword">else</span> {
+      r--;
+    }
+  }
+  <span class="hljs-keyword">return</span> max;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>双指针从两头开始，判断哪边更高。积水量是矮的那边决定的，移动高的那边不可能提升积水量，所以移动矮的那边。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

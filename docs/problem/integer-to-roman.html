@@ -1,0 +1,142 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Integer to Roman - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>12. Integer to Roman</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/math">Math</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/string">String</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/roman-to-integer.html">Roman to Integer</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/integer-to-english-words.html">Integer to English Words</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Roman numerals are represented by seven different symbols: <code>I</code>, <code>V</code>, <code>X</code>, <code>L</code>, <code>C</code>, <code>D</code> and <code>M</code>.</p>
+<pre><code class="hljs">Symbol       Value
+I             <span class="hljs-number">1</span>
+V             <span class="hljs-number">5</span>
+X             <span class="hljs-number">10</span>
+L             <span class="hljs-number">50</span>
+C             <span class="hljs-number">100</span>
+D             <span class="hljs-number">500</span>
+M             <span class="hljs-number">1000</span>
+</code></pre>
+<p>For example, two is written as <code>II</code> in Roman numeral, just two one's added together. Twelve is written as, <code>XII</code>, which is simply <code>X</code> + <code>II</code>. The number twenty seven is written as <code>XXVII</code>, which is <code>XX</code> + <code>V</code> + <code>II</code>.</p>
+<p>Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not <code>IIII</code>. Instead, the number four is written as <code>IV</code>. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as <code>IX</code>. There are six instances where subtraction is used:</p>
+<ul>
+<li><code>I</code> can be placed before <code>V</code> (5) and <code>X</code> (10) to make 4 and 9. </li>
+<li><code>X</code> can be placed before <code>L</code> (50) and <code>C</code> (100) to make 40 and 90. </li>
+<li><code>C</code> can be placed before <code>D</code> (500) and <code>M</code> (1000) to make 400 and 900.</li>
+</ul>
+<p>Given an integer, convert it to a roman numeral. Input is guaranteed to be within the range from 1 to 3999.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> <span class="hljs-number">3</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-string">"III"</span>
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> <span class="hljs-number">4</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-string">"IV"</span>
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> <span class="hljs-number">9</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-string">"IX"</span>
+</code></pre>
+<p><strong>Example 4:</strong></p>
+<pre><code class="hljs">Input: <span class="hljs-number">58</span>
+Output: <span class="hljs-string">"LVIII"</span>
+Explanation: <span class="hljs-attr">C</span> = <span class="hljs-number">100</span>, <span class="hljs-attr">L</span> = <span class="hljs-number">50</span>, <span class="hljs-attr">XXX</span> = <span class="hljs-number">30</span> <span class="hljs-literal">and</span> <span class="hljs-attr">III</span> = <span class="hljs-number">3</span>.
+</code></pre>
+<p><strong>Example 5:</strong></p>
+<pre><code class="hljs">Input: <span class="hljs-number">1994</span>
+Output: <span class="hljs-string">"MCMXCIV"</span>
+Explanation: <span class="hljs-attr">M</span> = <span class="hljs-number">1000</span>, <span class="hljs-attr">CM</span> = <span class="hljs-number">900</span>, <span class="hljs-attr">XC</span> = <span class="hljs-number">90</span> <span class="hljs-literal">and</span> <span class="hljs-attr">IV</span> = <span class="hljs-number">4</span>.
+</code></pre>
+<h2 id="solution-1">Solution 1</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} num
+ * @return {string}
+ */</span>
+<span class="hljs-keyword">var</span> intToRoman = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">num</span>) </span>{
+  <span class="hljs-keyword">var</span> str = [
+    [<span class="hljs-string">'I'</span>, <span class="hljs-string">'V'</span>],
+    [<span class="hljs-string">'X'</span>, <span class="hljs-string">'L'</span>],
+    [<span class="hljs-string">'C'</span>, <span class="hljs-string">'D'</span>],
+    [<span class="hljs-string">'M'</span>]
+  ];
+  <span class="hljs-keyword">var</span> res = <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> tmp = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">while</span> (num &gt; <span class="hljs-number">0</span>) {
+    tmp = num % <span class="hljs-number">10</span>;
+    <span class="hljs-keyword">if</span> (tmp === <span class="hljs-number">9</span>) {
+      res = str[i][<span class="hljs-number">0</span>] + str[i + <span class="hljs-number">1</span>][<span class="hljs-number">0</span>] + res;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (tmp &gt;= <span class="hljs-number">5</span>) {
+      res = str[i][<span class="hljs-number">1</span>] + str[i][<span class="hljs-number">0</span>].repeat(tmp - <span class="hljs-number">5</span>) + res;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (tmp === <span class="hljs-number">4</span>) {
+      res = str[i][<span class="hljs-number">0</span>] + str[i][<span class="hljs-number">1</span>] + res;
+    } <span class="hljs-keyword">else</span> {
+      res = str[i][<span class="hljs-number">0</span>].repeat(tmp) + res;
+    }
+    num = <span class="hljs-built_in">Math</span>.floor(num / <span class="hljs-number">10</span>);
+    i++;
+  }
+  <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(log(n)).</li>
+<li>Space complexity : O(1).</li>
+</ul>
+<h2 id="solution-2">Solution 2</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} num
+ * @return {string}
+ */</span>
+<span class="hljs-keyword">var</span> intToRoman = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">num</span>) </span>{
+  <span class="hljs-keyword">var</span> map = [
+    [<span class="hljs-number">1</span>, <span class="hljs-string">"I"</span>],
+    [<span class="hljs-number">4</span>, <span class="hljs-string">"IV"</span>],
+    [<span class="hljs-number">5</span>, <span class="hljs-string">"V"</span>],
+    [<span class="hljs-number">9</span>, <span class="hljs-string">"IX"</span>],
+    [<span class="hljs-number">10</span>, <span class="hljs-string">"X"</span>],
+    [<span class="hljs-number">40</span>, <span class="hljs-string">"XL"</span>],
+    [<span class="hljs-number">50</span>, <span class="hljs-string">"L"</span>],
+    [<span class="hljs-number">90</span>, <span class="hljs-string">"XC"</span>],
+    [<span class="hljs-number">100</span>, <span class="hljs-string">"C"</span>],
+    [<span class="hljs-number">400</span>, <span class="hljs-string">"CD"</span>],
+    [<span class="hljs-number">500</span>, <span class="hljs-string">"D"</span>],
+    [<span class="hljs-number">900</span>, <span class="hljs-string">"CM"</span>],
+    [<span class="hljs-number">1000</span>, <span class="hljs-string">"M"</span>]
+  ];
+  <span class="hljs-keyword">var</span> res = <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">var</span> i = <span class="hljs-number">12</span>;
+  <span class="hljs-keyword">var</span> tmp = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">while</span> (num &gt; <span class="hljs-number">0</span>) {
+    res += map[i][<span class="hljs-number">1</span>].repeat(<span class="hljs-built_in">Math</span>.floor(num / map[i][<span class="hljs-number">0</span>]));
+    num %= map[i][<span class="hljs-number">0</span>];
+    i--;
+  }
+  <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(log(n)).</li>
+<li>Space complexity : O(1).</li>
+</ul>
+<h2 id="solution-3">Solution 3</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} num
+ * @return {string}
+ */</span>
+<span class="hljs-keyword">var</span> intToRoman = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">num</span>) </span>{
+  <span class="hljs-keyword">var</span> M =[<span class="hljs-string">""</span>, <span class="hljs-string">"M"</span>, <span class="hljs-string">"MM"</span>, <span class="hljs-string">"MMM"</span>];
+  <span class="hljs-keyword">var</span> C = [<span class="hljs-string">""</span>, <span class="hljs-string">"C"</span>, <span class="hljs-string">"CC"</span>, <span class="hljs-string">"CCC"</span>, <span class="hljs-string">"CD"</span>, <span class="hljs-string">"D"</span>, <span class="hljs-string">"DC"</span>, <span class="hljs-string">"DCC"</span>, <span class="hljs-string">"DCCC"</span>, <span class="hljs-string">"CM"</span>];
+  <span class="hljs-keyword">var</span> X = [<span class="hljs-string">""</span>, <span class="hljs-string">"X"</span>, <span class="hljs-string">"XX"</span>, <span class="hljs-string">"XXX"</span>, <span class="hljs-string">"XL"</span>, <span class="hljs-string">"L"</span>, <span class="hljs-string">"LX"</span>, <span class="hljs-string">"LXX"</span>, <span class="hljs-string">"LXXX"</span>, <span class="hljs-string">"XC"</span>];
+  <span class="hljs-keyword">var</span> I = [<span class="hljs-string">""</span>, <span class="hljs-string">"I"</span>, <span class="hljs-string">"II"</span>, <span class="hljs-string">"III"</span>, <span class="hljs-string">"IV"</span>, <span class="hljs-string">"V"</span>, <span class="hljs-string">"VI"</span>, <span class="hljs-string">"VII"</span>, <span class="hljs-string">"VIII"</span>, <span class="hljs-string">"IX"</span>];
+  <span class="hljs-keyword">return</span> M[<span class="hljs-built_in">Math</span>.floor(num / <span class="hljs-number">1000</span>)]
+        + C[<span class="hljs-built_in">Math</span>.floor((num % <span class="hljs-number">1000</span>) / <span class="hljs-number">100</span>)]
+        + X[<span class="hljs-built_in">Math</span>.floor((num % <span class="hljs-number">100</span>) / <span class="hljs-number">10</span>)]
+        + I[num % <span class="hljs-number">10</span>];
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(1).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

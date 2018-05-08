@@ -1,0 +1,84 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Roman to Integer - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>13. Roman to Integer</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/math">Math</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/string">String</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/integer-to-roman.html">Integer to Roman</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Roman numerals are represented by seven different symbols: <code>I</code>, <code>V</code>, <code>X</code>, <code>L</code>, <code>C</code>, <code>D</code> and <code>M</code>.</p>
+<pre><code class="hljs">Symbol       Value
+I             <span class="hljs-number">1</span>
+V             <span class="hljs-number">5</span>
+X             <span class="hljs-number">10</span>
+L             <span class="hljs-number">50</span>
+C             <span class="hljs-number">100</span>
+D             <span class="hljs-number">500</span>
+M             <span class="hljs-number">1000</span>
+</code></pre>
+<p>For example, two is written as <code>II</code> in Roman numeral, just two one's added together. Twelve is written as, <code>XII</code>, which is simply <code>X</code> + <code>II</code>. The number twenty seven is written as <code>XXVII</code>, which is <code>XX</code> + <code>V</code> + <code>II</code>.</p>
+<p>Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not <code>IIII</code>. Instead, the number four is written as <code>IV</code>. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as <code>IX</code>. There are six instances where subtraction is used:</p>
+<ul>
+<li><code>I</code> can be placed before <code>V</code> (5) and <code>X</code> (10) to make 4 and 9. </li>
+<li><code>X</code> can be placed before <code>L</code> (50) and <code>C</code> (100) to make 40 and 90. </li>
+<li><code>C</code> can be placed before <code>D</code> (500) and <code>M</code> (1000) to make 400 and 900.</li>
+</ul>
+<p>Given a roman numeral, convert it to an integer. Input is guaranteed to be within the range from 1 to 3999.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> <span class="hljs-string">"III"</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">3</span>
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> <span class="hljs-string">"IV"</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">4</span>
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> <span class="hljs-string">"IX"</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">9</span>
+</code></pre>
+<p><strong>Example 4:</strong></p>
+<pre><code class="hljs">Input: <span class="hljs-string">"LVIII"</span>
+Output: <span class="hljs-number">58</span>
+Explanation: <span class="hljs-attr">C</span> = <span class="hljs-number">100</span>, <span class="hljs-attr">L</span> = <span class="hljs-number">50</span>, <span class="hljs-attr">XXX</span> = <span class="hljs-number">30</span> <span class="hljs-literal">and</span> <span class="hljs-attr">III</span> = <span class="hljs-number">3</span>.
+</code></pre>
+<p><strong>Example 5:</strong></p>
+<pre><code class="hljs">Input: <span class="hljs-string">"MCMXCIV"</span>
+Output: <span class="hljs-number">1994</span>
+Explanation: <span class="hljs-attr">M</span> = <span class="hljs-number">1000</span>, <span class="hljs-attr">CM</span> = <span class="hljs-number">900</span>, <span class="hljs-attr">XC</span> = <span class="hljs-number">90</span> <span class="hljs-literal">and</span> <span class="hljs-attr">IV</span> = <span class="hljs-number">4</span>.
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} s
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> romanToInt = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+  <span class="hljs-keyword">var</span> map = {
+    <span class="hljs-attr">I</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">IV</span>: <span class="hljs-number">4</span>,
+    <span class="hljs-attr">V</span>: <span class="hljs-number">5</span>,
+    <span class="hljs-attr">IX</span>: <span class="hljs-number">9</span>,
+    <span class="hljs-attr">X</span>: <span class="hljs-number">10</span>,
+    <span class="hljs-attr">XL</span>: <span class="hljs-number">40</span>,
+    <span class="hljs-attr">L</span>: <span class="hljs-number">50</span>,
+    <span class="hljs-attr">XC</span>: <span class="hljs-number">90</span>,
+    <span class="hljs-attr">C</span>: <span class="hljs-number">100</span>,
+    <span class="hljs-attr">CD</span>: <span class="hljs-number">400</span>,
+    <span class="hljs-attr">D</span>: <span class="hljs-number">500</span>,
+    <span class="hljs-attr">CM</span>: <span class="hljs-number">900</span>,
+    <span class="hljs-attr">M</span>: <span class="hljs-number">1000</span>
+  };
+  <span class="hljs-keyword">var</span> len = s.length;
+  <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> res = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">while</span> (i &lt; len) {
+    <span class="hljs-keyword">if</span> (map[s.substr(i, <span class="hljs-number">2</span>)]) {
+      res += map[s.substr(i, <span class="hljs-number">2</span>)];
+      i += <span class="hljs-number">2</span>;
+    } <span class="hljs-keyword">else</span> {
+      res += map[s[i]];
+      i += <span class="hljs-number">1</span>;
+    }
+  }
+  <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

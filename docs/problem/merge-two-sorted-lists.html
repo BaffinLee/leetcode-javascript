@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Merge Two Sorted Lists - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>21. Merge Two Sorted Lists</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/linked-list">Linked List</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/merge-k-sorted-lists.html">Merge k Sorted Lists</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/merge-sorted-array.html">Merge Sorted Array</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/sort-list.html">Sort List</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/shortest-word-distance-ii.html">Shortest Word Distance II</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="hljs">Input: <span class="hljs-number">1</span>-&gt;<span class="hljs-number">2</span>-&gt;<span class="hljs-number">4</span>, <span class="hljs-number">1</span>-&gt;<span class="hljs-number">3</span>-&gt;<span class="hljs-number">4</span>
+Output: <span class="hljs-number">1</span>-&gt;<span class="hljs-number">1</span>-&gt;<span class="hljs-number">2</span>-&gt;<span class="hljs-number">3</span>-&gt;<span class="hljs-number">4</span>-&gt;<span class="hljs-number">4</span>
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */</span>
+<span class="hljs-keyword">var</span> mergeTwoLists = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">l1, l2</span>) </span>{
+  <span class="hljs-keyword">var</span> head = <span class="hljs-keyword">new</span> ListNode(<span class="hljs-number">0</span>);
+  <span class="hljs-keyword">var</span> now = head;
+  <span class="hljs-keyword">var</span> p1 = l1;
+  <span class="hljs-keyword">var</span> p2 = l2;
+  <span class="hljs-keyword">while</span> (p1 || p2) {
+    <span class="hljs-keyword">if</span> (p1 === <span class="hljs-literal">null</span> || (p2 !== <span class="hljs-literal">null</span> &amp;&amp; p2.val &lt; p1.val)) {
+      now.next = p2;
+      p2 = p2.next;
+    } <span class="hljs-keyword">else</span> {
+      now.next = p1;
+      p1 = p1.next;
+    }
+    now = now.next;
+  }
+  <span class="hljs-keyword">return</span> head.next;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(m+n).</li>
+<li>Space complexity : O(m+n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

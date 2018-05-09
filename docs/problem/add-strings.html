@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Add Strings - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>415. Add Strings</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/math">Math</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/add-two-numbers.html">Add Two Numbers</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/multiply-strings.html">Multiply Strings</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given two non-negative integers <code>num1</code> and <code>num2</code> represented as string, return the sum of <code>num1</code> and <code>num2</code>.</p>
+<p><strong>Note:</strong></p>
+<ul>
+<li>The length of both <code>num1</code> and <code>num2</code> is &lt; 5100.</li>
+<li>Both <code>num1</code> and <code>num2</code> contains only digits <code>0-9</code>.</li>
+<li>Both <code>num1</code> and <code>num2</code> does not contain any leading zero.</li>
+<li>You <strong>must not use any built-in BigInteger library</strong> or <strong>convert the inputs to integer</strong> directly.</li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} num1
+ * @param {string} num2
+ * @return {string}
+ */</span>
+<span class="hljs-keyword">var</span> addStrings = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">num1, num2</span>) </span>{
+    <span class="hljs-keyword">var</span> len1 = num1.length;
+    <span class="hljs-keyword">var</span> len2 = num2.length;
+    <span class="hljs-keyword">var</span> max = <span class="hljs-built_in">Math</span>.max(len1, len2);
+    <span class="hljs-keyword">var</span> res = <span class="hljs-built_in">Array</span>(max);
+    <span class="hljs-keyword">var</span> carry = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> val = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; max; i++) {
+        val = <span class="hljs-built_in">Number</span>(num1[len1 - <span class="hljs-number">1</span> - i] || <span class="hljs-number">0</span>) + <span class="hljs-built_in">Number</span>(num2[len2 - <span class="hljs-number">1</span> - i] || <span class="hljs-number">0</span>) + carry;
+        carry = <span class="hljs-built_in">Math</span>.floor(val / <span class="hljs-number">10</span>);
+        res[max - <span class="hljs-number">1</span> - i] = val % <span class="hljs-number">10</span>;
+    }
+
+    <span class="hljs-keyword">return</span> (carry || <span class="hljs-string">''</span>) + res.join(<span class="hljs-string">''</span>);
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity :</li>
+<li>Space complexity :</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

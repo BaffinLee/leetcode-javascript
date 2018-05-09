@@ -13,7 +13,55 @@ A solution set is:
 ]
 </code></pre>
 <h2 id="solution">Solution</h2>
-<pre><code class="hljs lang-javascript">
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[][]}
+ */</span>
+<span class="hljs-keyword">var</span> fourSum = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums, target</span>) </span>{
+  <span class="hljs-keyword">if</span> (nums.length &lt; <span class="hljs-number">4</span>) <span class="hljs-keyword">return</span> [];
+
+  <span class="hljs-keyword">var</span> len = nums.length;
+  <span class="hljs-keyword">var</span> res = [];
+  <span class="hljs-keyword">var</span> l = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> r = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> sum = <span class="hljs-number">0</span>;
+
+  nums.sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> (a - b));
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len - <span class="hljs-number">3</span>; i++) {
+    <span class="hljs-keyword">if</span> (i &gt; <span class="hljs-number">0</span> &amp;&amp; nums[i] === nums[i - <span class="hljs-number">1</span>]) <span class="hljs-keyword">continue</span>;
+    <span class="hljs-keyword">if</span> (nums[i] + nums[i + <span class="hljs-number">1</span>] + nums[i + <span class="hljs-number">2</span>] + nums[i + <span class="hljs-number">3</span>] &gt; target) <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">if</span> (nums[i] + nums[len - <span class="hljs-number">1</span>] + nums[len - <span class="hljs-number">2</span>] + nums[len - <span class="hljs-number">3</span>] &lt; target) <span class="hljs-keyword">continue</span>;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = i + <span class="hljs-number">1</span>; j &lt; len - <span class="hljs-number">2</span>; j++) {
+      <span class="hljs-keyword">if</span> (j &gt; i + <span class="hljs-number">1</span> &amp;&amp; nums[j] === nums[j - <span class="hljs-number">1</span>]) <span class="hljs-keyword">continue</span>;
+      <span class="hljs-keyword">if</span> (nums[i] + nums[j] + nums[j + <span class="hljs-number">1</span>] + nums[j + <span class="hljs-number">2</span>] &gt; target) <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">if</span> (nums[i] + nums[j] + nums[len - <span class="hljs-number">1</span>] + nums[len - <span class="hljs-number">2</span>] &lt; target) <span class="hljs-keyword">continue</span>;
+
+      l = j + <span class="hljs-number">1</span>;
+      r = len - <span class="hljs-number">1</span>;
+
+      <span class="hljs-keyword">while</span> (l &lt; r) {
+        sum = nums[i] + nums[j] + nums[l] + nums[r];
+
+        <span class="hljs-keyword">if</span> (sum &lt; target) {
+          l++;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (sum &gt; target) {
+          r--;
+        } <span class="hljs-keyword">else</span> {
+          res.push([nums[i], nums[j], nums[l], nums[r]]);
+          <span class="hljs-keyword">while</span> (l &lt; r &amp;&amp; nums[l] === nums[l + <span class="hljs-number">1</span>]) l++;
+          <span class="hljs-keyword">while</span> (l &lt; r &amp;&amp; nums[r] === nums[r - <span class="hljs-number">1</span>]) r--;
+          l++;
+          r--;
+        }
+      }
+    }
+  }
+
+  <span class="hljs-keyword">return</span> res;
+};
 </code></pre>
 <p><strong>Explain:</strong></p>
 <p>see <a target="_blank" href="./3Sum.html">3Sum</a>.</p>

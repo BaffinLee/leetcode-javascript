@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Remove Nth Node From End of List - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>19. Remove Nth Node From End of List</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/linked-list">Linked List</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/two-pointers">Two Pointers</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a linked list, remove the <strong>n</strong>-th node from the end of list and return its head.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="hljs"><span class="hljs-type">Given</span> linked <span class="hljs-built_in">list</span>: <span class="hljs-number">1</span>-&gt;<span class="hljs-number">2</span>-&gt;<span class="hljs-number">3</span>-&gt;<span class="hljs-number">4</span>-&gt;<span class="hljs-number">5</span>, <span class="hljs-keyword">and</span> n = <span class="hljs-number">2.</span>
+
+<span class="hljs-type">After</span> removing the second node from the <span class="hljs-keyword">end</span>, the linked <span class="hljs-built_in">list</span> becomes <span class="hljs-number">1</span>-&gt;<span class="hljs-number">2</span>-&gt;<span class="hljs-number">3</span>-&gt;<span class="hljs-number">5.</span>
+</code></pre>
+<p><strong>Note:</strong></p>
+<p>Given <strong>n</strong> will always be valid.</p>
+<p><strong>Follow up:</strong></p>
+<p>Could you do this in one pass?</p>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * @param {ListNode} head
+ * @param {number} n
+ * @return {ListNode}
+ */</span>
+<span class="hljs-keyword">var</span> removeNthFromEnd = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">head, n</span>) </span>{
+  <span class="hljs-keyword">var</span> h = <span class="hljs-keyword">new</span> ListNode(<span class="hljs-number">0</span>);
+  <span class="hljs-keyword">var</span> ll = h;
+  <span class="hljs-keyword">var</span> rr = h;
+
+  h.next = head;
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; n + <span class="hljs-number">1</span>; i++) {
+    rr = rr.next;
+  }
+
+  <span class="hljs-keyword">while</span> (rr !== <span class="hljs-literal">null</span>) {
+    ll = ll.next;
+    rr= rr.next;
+  }
+
+  ll.next = ll.next.next;
+
+  <span class="hljs-keyword">return</span> h.next;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<ol>
+<li>两个指针 <code>a</code>, <code>b</code>，初始都指向开头</li>
+<li>把 <code>b</code> 指针往后移动，直到两指针的位置相差 <code>n</code></li>
+<li>同时移动两指针，直到 <code>b</code> 指针到了最后。这时候因为两指针的位置相差 <code>n</code>，<code>a</code> 指针的位置就是从后面数第 <code>n+1</code> 个</li>
+<li>在 <code>a</code> 指针那里删掉后面一个，即第 <code>n</code> 个</li>
+</ol>
+<p>要注意可能会出现删掉 <code>head</code> 的情况。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

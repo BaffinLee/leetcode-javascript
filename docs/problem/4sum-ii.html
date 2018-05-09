@@ -1,0 +1,55 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>4Sum II - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>454. 4Sum II</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/binary-search">Binary Search</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/4sum.html">4Sum</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given four lists A, B, C, D of integer values, compute how many tuples <code>(i, j, k, l)</code> there are such that <code>A[i] + B[j] + C[k] + D[l]</code> is zero.</p>
+<p>To make problem a bit easier, all A, B, C, D have same length of N where 0 ≤ N ≤ 500. All integers are in the range of -228 to 228 - 1 and the result is guaranteed to be at most 231 - 1.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="hljs">Input:
+A = <span class="hljs-comment">[ 1, 2]</span>
+B = <span class="hljs-comment">[-2,-1]</span>
+C = <span class="hljs-comment">[-1, 2]</span>
+D = <span class="hljs-comment">[ 0, 2]</span>
+
+Output:
+2
+
+Explanation:
+The two tuples <span class="hljs-keyword">are</span>:
+1. (0, 0, 0, 1) -&gt; A<span class="hljs-comment">[0]</span> + B<span class="hljs-comment">[0]</span> + C<span class="hljs-comment">[0]</span> + D<span class="hljs-comment">[1]</span> = 1 + (-2) + (-1) + 2 = 0
+2. (1, 1, 0, 0) -&gt; A<span class="hljs-comment">[1]</span> + B<span class="hljs-comment">[1]</span> + C<span class="hljs-comment">[0]</span> + D<span class="hljs-comment">[0]</span> = 2 + (-1) + (-1) + 0 = 0
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} A
+ * @param {number[]} B
+ * @param {number[]} C
+ * @param {number[]} D
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> fourSumCount = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">A, B, C, D</span>) </span>{
+  <span class="hljs-keyword">var</span> map = {};
+  <span class="hljs-keyword">var</span> res = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> key = <span class="hljs-number">0</span>;
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; A.length; i++) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; B.length; j++) {
+      key = A[i] + B[j];
+      map[key] = (map[key] || <span class="hljs-number">0</span>) + <span class="hljs-number">1</span>;
+    }
+  }
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; C.length; i++) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; D.length; j++) {
+      key = - (C[i] + D[j]);
+      res += (map[key] || <span class="hljs-number">0</span>);
+    }
+  }
+
+  <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n^2).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

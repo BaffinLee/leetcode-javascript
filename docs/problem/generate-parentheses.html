@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Generate Parentheses - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>22. Generate Parentheses</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/string">String</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/backtracking">Backtracking</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/letter-combinations-of-a-phone-number.html">Letter Combinations of a Phone Number</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/valid-parentheses.html">Valid Parentheses</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given <em>n</em> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.</p>
+<p>For example, given <em>n</em> = 3, a solution set is:</p>
+<pre><code class="hljs">[
+  <span class="hljs-string">"((()))"</span>,
+  <span class="hljs-string">"(()())"</span>,
+  <span class="hljs-string">"(())()"</span>,
+  <span class="hljs-string">"()(())"</span>,
+  <span class="hljs-string">"()()()"</span>
+]
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n
+ * @return {string[]}
+ */</span>
+<span class="hljs-keyword">var</span> generateParenthesis = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n</span>) </span>{
+  <span class="hljs-keyword">var</span> res = [];
+  <span class="hljs-keyword">if</span> (n &lt; <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> res;
+  generate(res, <span class="hljs-string">''</span>, n, n);
+  <span class="hljs-keyword">return</span> res;
+};
+
+<span class="hljs-keyword">var</span> generate = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res, str, ll, rr</span>) </span>{
+  <span class="hljs-keyword">if</span> (ll || rr) {
+    <span class="hljs-keyword">if</span> (rr &gt; ll) generate(res, str + <span class="hljs-string">')'</span>, ll, rr - <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">if</span> (ll) generate(res, str + <span class="hljs-string">'('</span>, ll - <span class="hljs-number">1</span>, rr);
+  } <span class="hljs-keyword">else</span> {
+    res.push(str);
+  }
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>每一层最多两种情况：</p>
+<ol>
+<li>右括号比左括号多，加右括号</li>
+<li>还有左括号，加左括号</li>
+</ol>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O((4^n)/(n^(-1))).</li>
+<li>Space complexity : O((4^n)/(n^(-1))).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

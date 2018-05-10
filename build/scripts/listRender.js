@@ -48,19 +48,20 @@ function getPages (now, all) {
 function listRender (type, path, url, tagList, difficultyList, list, meta) {
 	const len = list.length;
 	const count = Math.ceil(len / PAGE_SIZE);
-	let i = 0;
+  let i = 0;
+  let pageNow = 1;
 	while (i < len) {
 		fse.outputFileSync(
-			getPath(path, i + 1),
+			getPath(path, pageNow),
 			'<!DOCTYPE html>' + render({
 				type,
 				list: list.slice(i, PAGE_SIZE),
 				paging: {
-					pageNow: i + 1,
+					pageNow: pageNow,
 					pageSize: PAGE_SIZE,
 					pageCount: count,
 					totalCount: len,
-					pages: getPages(i + 1, count)
+					pages: getPages(pageNow, count)
 				},
 				tagList,
 				difficultyList,
@@ -69,7 +70,8 @@ function listRender (type, path, url, tagList, difficultyList, list, meta) {
 			}, {
 				html: true
 			})
-		);
+    );
+    pageNow += 1;
 		i += PAGE_SIZE;
 	}
 }

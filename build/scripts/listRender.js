@@ -55,7 +55,7 @@ function listRender (type, path, url, tagList, difficultyList, list, meta) {
 			getPath(path, pageNow),
 			'<!DOCTYPE html>' + render({
 				type,
-				list: list.slice(i, PAGE_SIZE),
+				list: list.slice(i, i + PAGE_SIZE),
 				paging: {
 					pageNow: pageNow,
 					pageSize: PAGE_SIZE,

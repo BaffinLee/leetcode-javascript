@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Swap Nodes in Pairs - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>24. Swap Nodes in Pairs</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/linked-list">Linked List</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/reverse-nodes-in-k-group.html">Reverse Nodes in k-Group</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a linked list, swap every two adjacent nodes and return its head.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="hljs">Given <span class="hljs-number">1</span>-&gt;<span class="hljs-number">2</span>-&gt;<span class="hljs-number">3</span>-&gt;<span class="hljs-number">4</span>, you should return the <span class="hljs-type">list</span> as <span class="hljs-number">2</span>-&gt;<span class="hljs-number">1</span>-&gt;<span class="hljs-number">4</span>-&gt;<span class="hljs-number">3.</span>
+</code></pre>
+<p><strong>Note:</strong></p>
+<ul>
+<li>Your algorithm should use only constant extra space.</li>
+<li>You may <strong>not</strong> modify the values in the list's nodes, only nodes itself may be changed.</li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */</span>
+<span class="hljs-keyword">var</span> swapPairs = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">head</span>) </span>{
+  <span class="hljs-keyword">var</span> out = <span class="hljs-keyword">new</span> ListNode(<span class="hljs-number">0</span>);
+  <span class="hljs-keyword">var</span> now = out;
+
+  out.next = head;
+
+  <span class="hljs-keyword">while</span> (now.next &amp;&amp; now.next.next) {
+    now = swap(now, now.next, now.next.next);
+  }
+
+  <span class="hljs-keyword">return</span> out.next;
+};
+
+<span class="hljs-keyword">var</span> swap = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">a, b, c</span>) </span>{
+  a.next = c;
+  b.next = c.next;
+  c.next = b;
+  <span class="hljs-keyword">return</span> b;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

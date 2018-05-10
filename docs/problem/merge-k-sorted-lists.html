@@ -1,0 +1,197 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Merge k Sorted Lists - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>23. Merge k Sorted Lists</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/linked-list">Linked List</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/divide-and-conquer">Divide and Conquer</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/heap">Heap</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/merge-two-sorted-lists.html">Merge Two Sorted Lists</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/ugly-number-ii.html">Ugly Number II</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Merge <strong>k</strong> sorted linked lists and return it as one sorted list. Analyze and describe its complexity.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="hljs">Input:
+[
+  <span class="hljs-number">1</span>-&gt;<span class="hljs-number">4</span>-&gt;<span class="hljs-number">5</span>,
+  <span class="hljs-number">1</span>-&gt;<span class="hljs-number">3</span>-&gt;<span class="hljs-number">4</span>,
+  <span class="hljs-number">2</span>-&gt;<span class="hljs-number">6</span>
+]
+Output: <span class="hljs-number">1</span>-&gt;<span class="hljs-number">1</span>-&gt;<span class="hljs-number">2</span>-&gt;<span class="hljs-number">3</span>-&gt;<span class="hljs-number">4</span>-&gt;<span class="hljs-number">4</span>-&gt;<span class="hljs-number">5</span>-&gt;<span class="hljs-number">6</span>
+</code></pre>
+<h2 id="solution-1">Solution 1</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * @param {ListNode[]} lists
+ * @return {ListNode}
+ */</span>
+<span class="hljs-keyword">var</span> mergeKLists = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">lists</span>) </span>{
+  <span class="hljs-keyword">var</span> res = [];
+  <span class="hljs-keyword">var</span> tmp = <span class="hljs-literal">null</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; lists.length; i++) {
+    tmp = lists[i];
+    <span class="hljs-keyword">while</span> (tmp !== <span class="hljs-literal">null</span>) {
+      res.push(tmp);
+      tmp = tmp.next;
+    }
+  }
+  res.sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> (a.val - b.val));
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; res.length; j++) {
+    res[j].next = res[j + <span class="hljs-number">1</span>] || <span class="hljs-literal">null</span>;
+  }
+  <span class="hljs-keyword">return</span> res[<span class="hljs-number">0</span>] || <span class="hljs-literal">null</span>;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>全部拿出来，再排序。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(nlog(n)). <code>n</code> 是节点总数。</li>
+<li>Space complexity : O(n).</li>
+</ul>
+<h2 id="solution-2">Solution 2</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * @param {ListNode[]} lists
+ * @return {ListNode}
+ */</span>
+<span class="hljs-keyword">var</span> mergeKLists = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">lists</span>) </span>{
+  <span class="hljs-keyword">var</span> head = <span class="hljs-keyword">new</span> ListNode(<span class="hljs-number">0</span>);
+  <span class="hljs-keyword">var</span> now = head;
+  <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> min = <span class="hljs-literal">null</span>;
+  <span class="hljs-keyword">var</span> len = lists.length;
+  <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) {
+    min = <span class="hljs-literal">null</span>;
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+      <span class="hljs-keyword">if</span> (lists[i] &amp;&amp; (!min || lists[i].val &lt; min.val)) {
+        min = lists[i];
+        index = i;
+      }
+    }
+    <span class="hljs-keyword">if</span> (min) {
+      now.next = min;
+      now = now.next;
+      lists[index] = lists[index].next;
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">break</span>;
+    }
+  }
+  <span class="hljs-keyword">return</span> head.next;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>依次找到目前最小的那个。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n*k). <code>n</code> 是节点总数，<code>k</code> 是链表数量。</li>
+<li>Space complexity : O(1).</li>
+</ul>
+<h2 id="solution-3">Solution 3</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * @param {ListNode[]} lists
+ * @return {ListNode}
+ */</span>
+<span class="hljs-keyword">var</span> mergeKLists = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">lists</span>) </span>{
+  <span class="hljs-keyword">var</span> res = <span class="hljs-literal">null</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; lists.length; i++) {
+    res = merge(res, lists[i]);
+  }
+  <span class="hljs-keyword">return</span> res;
+};
+
+<span class="hljs-keyword">var</span> merge = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">a, b</span>) </span>{
+  <span class="hljs-keyword">if</span> (!a) <span class="hljs-keyword">return</span> b;
+  <span class="hljs-keyword">if</span> (!b) <span class="hljs-keyword">return</span> a;
+
+  <span class="hljs-keyword">var</span> head = <span class="hljs-keyword">new</span> ListNode(<span class="hljs-number">0</span>);
+  <span class="hljs-keyword">var</span> now = head;
+
+  <span class="hljs-keyword">while</span> (a || b) {
+    <span class="hljs-keyword">if</span> (!a || (b &amp;&amp; b.val &lt; a.val)) {
+      now.next = b;
+      b = b.next;
+    } <span class="hljs-keyword">else</span> {
+      now.next = a;
+      a = a.next;
+    }
+    now = now.next;
+  }
+
+  <span class="hljs-keyword">return</span> head.next;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>链表依次合并。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n*k). <code>n</code> 是节点总数，<code>k</code> 是链表数量。</li>
+<li>Space complexity : O(1).</li>
+</ul>
+<h2 id="solution-4">Solution 4</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * @param {ListNode[]} lists
+ * @return {ListNode}
+ */</span>
+<span class="hljs-keyword">var</span> mergeKLists = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">lists</span>) </span>{
+  <span class="hljs-keyword">var</span> len = lists.length;
+  <span class="hljs-keyword">var</span> half = <span class="hljs-built_in">Math</span>.ceil(len / <span class="hljs-number">2</span>);
+  <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">while</span> (len &gt; <span class="hljs-number">1</span>) {
+    <span class="hljs-keyword">while</span> (i &lt; half) {
+      lists[i] = merge(lists[i * <span class="hljs-number">2</span>], (i * <span class="hljs-number">2</span> + <span class="hljs-number">1</span>) &lt; len ? lists[i * <span class="hljs-number">2</span> + <span class="hljs-number">1</span>] : <span class="hljs-literal">null</span>);
+      i++;
+    }
+    len = half;
+    half = <span class="hljs-built_in">Math</span>.ceil(len / <span class="hljs-number">2</span>);
+    i = <span class="hljs-number">0</span>;
+  }
+  <span class="hljs-keyword">return</span> lists[<span class="hljs-number">0</span>] || <span class="hljs-literal">null</span>;
+};
+
+<span class="hljs-keyword">var</span> merge = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">a, b</span>) </span>{
+  <span class="hljs-keyword">if</span> (!a) <span class="hljs-keyword">return</span> b;
+  <span class="hljs-keyword">if</span> (!b) <span class="hljs-keyword">return</span> a;
+  <span class="hljs-keyword">if</span> (a === b) <span class="hljs-keyword">return</span> a;
+
+  <span class="hljs-keyword">var</span> head = <span class="hljs-keyword">new</span> ListNode(<span class="hljs-number">0</span>);
+  <span class="hljs-keyword">var</span> now = head;
+
+  <span class="hljs-keyword">while</span> (a || b) {
+    <span class="hljs-keyword">if</span> (!a || (b &amp;&amp; b.val &lt; a.val)) {
+      now.next = b;
+      b = b.next;
+    } <span class="hljs-keyword">else</span> {
+      now.next = a;
+      a = a.next;
+    }
+    now = now.next;
+  }
+
+  <span class="hljs-keyword">return</span> head.next;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>链表二分合并。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(nlog(k)). <code>n</code> 是节点总数，<code>k</code> 是链表数量。</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

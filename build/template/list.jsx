@@ -61,7 +61,7 @@
 	<section className="paging">
 		<ul className="clearfix">
 			<li className={paging.pageNow > 1 ? '' : 'disabled'}>
-				<a href={paging.pageNow > 1 ? url[type](meta[type].slug, paging.pageNow - 1) : '#'}>&lt;</a>
+				<a href={paging.pageNow > 1 ? (type === 'page' ? url[type](paging.pageNow - 1) : url[type](meta[type].slug, paging.pageNow - 1)) : '#'}>&lt;</a>
 			</li>
 			{paging.pages.map((page, index) => (
 				<li key={index} className={paging.pageNow === page ? 'selected' : ''}>
@@ -69,7 +69,7 @@
 				</li>
 			))}
 			<li className={paging.pageNow < paging.pageCount ? '' : 'disabled'}>
-				<a href={paging.pageNow < paging.pageCount ? url[type](meta[type].slug, paging.pageNow + 1) : '#'}>&gt;</a>
+				<a href={paging.pageNow < paging.pageCount ? (type === 'page' ? url[type](paging.pageNow + 1) : url[type](meta[type].slug, paging.pageNow + 1)) : '#'}>&gt;</a>
 			</li>
 		</ul>
 	</section>

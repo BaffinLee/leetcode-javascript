@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Sort Colors - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>75. Sort Colors</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/two-pointers">Two Pointers</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/sort">Sort</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/sort-list.html">Sort List</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/wiggle-sort.html">Wiggle Sort</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/wiggle-sort-ii.html">Wiggle Sort II</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given an array with <strong>n</strong> objects colored red, white or blue, sort them **in-place **so that objects of the same color are adjacent, with the colors in the order red, white and blue.</p>
+<p>Here, we will use the integers 0, 1, and 2 to represent the color red, white, and blue respectively.</p>
+<p><strong>Note:</strong> You are not suppose to use the library's sort function for this problem.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="hljs">Input: <span class="hljs-string">[2,0,2,1,1,0]</span>
+Output: <span class="hljs-string">[0,0,1,1,2,2]</span>
+</code></pre>
+<p><strong>Follow up:</strong></p>
+<ul>
+<li>A rather straight forward solution is a two-pass algorithm using counting sort. First, iterate the array counting number of 0's, 1's, and 2's, then overwrite array with total number of 0's, then 1's and followed by 2's.</li>
+<li>Could you come up with a one-pass algorithm using only constant space?</li>
+</ul>
+<h2 id="solution-1">Solution 1</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */</span>
+<span class="hljs-keyword">var</span> sortColors = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums</span>) </span>{
+  <span class="hljs-keyword">var</span> counts = [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>];
+  <span class="hljs-keyword">var</span> len = nums.length;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+    counts[nums[i]]++;
+  }
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; len; j++) {
+    nums[j] = j &lt; counts[<span class="hljs-number">0</span>] ? <span class="hljs-number">0</span> : (j &lt; counts[<span class="hljs-number">0</span>] + counts[<span class="hljs-number">1</span>] ? <span class="hljs-number">1</span> : <span class="hljs-number">2</span>);
+  }
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(2n).</li>
+<li>Space complexity : O(1).</li>
+</ul>
+<h2 id="solution-2">Solution 2</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */</span>
+<span class="hljs-keyword">var</span> sortColors = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums</span>) </span>{
+  <span class="hljs-keyword">var</span> m = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> n = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> k = nums.length;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; k; i++) {
+    <span class="hljs-keyword">if</span> (nums[i] === <span class="hljs-number">0</span>) {
+      nums[i] = <span class="hljs-number">2</span>;
+      nums[n++] = <span class="hljs-number">1</span>;
+      nums[m++] = <span class="hljs-number">0</span>;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (nums[i] === <span class="hljs-number">1</span>) {
+      nums[i] = <span class="hljs-number">2</span>;
+      nums[n++] = <span class="hljs-number">1</span>;
+    } <span class="hljs-keyword">else</span> {
+      nums[i] = <span class="hljs-number">2</span>;
+    }
+  }
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p><code>[0, m)</code> 是 <code>0</code>，<code>[m, n)</code> 是 <code>1</code>，<code>[n, k)</code> 是 <code>2</code>。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul>
+<h2 id="solution-3">Solution 3</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */</span>
+<span class="hljs-keyword">var</span> sortColors = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums</span>) </span>{
+  <span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> k = nums.length - <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt;= k; i++) {
+    <span class="hljs-keyword">if</span> (nums[i] === <span class="hljs-number">0</span>) {
+      swap(nums, i, j++);
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (nums[i] === <span class="hljs-number">2</span>) {
+      swap(nums, i--, k--);
+    }
+  }
+};
+
+<span class="hljs-keyword">var</span> swap = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">arr, a, b</span>) </span>{
+  <span class="hljs-keyword">var</span> tmp = arr[a];
+  arr[a] = arr[b];
+  arr[b] = tmp;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p><code>[0, j)</code> 是 <code>0</code>，<code>[j, k)</code> 是 <code>1</code>，<code>[k, len)</code> 是 <code>2</code>。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

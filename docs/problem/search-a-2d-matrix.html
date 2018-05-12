@@ -1,0 +1,104 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Search a 2D Matrix - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>74. Search a 2D Matrix</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/binary-search">Binary Search</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/search-a-2d-matrix-ii.html">Search a 2D Matrix II</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Write an efficient algorithm that searches for a value in an <strong>m</strong> x <strong>n</strong> matrix. This matrix has the following properties:</p>
+<ul>
+<li>Integers in each row are sorted from left to right.</li>
+<li>The first integer of each row is greater than the last integer of the previous row.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs"><span class="hljs-section">Input:</span>
+matrix = [
+  [1,   3,  5,  7],
+  [10, 11, 16, 20],
+  [23, 30, 34, 50]
+]
+target = 3
+<span class="hljs-section">Output: true</span>
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs"><span class="hljs-section">Input:</span>
+matrix = [
+  [1,   3,  5,  7],
+  [10, 11, 16, 20],
+  [23, 30, 34, 50]
+]
+target = 13
+<span class="hljs-section">Output: false</span>
+</code></pre>
+<h2 id="solution-1">Solution 1</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} matrix
+ * @param {number} target
+ * @return {boolean}
+ */</span>
+<span class="hljs-keyword">var</span> searchMatrix = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">matrix, target</span>) </span>{
+  <span class="hljs-keyword">var</span> row = searchRow(matrix, target, <span class="hljs-number">0</span>, matrix.length - <span class="hljs-number">1</span>);
+  <span class="hljs-keyword">return</span> row === <span class="hljs-number">-1</span> ? <span class="hljs-literal">false</span> : searchArray(matrix[row], target, <span class="hljs-number">0</span>, matrix[row].length - <span class="hljs-number">1</span>);
+};
+
+<span class="hljs-keyword">var</span> searchRow = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">matrix, target, top, bottom</span>) </span>{
+  <span class="hljs-keyword">if</span> (top &gt; bottom) <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+  <span class="hljs-keyword">var</span> mid = top + <span class="hljs-built_in">Math</span>.floor((bottom - top) / <span class="hljs-number">2</span>);
+  <span class="hljs-keyword">var</span> len = matrix[mid].length;
+  <span class="hljs-keyword">if</span> (len === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+  <span class="hljs-keyword">if</span> (matrix[mid][<span class="hljs-number">0</span>] &lt;= target &amp;&amp; target &lt;= matrix[mid][len - <span class="hljs-number">1</span>]) {
+    <span class="hljs-keyword">return</span> mid;
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (target &lt; matrix[mid][<span class="hljs-number">0</span>]) {
+    <span class="hljs-keyword">return</span> searchRow(matrix, target, top, mid - <span class="hljs-number">1</span>);
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> searchRow(matrix, target, mid + <span class="hljs-number">1</span>, bottom);
+  }
+};
+
+<span class="hljs-keyword">var</span> searchArray = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">arr, target, left, right</span>) </span>{
+  <span class="hljs-keyword">if</span> (left &gt; right) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  <span class="hljs-keyword">var</span> mid = left + <span class="hljs-built_in">Math</span>.floor((right - left) / <span class="hljs-number">2</span>);
+  <span class="hljs-keyword">if</span> (arr[mid] === target) {
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (arr[mid] &gt; target) {
+    <span class="hljs-keyword">return</span> searchArray(arr, target, left, mid - <span class="hljs-number">1</span>);
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> searchArray(arr, target, mid + <span class="hljs-number">1</span>, right);
+  }
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>先找行，再找列。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(log(m) + log(n)). <code>n</code> 行 <code>m</code> 列。</li>
+<li>Space complexity : O(1).</li>
+</ul>
+<h2 id="solution-2">Solution 2</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} matrix
+ * @param {number} target
+ * @return {boolean}
+ */</span>
+<span class="hljs-keyword">var</span> searchMatrix = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">matrix, target</span>) </span>{
+  <span class="hljs-keyword">var</span> n = matrix.length;
+  <span class="hljs-keyword">var</span> m = (matrix[<span class="hljs-number">0</span>] || []).length;
+  <span class="hljs-keyword">var</span> ll = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> rr = (n * m) - <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">var</span> mid = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> tmp = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">while</span> (ll &lt;= rr) {
+    mid = ll + <span class="hljs-built_in">Math</span>.floor((rr - ll) / <span class="hljs-number">2</span>);
+    tmp = matrix[<span class="hljs-built_in">Math</span>.floor(mid / m)][mid % m];
+    <span class="hljs-keyword">if</span> (tmp === target) {
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (tmp &gt; target) {
+      rr = mid - <span class="hljs-number">1</span>;
+    } <span class="hljs-keyword">else</span> {
+      ll = mid + <span class="hljs-number">1</span>;
+    }
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>直接找位置。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(log(m*n)). <code>n</code> 行 <code>m</code> 列。</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

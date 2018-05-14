@@ -169,6 +169,8 @@ main table .tag.hard {
 }
 
 .paging li a {
+  display: inline-block;
+  width: 100%;
 	cursor: inherit;
 }
 

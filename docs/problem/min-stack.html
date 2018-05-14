@@ -1,0 +1,202 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Min Stack - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>155. Min Stack</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/stack">Stack</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/design">Design</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/sliding-window-maximum.html">Sliding Window Maximum</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/max-stack.html">Max Stack</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.</p>
+<p>push(x) -- Push element x onto stack.</p>
+<p>pop() -- Removes the element on top of the stack.</p>
+<p>top() -- Get the top element.</p>
+<p>getMin() -- Retrieve the minimum element in the stack.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="hljs">M<span class="hljs-keyword">in</span>Stack <span class="hljs-keyword">min</span>Stack = new M<span class="hljs-keyword">in</span>Stack();
+<span class="hljs-keyword">min</span>Stack.push(-<span class="hljs-number">2</span>);
+<span class="hljs-keyword">min</span>Stack.push(<span class="hljs-number">0</span>);
+<span class="hljs-keyword">min</span>Stack.push(-<span class="hljs-number">3</span>);
+<span class="hljs-keyword">min</span>Stack.getM<span class="hljs-keyword">in</span>();   --&gt; Returns -<span class="hljs-number">3</span>.
+<span class="hljs-keyword">min</span>Stack.pop();
+<span class="hljs-keyword">min</span>Stack.top();      --&gt; Returns <span class="hljs-number">0</span>.
+<span class="hljs-keyword">min</span>Stack.getM<span class="hljs-keyword">in</span>();   --&gt; Returns -<span class="hljs-number">2</span>.
+</code></pre>
+<h2 id="solution-1">Solution 1</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * initialize your data structure here.
+ */</span>
+<span class="hljs-keyword">var</span> MinStack = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">this</span>.min = [];
+  <span class="hljs-keyword">this</span>.stack = [];
+};
+
+<span class="hljs-comment">/** 
+ * @param {number} x
+ * @return {void}
+ */</span>
+MinStack.prototype.push = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">x</span>) </span>{
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.min.length === <span class="hljs-number">0</span> || x &lt;= <span class="hljs-keyword">this</span>.min[<span class="hljs-keyword">this</span>.min.length - <span class="hljs-number">1</span>]) <span class="hljs-keyword">this</span>.min.push(x);
+  <span class="hljs-keyword">this</span>.stack.push(x);
+};
+
+<span class="hljs-comment">/**
+ * @return {void}
+ */</span>
+MinStack.prototype.pop = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">var</span> val = <span class="hljs-keyword">this</span>.stack.pop();
+  <span class="hljs-keyword">if</span> (val === <span class="hljs-keyword">this</span>.min[<span class="hljs-keyword">this</span>.min.length - <span class="hljs-number">1</span>]) <span class="hljs-keyword">this</span>.min.pop();
+};
+
+<span class="hljs-comment">/**
+ * @return {number}
+ */</span>
+MinStack.prototype.top = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.stack.length ? <span class="hljs-keyword">this</span>.stack[<span class="hljs-keyword">this</span>.stack.length - <span class="hljs-number">1</span>] : <span class="hljs-number">0</span>;
+};
+
+<span class="hljs-comment">/**
+ * @return {number}
+ */</span>
+MinStack.prototype.getMin = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.min.length ? <span class="hljs-keyword">this</span>.min[<span class="hljs-keyword">this</span>.min.length - <span class="hljs-number">1</span>] : <span class="hljs-number">0</span>;
+};
+
+<span class="hljs-comment">/** 
+ * Your MinStack object will be instantiated and called as such:
+ * var obj = Object.create(MinStack).createNew()
+ * obj.push(x)
+ * obj.pop()
+ * var param_3 = obj.top()
+ * var param_4 = obj.getMin()
+ */</span>
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>两个栈，一个存值，一个存最小值。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity :</li>
+<li>Space complexity :</li>
+</ul>
+<h2 id="solution-2">Solution 2</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * initialize your data structure here.
+ */</span>
+<span class="hljs-keyword">var</span> MinStack = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">this</span>.min = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">this</span>.length = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">this</span>.stack = [];
+};
+
+<span class="hljs-comment">/** 
+ * @param {number} x
+ * @return {void}
+ */</span>
+MinStack.prototype.push = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">x</span>) </span>{
+  <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.length || x &lt;= <span class="hljs-keyword">this</span>.min) {
+    <span class="hljs-keyword">this</span>.stack.push(<span class="hljs-keyword">this</span>.min);
+    <span class="hljs-keyword">this</span>.min = x;
+  }
+  <span class="hljs-keyword">this</span>.stack.push(x);
+  <span class="hljs-keyword">this</span>.length++;
+};
+
+<span class="hljs-comment">/**
+ * @return {void}
+ */</span>
+MinStack.prototype.pop = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.length) <span class="hljs-keyword">return</span>;
+  <span class="hljs-keyword">var</span> val = <span class="hljs-keyword">this</span>.stack.pop();
+  <span class="hljs-keyword">if</span> (val === <span class="hljs-keyword">this</span>.min) {
+    <span class="hljs-keyword">this</span>.min = <span class="hljs-keyword">this</span>.stack.pop();
+  }
+  <span class="hljs-keyword">this</span>.length--;
+};
+
+<span class="hljs-comment">/**
+ * @return {number}
+ */</span>
+MinStack.prototype.top = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.length ? <span class="hljs-keyword">this</span>.stack[<span class="hljs-keyword">this</span>.stack.length - <span class="hljs-number">1</span>] : <span class="hljs-number">0</span>;
+};
+
+<span class="hljs-comment">/**
+ * @return {number}
+ */</span>
+MinStack.prototype.getMin = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.min;
+};
+
+<span class="hljs-comment">/** 
+ * Your MinStack object will be instantiated and called as such:
+ * var obj = Object.create(MinStack).createNew()
+ * obj.push(x)
+ * obj.pop()
+ * var param_3 = obj.top()
+ * var param_4 = obj.getMin()
+ */</span>
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>一个栈，同时存值和最小值。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity :</li>
+<li>Space complexity :</li>
+</ul>
+<h2 id="solution-3">Solution 3</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * initialize your data structure here.
+ */</span>
+<span class="hljs-keyword">var</span> MinStack = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">this</span>.Node = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">val</span>) </span>{
+    <span class="hljs-keyword">this</span>.val = val;
+    <span class="hljs-keyword">this</span>.min = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">this</span>.next = <span class="hljs-literal">null</span>;
+  };
+  <span class="hljs-keyword">this</span>.head = <span class="hljs-literal">null</span>;
+};
+
+<span class="hljs-comment">/** 
+ * @param {number} x
+ * @return {void}
+ */</span>
+MinStack.prototype.push = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">x</span>) </span>{
+  <span class="hljs-keyword">var</span> node = <span class="hljs-keyword">new</span> <span class="hljs-keyword">this</span>.Node(x);
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.head) {
+    node.next = <span class="hljs-keyword">this</span>.head;
+    node.min = <span class="hljs-built_in">Math</span>.min(x, <span class="hljs-keyword">this</span>.head.min);
+  } <span class="hljs-keyword">else</span> {
+    node.min = x;
+  }
+  <span class="hljs-keyword">this</span>.head = node;
+};
+
+<span class="hljs-comment">/**
+ * @return {void}
+ */</span>
+MinStack.prototype.pop = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.head) <span class="hljs-keyword">this</span>.head = <span class="hljs-keyword">this</span>.head.next;
+};
+
+<span class="hljs-comment">/**
+ * @return {number}
+ */</span>
+MinStack.prototype.top = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.head ? <span class="hljs-keyword">this</span>.head.val : <span class="hljs-number">0</span>;
+};
+
+<span class="hljs-comment">/**
+ * @return {number}
+ */</span>
+MinStack.prototype.getMin = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.head ? <span class="hljs-keyword">this</span>.head.min : <span class="hljs-number">0</span>;
+};
+
+<span class="hljs-comment">/** 
+ * Your MinStack object will be instantiated and called as such:
+ * var obj = Object.create(MinStack).createNew()
+ * obj.push(x)
+ * obj.pop()
+ * var param_3 = obj.top()
+ * var param_4 = obj.getMin()
+ */</span>
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>用链表模拟栈，每个节点存储值 <code>val</code>，最小值 <code>min</code>，下一个节点 <code>next</code>。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity :</li>
+<li>Space complexity :</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Valid Sudoku - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>36. Valid Sudoku</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/sudoku-solver.html">Sudoku Solver</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Determine if a 9x9 Sudoku board is valid. Only the filled cells need to be validated <strong>according to the following rules</strong>:</p>
+<ul>
+<li>Each row must contain the digits <code>1-9</code> without repetition.</li>
+<li>Each column must contain the digits <code>1-9</code> without repetition.</li>
+<li>Each of the 9 <code>3x3</code> sub-boxes of the grid must contain the digits <code>1-9</code> without repetition.</li>
+</ul>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Sudoku-by-L2G-20050714.svg/250px-Sudoku-by-L2G-20050714.svg.png" alt="" /></p>
+<p>A partially filled sudoku which is valid.</p>
+<p>The Sudoku board could be partially filled, where empty cells are filled with the character <code>'.'</code>.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs">Input:
+[<span class="hljs-meta">
+  [<span class="hljs-meta-string">"5"</span>,<span class="hljs-meta-string">"3"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"7"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span></span>],
+  [<span class="hljs-meta"><span class="hljs-meta-string">"6"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"1"</span>,<span class="hljs-meta-string">"9"</span>,<span class="hljs-meta-string">"5"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span></span>],
+  [<span class="hljs-meta"><span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"9"</span>,<span class="hljs-meta-string">"8"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"6"</span>,<span class="hljs-meta-string">"."</span></span>],
+  [<span class="hljs-meta"><span class="hljs-meta-string">"8"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"6"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"3"</span></span>],
+  [<span class="hljs-meta"><span class="hljs-meta-string">"4"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"8"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"3"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"1"</span></span>],
+  [<span class="hljs-meta"><span class="hljs-meta-string">"7"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"2"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"6"</span></span>],
+  [<span class="hljs-meta"><span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"6"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"2"</span>,<span class="hljs-meta-string">"8"</span>,<span class="hljs-meta-string">"."</span></span>],
+  [<span class="hljs-meta"><span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"4"</span>,<span class="hljs-meta-string">"1"</span>,<span class="hljs-meta-string">"9"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"5"</span></span>],
+  [<span class="hljs-meta"><span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"8"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"7"</span>,<span class="hljs-meta-string">"9"</span></span>]
+]
+Output: <span class="hljs-literal">true</span>
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs">Input:
+[<span class="hljs-meta">
+  [<span class="hljs-meta-string">"8"</span>,<span class="hljs-meta-string">"3"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"7"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span></span>],
+  [<span class="hljs-meta"><span class="hljs-meta-string">"6"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"1"</span>,<span class="hljs-meta-string">"9"</span>,<span class="hljs-meta-string">"5"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span></span>],
+  [<span class="hljs-meta"><span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"9"</span>,<span class="hljs-meta-string">"8"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"6"</span>,<span class="hljs-meta-string">"."</span></span>],
+  [<span class="hljs-meta"><span class="hljs-meta-string">"8"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"6"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"3"</span></span>],
+  [<span class="hljs-meta"><span class="hljs-meta-string">"4"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"8"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"3"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"1"</span></span>],
+  [<span class="hljs-meta"><span class="hljs-meta-string">"7"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"2"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"6"</span></span>],
+  [<span class="hljs-meta"><span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"6"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"2"</span>,<span class="hljs-meta-string">"8"</span>,<span class="hljs-meta-string">"."</span></span>],
+  [<span class="hljs-meta"><span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"4"</span>,<span class="hljs-meta-string">"1"</span>,<span class="hljs-meta-string">"9"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"5"</span></span>],
+  [<span class="hljs-meta"><span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"8"</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"."</span>,<span class="hljs-meta-string">"7"</span>,<span class="hljs-meta-string">"9"</span></span>]
+]
+Output: <span class="hljs-literal">false</span>
+Explanation: Same <span class="hljs-keyword">as</span> Example <span class="hljs-number">1</span>, except with the <span class="hljs-number">5</span> <span class="hljs-keyword">in</span> the top left corner being 
+    modified to <span class="hljs-number">8.</span> Since there are two <span class="hljs-number">8</span><span class="hljs-string">'s in the top left 3x3 sub-box, it is invalid.</span>
+</code></pre>
+<p><strong>Note:</strong></p>
+<ul>
+<li>A Sudoku board (partially filled) could be valid but is not necessarily solvable.</li>
+<li>Only the filled cells need to be validated according to the mentioned rules.</li>
+<li>The given board contain only digits <code>1-9</code> and the character <code>'.'</code>.</li>
+<li>The given board size is always <code>9x9</code>.</li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {character[][]} board
+ * @return {boolean}
+ */</span>
+<span class="hljs-keyword">var</span> isValidSudoku = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">board</span>) </span>{
+  <span class="hljs-keyword">var</span> map = {};
+  <span class="hljs-keyword">var</span> tmp = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">9</span>; i++) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">9</span>; j++) {
+      tmp = board[i][j];
+      <span class="hljs-keyword">if</span> (tmp === <span class="hljs-string">'.'</span>) <span class="hljs-keyword">continue</span>;
+      <span class="hljs-keyword">if</span> (map[<span class="hljs-string">'i'</span> + i + tmp] || map[<span class="hljs-string">'j'</span> + j + tmp] || map[<span class="hljs-string">'b'</span> + <span class="hljs-built_in">Math</span>.floor(i / <span class="hljs-number">3</span>) + <span class="hljs-built_in">Math</span>.floor(j / <span class="hljs-number">3</span>) + tmp]) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+      map[<span class="hljs-string">'i'</span> + i + tmp] = <span class="hljs-number">1</span>;
+      map[<span class="hljs-string">'j'</span> + j + tmp] = <span class="hljs-number">1</span>;
+      map[<span class="hljs-string">'b'</span> + <span class="hljs-built_in">Math</span>.floor(i / <span class="hljs-number">3</span>) + <span class="hljs-built_in">Math</span>.floor(j / <span class="hljs-number">3</span>) + tmp] = <span class="hljs-number">1</span>;
+    }
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>哈希表：</p>
+<p>i、j、b 开头的键分别代表 某行、某列、某块 中，某数字是否已存在</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n^2).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

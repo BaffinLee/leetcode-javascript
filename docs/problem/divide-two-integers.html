@@ -17,12 +17,42 @@
 <li>Assume we are dealing with an environment which could only store integers within the 32-bit signed integer range: [−231,  231 − 1]. For the purpose of this problem, assume that your function returns 231 − 1 when the division result overflows.</li>
 </ul>
 <h2 id="solution">Solution</h2>
-<pre><code class="hljs lang-javascript">
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} dividend
+ * @param {number} divisor
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> divide = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">dividend, divisor</span>) </span>{
+  <span class="hljs-keyword">var</span> did = <span class="hljs-built_in">Math</span>.abs(dividend);
+  <span class="hljs-keyword">var</span> dis = <span class="hljs-built_in">Math</span>.abs(divisor);
+  <span class="hljs-keyword">var</span> sign = (divisor &gt; <span class="hljs-number">0</span> &amp;&amp; dividend &gt; <span class="hljs-number">0</span>) || (divisor &lt; <span class="hljs-number">0</span> &amp;&amp; dividend &lt; <span class="hljs-number">0</span>);
+  <span class="hljs-keyword">var</span> res = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> arr = [dis];
+
+  <span class="hljs-keyword">if</span> (dividend === <span class="hljs-number">0</span> || did &lt; dis) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">if</span> (divisor === <span class="hljs-number">-1</span> &amp;&amp; dividend === <span class="hljs-number">-2147483648</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">2147483647</span>;
+  <span class="hljs-keyword">if</span> (dis === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> divisor &gt; <span class="hljs-number">0</span> ? dividend : -dividend;
+
+  <span class="hljs-keyword">while</span> (arr[arr.length - <span class="hljs-number">1</span>] &lt; did) arr.push(arr[arr.length - <span class="hljs-number">1</span>] + arr[arr.length - <span class="hljs-number">1</span>]);
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = arr.length - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) {
+    <span class="hljs-keyword">if</span> (did &gt;= arr[i]) {
+      did -= arr[i];
+      res += i === <span class="hljs-number">0</span> ? <span class="hljs-number">1</span> : <span class="hljs-number">2</span> &lt;&lt; (i - <span class="hljs-number">1</span>);
+    }
+  }
+
+  <span class="hljs-keyword">return</span> sign ? res : -res;
+};
 </code></pre>
 <p><strong>Explain:</strong></p>
-<p>nope.</p>
+<ol>
+<li>要注意 <code>-2147483648 / -1</code> 越界的情况</li>
+<li>核心就是 <code>dividend -= divisor &lt;&lt; i; result += 2 &lt;&lt; (i - 1);</code></li>
+<li>其它语言有 <code>long</code>、<code>long long</code> 类型可以保证 <code>divisor &lt;&lt; i</code> 不越界，但是 js 没有。比如 <code>2 &lt;&lt; 29</code> 是 <code>1073741824</code>，<code>2 &lt;&lt; 30</code> 就越界了，不会得到预期的结果。我这里是用加法提前计算好 <code>divisor &lt;&lt; i</code>。</li>
+</ol>
 <p><strong>Complexity:</strong></p>
 <ul>
-<li>Time complexity : O(n).</li>
-<li>Space complexity : O(n).</li>
+<li>Time complexity : O(log(n)).</li>
+<li>Space complexity : O(log(n)).</li>
 </ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

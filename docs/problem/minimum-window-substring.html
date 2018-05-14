@@ -1,0 +1,71 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Minimum Window Substring - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>76. Minimum Window Substring</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/two-pointers">Two Pointers</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/string">String</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/substring-with-concatenation-of-all-words.html">Substring with Concatenation of All Words</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/minimum-size-subarray-sum.html">Minimum Size Subarray Sum</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/sliding-window-maximum.html">Sliding Window Maximum</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/permutation-in-string.html">Permutation in String</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/smallest-range.html">Smallest Range</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/minimum-window-subsequence.html">Minimum Window Subsequence</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a string S and a string T, find the minimum window in S which will contain all the characters in T in complexity O(n).</p>
+<p><strong>Example:</strong></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> S = <span class="hljs-string">"ADOBECODEBANC"</span>, T = <span class="hljs-string">"ABC"</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-string">"BANC"</span>
+</code></pre>
+<p><strong>Note:</strong></p>
+<ul>
+<li>If there is no such window in S that covers all characters in T, return the empty string <code>""</code>.</li>
+<li>If there is such window, you are guaranteed that there will always be only one unique minimum window in S.</li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} s
+ * @param {string} t
+ * @return {string}
+ */</span>
+<span class="hljs-keyword">var</span> minWindow = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s, t</span>) </span>{
+  <span class="hljs-keyword">var</span> map = {};
+  <span class="hljs-keyword">var</span> sLen = s.length;
+  <span class="hljs-keyword">var</span> tLen = t.length;
+  <span class="hljs-keyword">var</span> count = tLen;
+  <span class="hljs-keyword">var</span> min = <span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER;
+  <span class="hljs-keyword">var</span> head = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> left = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> right = <span class="hljs-number">0</span>;
+
+  <span class="hljs-keyword">if</span> (!sLen || !tLen) <span class="hljs-keyword">return</span> <span class="hljs-string">''</span>;
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; tLen; i++) {
+    <span class="hljs-keyword">if</span> (map[t[i]] === <span class="hljs-literal">undefined</span>) {
+      map[t[i]] = <span class="hljs-number">1</span>
+    } <span class="hljs-keyword">else</span> {
+      map[t[i]]++;
+    }
+  }
+
+  <span class="hljs-keyword">while</span> (right &lt; sLen) {
+    <span class="hljs-keyword">if</span> (map[s[right]] !== <span class="hljs-literal">undefined</span>) {
+      <span class="hljs-keyword">if</span> (map[s[right]] &gt; <span class="hljs-number">0</span>) count--;
+      map[s[right]]--;
+    }
+
+    right++;
+
+    <span class="hljs-keyword">while</span> (count === <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">if</span> (right - left &lt; min) {
+        min = right - left;
+        head = left;
+      }
+
+      <span class="hljs-keyword">if</span> (map[s[left]] !== <span class="hljs-literal">undefined</span>) {
+        <span class="hljs-keyword">if</span> (map[s[left]] === <span class="hljs-number">0</span>) count++;
+        map[s[left]]++;
+      }
+
+      left++;
+    }
+  }
+
+  <span class="hljs-keyword">return</span> min === <span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER ? <span class="hljs-string">''</span> : s.substr(head, min);
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>see <a target="_blank" href="https://leetcode.com/problems/minimum-window-substring/discuss/26808/Here-is-a-10-line-template-that-can-solve-most-'substring'-problems">Here is a 10-line template that can solve most 'substring' problems</a>.</p>
+<p>用哈希表保存各字符的数量，双指针表示当前窗口，用计数器来判断是否符合条件。符合条件后，记录窗口位置、最小值；更新双指针、计数器。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

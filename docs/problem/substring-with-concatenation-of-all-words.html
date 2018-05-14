@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Substring with Concatenation of All Words - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>30. Substring with Concatenation of All Words</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/two-pointers">Two Pointers</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/string">String</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/minimum-window-substring.html">Minimum Window Substring</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given a string, <strong>s</strong>, and a list of words, <strong>words</strong>, that are all of the same length. Find all starting indices of substring(s) in <strong>s</strong> that is a concatenation of each word in <strong>words</strong> exactly once and without any intervening characters.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs">Input:
+  s = <span class="hljs-string">"barfoothefoobarman"</span>,
+  <span class="hljs-built_in">words</span> = [<span class="hljs-string">"foo"</span>,<span class="hljs-string">"bar"</span>]
+Output: [<span class="hljs-number">0</span>,<span class="hljs-number">9</span>]
+Explanation: Substrings starting <span class="hljs-keyword">at</span> index <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> <span class="hljs-number">9</span> are <span class="hljs-string">"barfoor"</span> <span class="hljs-keyword">and</span> <span class="hljs-string">"foobar"</span> respectively.
+The output order <span class="hljs-keyword">does</span> <span class="hljs-keyword">not</span> matter, <span class="hljs-keyword">returning</span> [<span class="hljs-number">9</span>,<span class="hljs-number">0</span>] <span class="hljs-keyword">is</span> fine too.
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span>
+  s = <span class="hljs-string">"wordgoodstudentgoodword"</span>,
+  words = [<span class="hljs-string">"word"</span>,<span class="hljs-string">"student"</span>]
+<span class="hljs-symbol">Output:</span> []
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} s
+ * @param {string[]} words
+ * @return {number[]}
+ */</span>
+<span class="hljs-keyword">var</span> findSubstring = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s, words</span>) </span>{
+  <span class="hljs-keyword">var</span> sLen = s.length;
+  <span class="hljs-keyword">var</span> wLen = words.length;
+  <span class="hljs-keyword">var</span> wordLen = (words[<span class="hljs-number">0</span>] || <span class="hljs-string">''</span>).length;
+
+  <span class="hljs-keyword">if</span> (!sLen || !wLen || !wordLen) <span class="hljs-keyword">return</span> [];
+
+  <span class="hljs-keyword">var</span> count = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> tmp = <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">var</span> map1 = {};
+  <span class="hljs-keyword">var</span> map2 = {};
+  <span class="hljs-keyword">var</span> res = [];
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; wLen; i++) {
+    map1[words[i]] = (map1[words[i]] || <span class="hljs-number">0</span>) + <span class="hljs-number">1</span>;
+  }
+
+  out: <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt;= sLen - (wLen * wordLen); j++) {
+    map2 = {};
+    count = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span> (count &lt; wLen) {
+      tmp = s.substr(j + (count * wordLen), wordLen);
+      <span class="hljs-keyword">if</span> (map1[tmp] === <span class="hljs-literal">undefined</span> || map1[tmp] === map2[tmp]) <span class="hljs-keyword">continue</span> out;
+      map2[tmp] = (map2[tmp] || <span class="hljs-number">0</span>) + <span class="hljs-number">1</span>;
+      count++;
+    }
+    res.push(j);
+  }
+
+  <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(m*n).</li>
+<li>Space complexity : O(m).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

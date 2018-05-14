@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Pascal&#x27;s Triangle - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>118. Pascal&#x27;s Triangle</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/array">Array</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/pascals-triangle-ii.html">Pascal&#x27;s Triangle II</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a non-negative integer <strong>numRows</strong>, generate the first <strong>numRows</strong> of Pascal's triangle.</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/0/0d/PascalTriangleAnimated2.gif" alt="" /></p>
+<p>In Pascal's triangle, each number is the sum of the two numbers directly above it.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="hljs">Input: 5
+Output:
+<span class="hljs-comment">[
+     <span class="hljs-comment">[1]</span>,
+    <span class="hljs-comment">[1,1]</span>,
+   <span class="hljs-comment">[1,2,1]</span>,
+  <span class="hljs-comment">[1,3,3,1]</span>,
+ <span class="hljs-comment">[1,4,6,4,1]</span>
+]</span>
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} numRows
+ * @return {number[][]}
+ */</span>
+<span class="hljs-keyword">var</span> generate = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">numRows</span>) </span>{
+  <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> res = [];
+  <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; numRows; i++) {
+    res.push(<span class="hljs-built_in">Array</span>(i + <span class="hljs-number">1</span>));
+    <span class="hljs-keyword">for</span> (j = <span class="hljs-number">0</span>; j &lt;= i; j++) {
+      <span class="hljs-keyword">if</span> (j === <span class="hljs-number">0</span> || j === i) {
+        res[i][j] = <span class="hljs-number">1</span>;
+      } <span class="hljs-keyword">else</span> {
+        res[i][j] = res[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>] + res[i - <span class="hljs-number">1</span>][j];
+      }
+    }
+  }
+  <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n^2).</li>
+<li>Space complexity : O(n^2).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

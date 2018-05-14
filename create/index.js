@@ -47,6 +47,10 @@ const getDescription = (description) => {
       replacer: (_, $1) => `**${$1}**`
     },
     {
+      regexp: /<img.*src="([^"]+)".*\/?>/ig,
+      replacer: (_, $1) => `\n![](${$1})\n`
+    },
+    {
       regexp: /<strong>(.*?)<\/strong>/ig,
       replacer: (_, $1) => `**${$1}**`
     },

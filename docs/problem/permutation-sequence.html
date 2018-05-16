@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Permutation Sequence - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>60. Permutation Sequence</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/math">Math</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/backtracking">Backtracking</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/next-permutation.html">Next Permutation</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/permutations.html">Permutations</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>The set <code>[1,2,3,...,**n**]</code> contains a total of <strong>n</strong>! unique permutations.</p>
+<p>By listing and labeling all of the permutations in order, we get the following sequence for <strong>n</strong> = 3:</p>
+<ul>
+<li>```"123"<pre><code class="hljs">- ```<span class="hljs-string">"132"</span>```
+- ```<span class="hljs-string">"213"</span>```
+- ```<span class="hljs-string">"231"</span>```
+- ```<span class="hljs-string">"312"</span>```
+- ```<span class="hljs-string">"321"</span>```
+
+Given **n** and **k**, return the **k**th permutation sequence.
+
+**Note:**
+
+- Given **n** will be between <span class="hljs-number">1</span> and <span class="hljs-number">9</span> inclusive.
+- Given **k** will be between <span class="hljs-number">1</span> and **n**! inclusive.
+
+**Example <span class="hljs-number">1</span>:**
+
+</code></pre>
+Input: n = 3, k = 3
+Output: "213"</li>
+</ul>
+<pre><code class="hljs">
+*<span class="hljs-strong">*Example 2:*</span>*
+
+</code></pre>
+<p>Input: n = 4, k = 9
+Output: "2314"</p>
+<pre><code class="hljs"><span class="hljs-meta">
+#</span><span class="bash"><span class="hljs-comment"># Solution</span></span>
+
+</code></pre>
+<p>javascript
+/**</p>
+<ul>
+<li><p>@param {number} n</p></li>
+<li><p>@param {number} k</p></li>
+<li><p>@return {string}
+*/
+var getPermutation = function(n, k) {
+var str = '';
+var nums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+var factorial = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880]; // n!
+var tmp1 = 0;
+var tmp2 = 0;</p>
+<p>k--;</p>
+<p>for (var j = n; j &gt;= 1; j--) {
+tmp1 = factorial[j - 1];
+tmp2 = Math.floor(k / tmp1);</p>
+<p>k %= tmp1;
+str += nums[tmp2];</p>
+<p>nums.splice(tmp2, 1);
+}</p>
+<p>return str;
+};
+```</p></li>
+</ul>
+<p><strong>Explain:</strong></p>
+<p>用回溯的方法会超时，
+需要用数学规律解的.就是依次找出放在第 <code>index</code> 位的数字。</p>
+<p><code>k--</code> 这里比较难理解，是用来纠正 <code>k</code> 正好整除于某个阶乘数的特殊情况，<code>即 k % factorial[i] === 0</code> 时。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

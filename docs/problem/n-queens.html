@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>N-Queens - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>51. N-Queens</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/backtracking">Backtracking</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/n-queens-ii.html">N-Queens II</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>The <strong>n</strong>-queens puzzle is the problem of placing <strong>n</strong> queens on an <strong>n</strong>×<strong>n</strong> chessboard such that no two queens attack each other.</p>
+<p><img src="https://leetcode.com/static/images/problemset/8-queens.png" alt="" /></p>
+<p>Given an integer <strong>n</strong>, return all distinct solutions to the <strong>n</strong>-queens puzzle.</p>
+<p>Each solution contains a distinct board configuration of the <strong>n</strong>-queens' placement, where <code>'Q'</code> and <code>'.'</code> both indicate a queen and an empty space respectively.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="hljs"><span class="hljs-string">Input:</span> <span class="hljs-number">4</span>
+<span class="hljs-string">Output:</span> [
+ [<span class="hljs-string">".Q.."</span>,  <span class="hljs-comment">// Solution 1</span>
+  <span class="hljs-string">"...Q"</span>,
+  <span class="hljs-string">"Q..."</span>,
+  <span class="hljs-string">"..Q."</span>],
+
+ [<span class="hljs-string">"..Q."</span>,  <span class="hljs-comment">// Solution 2</span>
+  <span class="hljs-string">"Q..."</span>,
+  <span class="hljs-string">"...Q"</span>,
+  <span class="hljs-string">".Q.."</span>]
+]
+<span class="hljs-string">Explanation:</span> There exist two distinct solutions to the <span class="hljs-number">4</span>-queens puzzle <span class="hljs-keyword">as</span> shown above.
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n
+ * @return {string[][]}
+ */</span>
+<span class="hljs-keyword">var</span> solveNQueens = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n</span>) </span>{
+  <span class="hljs-keyword">var</span> res = [];
+  <span class="hljs-keyword">if</span> (n === <span class="hljs-number">1</span> || n &gt;= <span class="hljs-number">4</span>) dfs(res, [], n, <span class="hljs-number">0</span>);
+  <span class="hljs-keyword">return</span> res;
+};
+
+<span class="hljs-keyword">var</span> dfs = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res, points, n, index</span>) </span>{
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = index; i &lt; n; i++) {
+    <span class="hljs-keyword">if</span> (points.length !== i) <span class="hljs-keyword">return</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; n; j++) {
+      <span class="hljs-keyword">if</span> (isValid(points, [i, j])) {
+        points.push([i, j]);
+        dfs(res, points, n, i + <span class="hljs-number">1</span>);
+        <span class="hljs-keyword">if</span> (points.length === n) res.push(buildRes(points));
+        points.pop();
+      }
+    }
+  }
+};
+
+<span class="hljs-keyword">var</span> buildRes = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">points</span>) </span>{
+  <span class="hljs-keyword">var</span> res = [];
+  <span class="hljs-keyword">var</span> n = points.length;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) {
+    res[i] = <span class="hljs-string">''</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; n; j++) {
+      res[i] += (points[i][<span class="hljs-number">1</span>] === j ? <span class="hljs-string">'Q'</span> : <span class="hljs-string">'.'</span>);
+    }
+  }
+  <span class="hljs-keyword">return</span> res;
+};
+
+<span class="hljs-keyword">var</span> isValid = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">oldPoints, newPoint</span>) </span>{
+  <span class="hljs-keyword">var</span> len = oldPoints.length;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+    <span class="hljs-keyword">if</span> (oldPoints[i][<span class="hljs-number">0</span>] === newPoint[<span class="hljs-number">0</span>] || oldPoints[i][<span class="hljs-number">1</span>] === newPoint[<span class="hljs-number">1</span>]) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Math</span>.abs((oldPoints[i][<span class="hljs-number">0</span>] - newPoint[<span class="hljs-number">0</span>]) / (oldPoints[i][<span class="hljs-number">1</span>] - newPoint[<span class="hljs-number">1</span>])) === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>dfs</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n^2).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

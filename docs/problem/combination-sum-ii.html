@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Combination Sum II - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>40. Combination Sum II</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/backtracking">Backtracking</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/combination-sum.html">Combination Sum</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a collection of candidate numbers (<code>candidates</code>) and a target number (<code>target</code>), find all unique combinations in <code>candidates</code> where the candidate numbers sums to <code>target</code>.</p>
+<p>Each number in <code>candidates</code> may only be used <strong>once</strong> in the combination.</p>
+<p><strong>Note:</strong></p>
+<ul>
+<li>All numbers (including <code>target</code>) will be positive integers.</li>
+<li>The solution set must not contain duplicate combinations.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs">Input: candidates = <span class="hljs-comment">[10,1,2,7,6,1,5]</span>, target = 8,
+A solution set <span class="hljs-keyword">is</span>:
+<span class="hljs-comment">[
+  <span class="hljs-comment">[1, 7]</span>,
+  <span class="hljs-comment">[1, 2, 5]</span>,
+  <span class="hljs-comment">[2, 6]</span>,
+  <span class="hljs-comment">[1, 1, 6]</span>
+]</span>
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs">Input: candidates = <span class="hljs-comment">[2,5,2,1,2]</span>, target = 5,
+A solution set <span class="hljs-keyword">is</span>:
+<span class="hljs-comment">[
+  <span class="hljs-comment">[1,2,2]</span>,
+  <span class="hljs-comment">[5]</span>
+]</span>
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} candidates
+ * @param {number} target
+ * @return {number[][]}
+ */</span>
+<span class="hljs-keyword">var</span> combinationSum2 = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">candidates, target</span>) </span>{
+  <span class="hljs-keyword">var</span> res = [];
+  <span class="hljs-keyword">var</span> len = candidates.length;
+  candidates.sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> (a - b));
+  dfs(res, [], <span class="hljs-number">0</span>, len, candidates, target);
+  <span class="hljs-keyword">return</span> res;
+};
+
+<span class="hljs-keyword">var</span> dfs = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res, stack, index, len, candidates, target</span>) </span>{
+  <span class="hljs-keyword">var</span> tmp = <span class="hljs-literal">null</span>;
+  <span class="hljs-keyword">if</span> (target &lt; <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span>;
+  <span class="hljs-keyword">if</span> (target === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> res.push(stack);
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = index; i &lt; len; i++) {
+    <span class="hljs-keyword">if</span> (candidates[i] &gt; target) <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">if</span> (i &gt; index &amp;&amp; candidates[i] === candidates[i - <span class="hljs-number">1</span>]) <span class="hljs-keyword">continue</span>;
+    tmp = <span class="hljs-built_in">Array</span>.from(stack);
+    tmp.push(candidates[i]);
+    dfs(res, tmp, i + <span class="hljs-number">1</span>, len, candidates, target - candidates[i]);
+  }
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>与之前一题不同的地方是：</p>
+<ol>
+<li>候选数字可能有重复的</li>
+<li>单个候选数字不能重复使用</li>
+</ol>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n^2).</li>
+<li>Space complexity : O(n^2).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

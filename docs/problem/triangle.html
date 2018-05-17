@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Triangle - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>120. Triangle</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a triangle, find the minimum path sum from top to bottom. Each step you may move to adjacent numbers on the row below.</p>
+<p>For example, given the following triangle</p>
+<pre><code class="hljs">[
+     [<span class="hljs-number">2</span>],
+    [<span class="hljs-number">3</span>,<span class="hljs-number">4</span>],
+   [<span class="hljs-number">6</span>,<span class="hljs-number">5</span>,<span class="hljs-number">7</span>],
+  [<span class="hljs-number">4</span>,<span class="hljs-number">1</span>,<span class="hljs-number">8</span>,<span class="hljs-number">3</span>]
+]
+</code></pre>
+<p>The minimum path sum from top to bottom is <code>11</code> (i.e., <strong>2</strong> + <strong>3</strong> + <strong>5</strong> + <strong>1</strong> = 11).</p>
+<p><strong>Note:</strong></p>
+<p>Bonus point if you are able to do this using only <strong>O</strong>(<strong>n</strong>) extra space, where <strong>n</strong> is the total number of rows in the triangle.</p>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} triangle
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> minimumTotal = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">triangle</span>) </span>{
+  <span class="hljs-keyword">var</span> len = triangle.length;
+  <span class="hljs-keyword">var</span> len2 = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> res = <span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER;
+  <span class="hljs-keyword">var</span> dp = <span class="hljs-built_in">Array</span>(len);
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+    len2 = triangle[i].length;
+    dp[i] = <span class="hljs-built_in">Array</span>(len2).fill(<span class="hljs-number">0</span>);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; len2; j++) {
+      dp[i][j] = getMinParent(dp, i, j) + triangle[i][j];
+      <span class="hljs-keyword">if</span> (i === (len - <span class="hljs-number">1</span>)) res = <span class="hljs-built_in">Math</span>.min(res, dp[i][j]);
+    }
+  }
+
+  <span class="hljs-keyword">return</span> res === <span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER ? <span class="hljs-number">0</span> : res;
+};
+
+<span class="hljs-keyword">var</span> getMinParent = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">dp, i, j</span>) </span>{
+  <span class="hljs-keyword">var</span> left = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> right = <span class="hljs-number">0</span>;
+
+  <span class="hljs-keyword">if</span> (i === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+
+  <span class="hljs-keyword">if</span> (j === <span class="hljs-number">0</span>) left = <span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER;
+  <span class="hljs-keyword">else</span> left = dp[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>];
+
+  <span class="hljs-keyword">if</span> (j === dp[i - <span class="hljs-number">1</span>].length) right = <span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER;
+  <span class="hljs-keyword">else</span> right = dp[i - <span class="hljs-number">1</span>][j];
+
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.min(left, right);
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>动态规划：</p>
+<p><code>dp[i][j]</code> 记录到达 <code>i</code> 行 <code>j</code> 列的点的最小和</p>
+<ol>
+<li>每个点可以由上一行的两个点（或只有一个点）到达，它的值只与这两个点有关</li>
+<li>到达某个点的最小和 = min(上一行左边点最小和， 上一行右边点最小和) + 当前点的数值</li>
+<li>最后找出最后一行的最小值就好</li>
+</ol>
+<p>优化：其实dp只要保留上一行的值就好，我这里保留了所有行的值，可以用滚动数组</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(m*n).</li>
+<li>Space complexity : O(m*n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

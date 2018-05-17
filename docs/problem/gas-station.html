@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Gas Station - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>134. Gas Station</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/greedy">Greedy</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>There are <strong>N</strong> gas stations along a circular route, where the amount of gas at station <strong>i</strong> is <code>gas[i]</code>.</p>
+<p>You have a car with an unlimited gas tank and it costs <code>cost[i]</code> of gas to travel from station <strong>i</strong> to its next station (<strong>i</strong>+1). You begin the journey with an empty tank at one of the gas stations.</p>
+<p>Return the starting gas station's index if you can travel around the circuit once in the clockwise direction, otherwise return -1.</p>
+<p><strong>Note:</strong></p>
+<ul>
+<li>If there exists a solution, it is guaranteed to be unique.</li>
+<li>Both input arrays are non-empty and have the same length.</li>
+<li>Each element in the input arrays is a non-negative integer.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs">Input: 
+gas  = [1,2,3,4,5]
+cost = [3,4,5,1,2]
+
+Output: 3
+
+Explanation:
+<span class="hljs-keyword">Start</span> <span class="hljs-keyword">at</span> station <span class="hljs-number">3</span> (<span class="hljs-keyword">index</span> <span class="hljs-number">3</span>) <span class="hljs-keyword">and</span> fill up <span class="hljs-keyword">with</span> <span class="hljs-number">4</span> unit <span class="hljs-keyword">of</span> gas. Your tank = <span class="hljs-number">0</span> + <span class="hljs-number">4</span> = <span class="hljs-number">4</span>
+Travel <span class="hljs-keyword">to</span> station <span class="hljs-number">4.</span> Your tank = <span class="hljs-number">4</span> - <span class="hljs-number">1</span> + <span class="hljs-number">5</span> = <span class="hljs-number">8</span>
+Travel <span class="hljs-keyword">to</span> station <span class="hljs-number">0.</span> Your tank = <span class="hljs-number">8</span> - <span class="hljs-number">2</span> + <span class="hljs-number">1</span> = <span class="hljs-number">7</span>
+Travel <span class="hljs-keyword">to</span> station <span class="hljs-number">1.</span> Your tank = <span class="hljs-number">7</span> - <span class="hljs-number">3</span> + <span class="hljs-number">2</span> = <span class="hljs-number">6</span>
+Travel <span class="hljs-keyword">to</span> station <span class="hljs-number">2.</span> Your tank = <span class="hljs-number">6</span> - <span class="hljs-number">4</span> + <span class="hljs-number">3</span> = <span class="hljs-number">5</span>
+Travel <span class="hljs-keyword">to</span> station <span class="hljs-number">3.</span> The <span class="hljs-keyword">cost</span> <span class="hljs-keyword">is</span> <span class="hljs-number">5.</span> Your gas <span class="hljs-keyword">is</span> just enough <span class="hljs-keyword">to</span> travel back <span class="hljs-keyword">to</span> station <span class="hljs-number">3.</span>
+Therefore, <span class="hljs-keyword">return</span> <span class="hljs-number">3</span> <span class="hljs-keyword">as</span> the <span class="hljs-keyword">starting</span> index.
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs">Input: 
+gas  = [<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>]
+cost = [<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">3</span>]
+
+Output: <span class="hljs-number">-1</span>
+
+Explanation:
+You can't start <span class="hljs-keyword">at</span> station <span class="hljs-number">0</span> <span class="hljs-keyword">or</span> <span class="hljs-number">1</span>, <span class="hljs-keyword">as</span> there <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> enough gas <span class="hljs-keyword">to</span> travel <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> next station.
+Let's start <span class="hljs-keyword">at</span> station <span class="hljs-number">2</span> <span class="hljs-keyword">and</span> fill up <span class="hljs-keyword">with</span> <span class="hljs-number">4</span> unit <span class="hljs-keyword">of</span> gas. Your tank = <span class="hljs-number">0</span> + <span class="hljs-number">4</span> = <span class="hljs-number">4</span>
+Travel <span class="hljs-keyword">to</span> station <span class="hljs-number">0.</span> Your tank = <span class="hljs-number">4</span> - <span class="hljs-number">3</span> + <span class="hljs-number">2</span> = <span class="hljs-number">3</span>
+Travel <span class="hljs-keyword">to</span> station <span class="hljs-number">1.</span> Your tank = <span class="hljs-number">3</span> - <span class="hljs-number">3</span> + <span class="hljs-number">3</span> = <span class="hljs-number">3</span>
+You cannot travel <span class="hljs-keyword">back</span> <span class="hljs-keyword">to</span> station <span class="hljs-number">2</span>, <span class="hljs-keyword">as</span> <span class="hljs-keyword">it</span> requires <span class="hljs-number">4</span> unit <span class="hljs-keyword">of</span> gas <span class="hljs-keyword">but</span> you only have <span class="hljs-number">3.</span>
+Therefore, you can't travel <span class="hljs-keyword">around</span> <span class="hljs-keyword">the</span> circuit once no matter <span class="hljs-keyword">where</span> you start.
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} gas
+ * @param {number[]} cost
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> canCompleteCircuit = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">gas, cost</span>) </span>{
+  <span class="hljs-keyword">var</span> len = gas.length;
+  <span class="hljs-keyword">var</span> tank = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> total = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> start = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+    tank += gas[i] - cost[i];
+    <span class="hljs-keyword">if</span> (tank &lt; <span class="hljs-number">0</span>) {
+      start = i + <span class="hljs-number">1</span>;
+      total += tank;
+      tank = <span class="hljs-number">0</span>;
+    }
+  }
+  <span class="hljs-keyword">return</span> tank + total &gt;= <span class="hljs-number">0</span> ? start : <span class="hljs-number">-1</span>;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<ol>
+<li><code>n</code> 点到不了 <code>m</code> 点，则其间所有点都到不了 <code>m</code> 点</li>
+<li>总和大于等于 <code>0</code> 说明有解</li>
+</ol>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

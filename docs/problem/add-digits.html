@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Add Digits - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>258. Add Digits</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/math">Math</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/happy-number.html">Happy Number</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a non-negative integer <code>num</code>, repeatedly add all its digits until the result has only one digit.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="hljs">Input: 38
+Output:<span class="hljs-number"> 2 </span>
+Explanation: The process is like:<span class="hljs-number"> 3 </span>+<span class="hljs-number"> 8 </span>= 11,<span class="hljs-number"> 1 </span>+<span class="hljs-number"> 1 </span>= 2. 
+             Since<span class="hljs-number"> 2 </span>has only one digit, return it.
+</code></pre>
+<p><strong>Follow up:</strong>
+Could you do it without any loop/recursion in O(1) runtime?</p>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} num
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> addDigits = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">num</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-number">1</span> + (num - <span class="hljs-number">1</span>) % <span class="hljs-number">9</span>;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>结果只有一个数字，就是 <code>1~9</code> ，不断循环，找规律即可。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(1).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

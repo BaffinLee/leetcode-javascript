@@ -1,0 +1,46 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Simplify Path - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>71. Simplify Path</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/string">String</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/stack">Stack</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given an absolute path for a file (Unix-style), simplify it.</p>
+<p>For example,
+<strong>path</strong> = <code>"/home/"</code>, =&gt; ```"/home"<pre><code class="hljs">**path** = ```<span class="hljs-string">"/a/./b/../../c/"</span>```, =&gt; ```<span class="hljs-string">"/c"</span>```
+
+**Corner Cases:**
+
+Did you consider the <span class="hljs-keyword">case</span> <span class="hljs-keyword">where</span> **path** = ```<span class="hljs-string">"/../"</span>```?
+In this <span class="hljs-keyword">case</span>, you should return ```<span class="hljs-string">"/"</span>```.
+
+Another corner <span class="hljs-keyword">case</span> is the path might contain multiple slashes ```<span class="hljs-string">'/'</span>``` together, such <span class="hljs-keyword">as</span> ```<span class="hljs-string">"/home//foo/"</span>```.
+In this <span class="hljs-keyword">case</span>, you should ignore redundant slashes and return ```<span class="hljs-string">"/home/foo"</span>```.
+
+## Solution
+
+</code></pre>javascript
+/**</p>
+<ul>
+<li>@param {string} path</li>
+<li>@return {string}
+*/
+var simplifyPath = function(path) {
+var arr = path.split('/');
+var stack = [];
+var len = arr.length;
+var item = '';
+for (var i = 0; i &lt; len; i++) {
+item = arr[i];
+if (item === '' || item === '.') continue;
+if (item === '..') {
+  stack.pop();
+} else {
+  stack.push(item);
+}
+}
+return '/' + stack.join('/');
+};
+```</li>
+</ul>
+<p><strong>Explain:</strong></p>
+<p>栈。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

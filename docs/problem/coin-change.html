@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Coin Change - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>322. Coin Change</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given coins of different denominations and a total amount of money <em>amount</em>. Write a function to compute the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return <code>-1</code>.</p>
+<p><strong>Example 1:</strong>
+coins = <code>[1, 2, 5]</code>, amount = ```11<pre><code class="hljs">return ```<span class="hljs-number">3</span>``` (<span class="hljs-number">11</span> = <span class="hljs-number">5</span> + <span class="hljs-number">5</span> + <span class="hljs-number">1</span>)
+
+**Example <span class="hljs-number">2</span>:**
+coins = ```[<span class="hljs-number">2</span>]```, amount = ```<span class="hljs-number">3</span>```
+return ```<span class="hljs-number">-1</span>```.
+
+**Note**:
+You may assume that you have an infinite number <span class="hljs-keyword">of</span> each kind <span class="hljs-keyword">of</span> coin.
+
+**Credits:** 
+
+Special thanks to @jianchao.li.fighter for adding this problem and creating all test cases.
+
+## Solution <span class="hljs-number">1</span>
+
+</code></pre>javascript
+/**</p>
+<ul>
+<li>@param {number[]} coins</li>
+<li>@param {number} amount</li>
+<li>@return {number}
+*/
+var coinChange = function(coins, amount) {
+var dp = [];
+return coin(coins, amount, dp);
+};</li>
+</ul>
+<p>var coin = function (coins, amount, dp) {
+  if (dp[amount - 1] !== undefined) return dp[amount - 1];
+  if (amount &lt; 0) return -1;
+  if (amount === 0) return 0;</p>
+<p>var count = Number.MAX<em>SAFE</em>INTEGER;
+  var tmp = 0;</p>
+<p>for (var i = 0; i &lt; coins.length; i++) {
+    tmp = coin(coins, amount - coins[i], dp);
+    if (tmp !== -1) count = Math.min(count, tmp + 1);
+  }</p>
+<p>dp[amount - 1] = count === Number.MAX<em>SAFE</em>INTEGER ? -1 : count;</p>
+<p>return dp[amount - 1];
+};</p>
+<pre><code class="hljs">
+**Explain:**
+
+动态规划，从上到下。
+
+**Complexity:**
+
+* Time complexity : O(m*n). `m` 是 `amount`，`n` 是 `coin` 数量。
+* Space complexity : O(m).
+
+## Solution <span class="hljs-number">2</span>
+
+</code></pre>
+<p>javascript
+/**</p>
+<ul>
+<li><p>@param {number[]} coins</p></li>
+<li><p>@param {number} amount</p></li>
+<li><p>@return {number}
+*/
+var coinChange = function(coins, amount) {
+var dp = Array(amount + 1).fill(amount + 1);</p>
+<p>if (amount &lt; 0) return -1;
+if (amount === 0) return 0;</p>
+<p>dp[0] = 0;</p>
+<p>for (var i = 1; i <= amount; i++) {
+for (var j = 0; j < coins.length; j++) {
+  if (i >= coins[j]) {
+    dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+  }
+}
+}</p>
+<p>return dp[amount] &gt; amount ? -1 : dp[amount];
+};
+```</p></li>
+</ul>
+<p><strong>Explain:</strong></p>
+<p>动态规划，从下到上。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(m*n). <code>m</code> 是 <code>amount</code>，<code>n</code> 是 <code>coin</code> 数量。</li>
+<li>Space complexity : O(m).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Sqrt(x) - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>69. Sqrt(x)</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/math">Math</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/binary-search">Binary Search</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/powx.html">Pow(x</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/n.html">n)</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/valid-perfect-square.html">Valid Perfect Square</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Implement <code>int sqrt(int x)</code>.</p>
+<p>Compute and return the square root of <strong>x</strong>, where <strong>x</strong> is guaranteed to be a non-negative integer.</p>
+<p>Since the return type is an integer, the decimal digits are truncated and only the integer part of the result is returned.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> <span class="hljs-number">4</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">2</span>
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs">Input: <span class="hljs-number">8</span>
+Output: <span class="hljs-number">2</span>
+Explanation: The square root <span class="hljs-keyword">of</span> <span class="hljs-number">8</span> <span class="hljs-keyword">is</span> <span class="hljs-number">2.82842</span>..., <span class="hljs-keyword">and</span> <span class="hljs-keyword">since</span> 
+             <span class="hljs-keyword">the</span> decimal part <span class="hljs-keyword">is</span> truncated, <span class="hljs-number">2</span> <span class="hljs-keyword">is</span> returned.
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} x
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> mySqrt = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">x</span>) </span>{
+  <span class="hljs-keyword">if</span> (x &lt; <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> x;
+  <span class="hljs-keyword">var</span> left = <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">var</span> right = x;
+  <span class="hljs-keyword">var</span> mid = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">while</span> (left &lt;= right) {
+    mid = left + <span class="hljs-built_in">Math</span>.floor((right - left) / <span class="hljs-number">2</span>);
+    <span class="hljs-keyword">if</span> (mid &gt; x / mid) {
+      right = mid - <span class="hljs-number">1</span>;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ((mid + <span class="hljs-number">1</span>) &gt; x / (mid + <span class="hljs-number">1</span>)) {
+      <span class="hljs-keyword">return</span> mid;
+    } <span class="hljs-keyword">else</span> {
+      left = mid + <span class="hljs-number">1</span>;
+    }
+  }
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(log(n)).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

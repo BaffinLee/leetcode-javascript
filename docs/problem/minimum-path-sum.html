@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Minimum Path Sum - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>64. Minimum Path Sum</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/unique-paths.html">Unique Paths</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/dungeon-game.html">Dungeon Game</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/cherry-pickup.html">Cherry Pickup</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a <strong>m</strong> x <strong>n</strong> grid filled with non-negative numbers, find a path from top left to bottom right which <strong>minimizes</strong> the sum of all numbers along its path.</p>
+<p><strong>Note:</strong> You can only move either down or right at any point in time.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input</span>:
+[
+  [<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>],
+  [<span class="hljs-number">1</span>,<span class="hljs-number">5</span>,<span class="hljs-number">1</span>],
+  [<span class="hljs-number">4</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>]
+]
+<span class="hljs-symbol">Output</span>: <span class="hljs-number">7</span>
+<span class="hljs-symbol">Explanation</span>: <span class="hljs-symbol">Because</span> the path <span class="hljs-number">1</span>→<span class="hljs-number">3</span>→<span class="hljs-number">1</span>→<span class="hljs-number">1</span>→<span class="hljs-number">1</span> minimizes the sum.
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} grid
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> minPathSum = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">grid</span>) </span>{
+  <span class="hljs-keyword">var</span> m = grid.length;
+  <span class="hljs-keyword">var</span> n = (grid[<span class="hljs-number">0</span>] || []).length;
+  <span class="hljs-keyword">var</span> dp = <span class="hljs-built_in">Array</span>(m);
+  <span class="hljs-keyword">var</span> left = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> top = <span class="hljs-number">0</span>;
+
+  <span class="hljs-keyword">if</span> (!m || !n) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; m; i++) {
+    dp[i] = <span class="hljs-built_in">Array</span>(n);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; n; j++) {
+      top = i === <span class="hljs-number">0</span> ? <span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER : dp[i - <span class="hljs-number">1</span>][j];
+      left = j === <span class="hljs-number">0</span> ? <span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER : dp[i][j - <span class="hljs-number">1</span>];
+      dp[i][j] = grid[i][j] + (i === <span class="hljs-number">0</span> &amp;&amp; j === <span class="hljs-number">0</span> ? <span class="hljs-number">0</span> : <span class="hljs-built_in">Math</span>.min(left, top));
+    }
+  }
+
+  <span class="hljs-keyword">return</span> dp[m - <span class="hljs-number">1</span>][n - <span class="hljs-number">1</span>];
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p><code>dp[i][j]</code> 代表到达此位置的最小 <code>sum</code>。</p>
+<p><code>dp[i][j] = min(dp[i - 1][j] + dp[i][j - 1]) + grid[i][j]</code>;</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(m*n).</li>
+<li>Space complexity : O(m*n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Text Justification - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>68. Text Justification</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/string">String</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given an array of words and a width <strong>maxWidth</strong>, format the text such that each line has exactly <strong>maxWidth</strong> characters and is fully (left and right) justified.</p>
+<p>You should pack your words in a greedy approach; that is, pack as many words as you can in each line. Pad extra spaces <code>' '</code> when necessary so that each line has exactly <strong>maxWidth</strong> characters.</p>
+<p>Extra spaces between words should be distributed as evenly as possible. If the number of spaces on a line do not divide evenly between words, the empty slots on the left will be assigned more spaces than the slots on the right.</p>
+<p>For the last line of text, it should be left justified and no <strong>extra</strong> space is inserted between words.</p>
+<p><strong>Note:</strong></p>
+<ul>
+<li>A word is defined as a character sequence consisting of non-space characters only.</li>
+<li>Each word's length is guaranteed to be greater than 0 and not exceed <strong>maxWidth</strong>.</li>
+<li>The input array <code>words</code> contains at least one word.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs"><span class="hljs-section">Input:</span>
+words = [<span class="hljs-string">"This"</span>, <span class="hljs-string">"is"</span>, <span class="hljs-string">"an"</span>, <span class="hljs-string">"example"</span>, <span class="hljs-string">"of"</span>, <span class="hljs-string">"text"</span>, <span class="hljs-string">"justification."</span>]
+maxWidth = 16
+<span class="hljs-section">Output:</span>
+[
+   <span class="hljs-string">"This    is    an"</span>,
+   <span class="hljs-string">"example  of text"</span>,
+   <span class="hljs-string">"justification.  "</span>
+]
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs">Input:
+words = [<span class="hljs-string">"What"</span>,<span class="hljs-string">"must"</span>,<span class="hljs-string">"be"</span>,<span class="hljs-string">"acknowledgment"</span>,<span class="hljs-string">"shall"</span>,<span class="hljs-string">"be"</span>]
+maxWidth = 16
+Output:
+[
+  <span class="hljs-string">"What   must   be"</span>,
+  <span class="hljs-string">"acknowledgment  "</span>,
+  <span class="hljs-string">"shall be        "</span>
+]
+Explanation:<span class="hljs-built_in"> Note </span>that the last line is <span class="hljs-string">"shall be    "</span> instead of <span class="hljs-string">"shall     be"</span>,
+             because the last line must be left-justified instead of fully-justified.
+            <span class="hljs-built_in"> Note </span>that the second line is also left-justified becase it contains only one word.
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code class="hljs"><span class="hljs-section">Input:</span>
+words = [<span class="hljs-string">"Science"</span>,<span class="hljs-string">"is"</span>,<span class="hljs-string">"what"</span>,<span class="hljs-string">"we"</span>,<span class="hljs-string">"understand"</span>,<span class="hljs-string">"well"</span>,<span class="hljs-string">"enough"</span>,<span class="hljs-string">"to"</span>,<span class="hljs-string">"explain"</span>,
+         <span class="hljs-string">"to"</span>,<span class="hljs-string">"a"</span>,<span class="hljs-string">"computer."</span>,<span class="hljs-string">"Art"</span>,<span class="hljs-string">"is"</span>,<span class="hljs-string">"everything"</span>,<span class="hljs-string">"else"</span>,<span class="hljs-string">"we"</span>,<span class="hljs-string">"do"</span>]
+maxWidth = 20
+<span class="hljs-section">Output:</span>
+[
+  <span class="hljs-string">"Science  is  what we"</span>,
+  <span class="hljs-string">"understand      well"</span>,
+  <span class="hljs-string">"enough to explain to"</span>,
+  <span class="hljs-string">"a  computer.  Art is"</span>,
+  <span class="hljs-string">"everything  else  we"</span>,
+  <span class="hljs-string">"do                  "</span>
+]
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string[]} words
+ * @param {number} maxWidth
+ * @return {string[]}
+ */</span>
+<span class="hljs-keyword">var</span> fullJustify = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">words, maxWidth</span>) </span>{
+  <span class="hljs-keyword">var</span> len = words.length;
+  <span class="hljs-keyword">var</span> arr = [];
+  <span class="hljs-keyword">var</span> width = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> item = <span class="hljs-literal">null</span>;
+  <span class="hljs-keyword">var</span> addLen = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> res = [];
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+    item = words[i];
+    addLen = width === <span class="hljs-number">0</span> ? item.length : (item.length + <span class="hljs-number">1</span>);
+
+    <span class="hljs-keyword">if</span> (width + addLen &gt; maxWidth) {
+      res.push(helper(arr, maxWidth - width, <span class="hljs-literal">false</span>));
+      arr = [];
+      width = <span class="hljs-number">0</span>;
+      addLen = item.length;
+    }
+
+    arr.push(item);
+    width += addLen;
+  }
+
+  res.push(helper(arr, maxWidth - width, <span class="hljs-literal">true</span>));
+
+  <span class="hljs-keyword">return</span> res;
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">arr, left, isLast</span>) </span>{
+  <span class="hljs-keyword">var</span> len = arr.length;
+  <span class="hljs-keyword">var</span> num = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> rem = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> res = <span class="hljs-string">''</span>;
+
+  <span class="hljs-keyword">if</span> (len === <span class="hljs-number">1</span> || isLast) {
+    <span class="hljs-keyword">return</span> arr.join(<span class="hljs-string">' '</span>) + <span class="hljs-string">' '</span>.repeat(left);
+  }
+
+  num = <span class="hljs-built_in">Math</span>.floor(left / (len - <span class="hljs-number">1</span>));
+  rem = left % (len - <span class="hljs-number">1</span>);
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+    res += arr[i];
+    <span class="hljs-keyword">if</span> (i &lt; len - <span class="hljs-number">1</span>) res += <span class="hljs-string">' '</span>.repeat(num + <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">if</span> (i &lt; rem) res += <span class="hljs-string">' '</span>;
+  }
+
+  <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

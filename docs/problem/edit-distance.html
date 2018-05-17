@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Edit Distance - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>72. Edit Distance</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/string">String</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/one-edit-distance.html">One Edit Distance</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/delete-operation-for-two-strings.html">Delete Operation for Two Strings</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/minimum-ascii-delete-sum-for-two-strings.html">Minimum ASCII Delete Sum for Two Strings</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given two words <strong>word1</strong> and <strong>word2</strong>, find the minimum number of operations required to convert <strong>word1</strong> to <strong>word2</strong>.</p>
+<p>You have the following 3 operations permitted on a word:</p>
+<ul>
+<li>Insert a character</li>
+<li>Delete a character</li>
+<li>Replace a character</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs">Input: word1 = <span class="hljs-string">"horse"</span>, word2 = <span class="hljs-string">"ros"</span>
+Output: <span class="hljs-number">3</span>
+Explanation: 
+<span class="hljs-function"><span class="hljs-title">horse</span> -&gt;</span> rorse (replace <span class="hljs-string">'h'</span> <span class="hljs-keyword">with</span> <span class="hljs-string">'r'</span>)
+<span class="hljs-function"><span class="hljs-title">rorse</span> -&gt;</span> rose (remove <span class="hljs-string">'r'</span>)
+<span class="hljs-function"><span class="hljs-title">rose</span> -&gt;</span> ros (remove <span class="hljs-string">'e'</span>)
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs">Input: word1 = <span class="hljs-string">"intention"</span>, word2 = <span class="hljs-string">"execution"</span>
+Output: <span class="hljs-number">5</span>
+Explanation: 
+<span class="hljs-function"><span class="hljs-title">intention</span> -&gt;</span> inention (remove <span class="hljs-string">'t'</span>)
+<span class="hljs-function"><span class="hljs-title">inention</span> -&gt;</span> enention (replace <span class="hljs-string">'i'</span> <span class="hljs-keyword">with</span> <span class="hljs-string">'e'</span>)
+<span class="hljs-function"><span class="hljs-title">enention</span> -&gt;</span> exention (replace <span class="hljs-string">'n'</span> <span class="hljs-keyword">with</span> <span class="hljs-string">'x'</span>)
+<span class="hljs-function"><span class="hljs-title">exention</span> -&gt;</span> exection (replace <span class="hljs-string">'n'</span> <span class="hljs-keyword">with</span> <span class="hljs-string">'c'</span>)
+<span class="hljs-function"><span class="hljs-title">exection</span> -&gt;</span> execution (insert <span class="hljs-string">'u'</span>)
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} word1
+ * @param {string} word2
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> minDistance = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">word1, word2</span>) </span>{
+  <span class="hljs-keyword">var</span> n = word1.length;
+  <span class="hljs-keyword">var</span> m = word2.length;
+  <span class="hljs-keyword">var</span> dp = <span class="hljs-built_in">Array</span>(n);
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) {
+    dp[i] = <span class="hljs-built_in">Array</span>(m);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; m; j++) {
+      dp[i][j] = <span class="hljs-built_in">Math</span>.min(
+        getDp(i - <span class="hljs-number">1</span>, j, dp) + <span class="hljs-number">1</span>,
+        getDp(i, j - <span class="hljs-number">1</span>, dp) + <span class="hljs-number">1</span>,
+        getDp(i - <span class="hljs-number">1</span>, j - <span class="hljs-number">1</span>, dp) + (word1[i] === word2[j] ? <span class="hljs-number">0</span> : <span class="hljs-number">1</span>)
+      );
+    }
+  }
+
+  <span class="hljs-keyword">return</span> getDp(n - <span class="hljs-number">1</span>, m - <span class="hljs-number">1</span>, dp);
+};
+
+<span class="hljs-keyword">var</span> getDp = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">i, j, dp</span>) </span>{
+  <span class="hljs-keyword">if</span> (i &lt; <span class="hljs-number">0</span> &amp;&amp; j &lt; <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">if</span> (i &lt; <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> j + <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">if</span> (j &lt; <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> i + <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">return</span> dp[i][j];
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p><code>dp[i][j]</code> 代表 <code>word1</code> 的 <code>0 ~ i</code> 转为 <code>word2</code> 的 <code>0 ~ j</code> 的最少步骤</p>
+<p><code>dp[i][j]</code> = min(<code>dp[i - 1][j] + 1</code>, <code>dp[i][j - 1] + 1</code>, <code>dp[i - 1][j - 1] + (word1[i] === word2[j] ? 0 : 1)</code>);</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(m*n).</li>
+<li>Space complexity : Om*(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

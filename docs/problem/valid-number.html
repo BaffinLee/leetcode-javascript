@@ -1,63 +1,61 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Valid Number - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>65. Valid Number</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/math">Math</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/string">String</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/string-to-integer-atoi.html">String to Integer (atoi)</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
 <p>Validate if a given string is numeric.</p>
 <p>Some examples:
-<code>"0"</code> =&gt; <code>true&lt;!--CODEBLOCK_89--&gt;"abc"</code> =&gt; <code>false&lt;!--CODEBLOCK_144--&gt;"2e10"</code> =&gt; ```true<pre><code class="hljs">
-**Note:** It is intended for the problem statement to be ambiguous. You should gather all requirements up front before implementing one.
-
-**Update (<span class="hljs-number">2015</span><span class="hljs-number">-02</span><span class="hljs-number">-10</span>):**
-The signature <span class="hljs-keyword">of</span> the ```C++``` function had been updated. If you still see your function signature accepts a ```const char *``` argument, please click the reload button to reset your <span class="hljs-keyword">code</span> <span class="hljs-keyword">definition</span>.
-
-## Solution
-
-</code></pre>javascript
-/**</p>
-<ul>
-<li>@param {string} s</li>
-<li>@return {boolean}
-*/
-var isNumber = function(s) {
-var state = [
-{}, 
-{'blank': 1, 'sign': 2, 'digit':3, '.':4}, 
-{'digit':3, '.':4},
-{'digit':3, '.':5, 'e':6, 'blank':9},
-{'digit':5},
-{'digit':5, 'e':6, 'blank':9},
-{'sign':7, 'digit':8},
-{'digit':8},
-{'digit':8, 'blank':9},
-{'blank':9}
-];
-var validState = [3, 5, 8, 9];
-var currentState = 1;
-var len = s.length;
-var str = '';
-var type = '';
-for (var i = 0; i < len; i++) {
-str = s[i];
-if (str >= '0' &amp;&amp; str &lt;= '9') {
-  type = 'digit';
-} else if (str === '+' || str === '-') {
-  type = 'sign';
-} else if (str === ' ') {
-  type = 'blank';
-} else {
-  type = str;
-}
-if (state[currentState][type] === undefined) {
-  return false;
-} else {
-  currentState = state[currentState][type];
-}
-}
-if (validState.indexOf(currentState) === -1) {
-return false;
-} else {
-return true;
-}
+<code>"0"</code> =&gt; <code>true</code>
+<code>" 0.1 "</code> =&gt; <code>true</code>
+<code>"abc"</code> =&gt; <code>false</code>
+<code>"1 a"</code> =&gt; <code>false</code>
+<code>"2e10"</code> =&gt; <code>true</code></p>
+<p><strong>Note:</strong> It is intended for the problem statement to be ambiguous. You should gather all requirements up front before implementing one.</p>
+<p><strong>Update (2015-02-10):</strong>
+The signature of the <code>C++</code> function had been updated. If you still see your function signature accepts a <code>const char *</code> argument, please click the reload button to reset your code definition.</p>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} s
+ * @return {boolean}
+ */</span>
+<span class="hljs-keyword">var</span> isNumber = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+  <span class="hljs-keyword">var</span> state = [
+    {}, 
+    {<span class="hljs-string">'blank'</span>: <span class="hljs-number">1</span>, <span class="hljs-string">'sign'</span>: <span class="hljs-number">2</span>, <span class="hljs-string">'digit'</span>:<span class="hljs-number">3</span>, <span class="hljs-string">'.'</span>:<span class="hljs-number">4</span>}, 
+    {<span class="hljs-string">'digit'</span>:<span class="hljs-number">3</span>, <span class="hljs-string">'.'</span>:<span class="hljs-number">4</span>},
+    {<span class="hljs-string">'digit'</span>:<span class="hljs-number">3</span>, <span class="hljs-string">'.'</span>:<span class="hljs-number">5</span>, <span class="hljs-string">'e'</span>:<span class="hljs-number">6</span>, <span class="hljs-string">'blank'</span>:<span class="hljs-number">9</span>},
+    {<span class="hljs-string">'digit'</span>:<span class="hljs-number">5</span>},
+    {<span class="hljs-string">'digit'</span>:<span class="hljs-number">5</span>, <span class="hljs-string">'e'</span>:<span class="hljs-number">6</span>, <span class="hljs-string">'blank'</span>:<span class="hljs-number">9</span>},
+    {<span class="hljs-string">'sign'</span>:<span class="hljs-number">7</span>, <span class="hljs-string">'digit'</span>:<span class="hljs-number">8</span>},
+    {<span class="hljs-string">'digit'</span>:<span class="hljs-number">8</span>},
+    {<span class="hljs-string">'digit'</span>:<span class="hljs-number">8</span>, <span class="hljs-string">'blank'</span>:<span class="hljs-number">9</span>},
+    {<span class="hljs-string">'blank'</span>:<span class="hljs-number">9</span>}
+  ];
+  <span class="hljs-keyword">var</span> validState = [<span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>];
+  <span class="hljs-keyword">var</span> currentState = <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">var</span> len = s.length;
+  <span class="hljs-keyword">var</span> str = <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">var</span> type = <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+    str = s[i];
+    <span class="hljs-keyword">if</span> (str &gt;= <span class="hljs-string">'0'</span> &amp;&amp; str &lt;= <span class="hljs-string">'9'</span>) {
+      type = <span class="hljs-string">'digit'</span>;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (str === <span class="hljs-string">'+'</span> || str === <span class="hljs-string">'-'</span>) {
+      type = <span class="hljs-string">'sign'</span>;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (str === <span class="hljs-string">' '</span>) {
+      type = <span class="hljs-string">'blank'</span>;
+    } <span class="hljs-keyword">else</span> {
+      type = str;
+    }
+    <span class="hljs-keyword">if</span> (state[currentState][type] === <span class="hljs-literal">undefined</span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    } <span class="hljs-keyword">else</span> {
+      currentState = state[currentState][type];
+    }
+  }
+    <span class="hljs-keyword">if</span> (validState.indexOf(currentState) === <span class="hljs-number">-1</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
 };
-```</li>
-</ul>
+</code></pre>
 <p><strong>Explain:</strong></p>
 <p><a target="_blank" href="https://leetcode.com/problems/valid-number/discuss/23728/A-simple-solution-in-Python-based-on-DFA">DFA 确定有限状态自动机</a></p>
 <p><strong>Complexity:</strong></p>

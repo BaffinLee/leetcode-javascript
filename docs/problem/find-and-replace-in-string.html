@@ -18,84 +18,84 @@ Explanation: <span class="hljs-string">"ab"</span> starts <span class="hljs-keyw
 </code></pre>
 <p>Notes:</p>
 <ul>
-<li><p>```0 <= indexes.length = sources.length = targets.length <= 100<pre><code class="hljs">- ```<span class="hljs-number">0</span> &lt; indexes[i] &lt; S.length &lt;= <span class="hljs-number">1000</span>```
-- All characters <span class="hljs-keyword">in</span> given inputs are lowercase letters.
-
-## Solution <span class="hljs-number">1</span>
-
-</code></pre>javascript
-/**</p></li>
-<li><p>@param {string} S</p></li>
-<li><p>@param {number[]} indexes</p></li>
-<li><p>@param {string[]} sources</p></li>
-<li><p>@param {string[]} targets</p></li>
-<li><p>@return {string}
-*/
-var findReplaceString = function(S, indexes, sources, targets) {
-var len = S.length;
-var len2 = indexes.length;
-var map = {};
-var res = '';
-var i = 0;</p>
-<p>if (len2 === 0) return S;</p>
-<p>for (var k = 0; k &lt; len2; k++) {
-map[indexes[k]] = [sources[k], targets[k]];
-}</p>
-<p>while (i &lt; len) {
-if (map[i] &amp;&amp; S.substr(i, map[i][0].length) === map[i][0]) {
-  res += map[i][1];
-  i += Math.max(map[i][0].length, 1);
-} else {
-  res += S[i];
-  i += 1;
-}
-}</p>
-<p>return res;
-};</p></li>
+<li><code>0 &lt;= indexes.length = sources.length = targets.length &lt;= 100</code></li>
+<li><code>0 &lt; indexes[i] &lt; S.length &lt;= 1000</code></li>
+<li>All characters in given inputs are lowercase letters.</li>
 </ul>
-<pre><code class="hljs">
-<span class="hljs-strong">**Explain:**</span>
+<h2 id="solution-1">Solution 1</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} S
+ * @param {number[]} indexes
+ * @param {string[]} sources
+ * @param {string[]} targets
+ * @return {string}
+ */</span>
+<span class="hljs-keyword">var</span> findReplaceString = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">S, indexes, sources, targets</span>) </span>{
+  <span class="hljs-keyword">var</span> len = S.length;
+  <span class="hljs-keyword">var</span> len2 = indexes.length;
+  <span class="hljs-keyword">var</span> map = {};
+  <span class="hljs-keyword">var</span> res = <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;
 
-nope.
+  <span class="hljs-keyword">if</span> (len2 === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> S;
 
-<span class="hljs-strong">**Complexity:**</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> k = <span class="hljs-number">0</span>; k &lt; len2; k++) {
+    map[indexes[k]] = [sources[k], targets[k]];
+  }
 
-<span class="hljs-bullet">* </span>Time complexity : O(n). <span class="hljs-code">`n`</span> 为 <span class="hljs-code">`S.length`</span>。
-<span class="hljs-bullet">* </span>Space complexity : O(n).
+  <span class="hljs-keyword">while</span> (i &lt; len) {
+    <span class="hljs-keyword">if</span> (map[i] &amp;&amp; S.substr(i, map[i][<span class="hljs-number">0</span>].length) === map[i][<span class="hljs-number">0</span>]) {
+      res += map[i][<span class="hljs-number">1</span>];
+      i += <span class="hljs-built_in">Math</span>.max(map[i][<span class="hljs-number">0</span>].length, <span class="hljs-number">1</span>);
+    } <span class="hljs-keyword">else</span> {
+      res += S[i];
+      i += <span class="hljs-number">1</span>;
+    }
+  }
 
-<span class="hljs-section">## Solution 2</span>
-
-</code></pre>
-<p>javascript
-/**</p>
-<ul>
-<li><p>@param {string} S</p></li>
-<li><p>@param {number[]} indexes</p></li>
-<li><p>@param {string[]} sources</p></li>
-<li><p>@param {string[]} targets</p></li>
-<li><p>@return {string}
-*/
-var findReplaceString = function(S, indexes, sources, targets) {
-var len = indexes.length;
-var sorted = [];
-var map = {};
-var index = 0;</p>
-<p>if (len === 0) return S;</p>
-<p>for (var i = 0; i &lt; len; i++) {
-map[indexes[i]] = i;
-sorted.push(indexes[i]);
-}</p>
-<p>sorted.sort((a, b) =&gt; a - b);</p>
-<p>for (var j = len - 1; j &gt;= 0; j--) {
-index = map[sorted[j]];
-if (S.substr(sorted[j], sources[index].length) === sources[index]) {
-  S = S.substr(0, sorted[j]) + targets[index] + S.substr(sorted[j] + sources[index].length);
-}
-}</p>
-<p>return S;
+  <span class="hljs-keyword">return</span> res;
 };
-```</p></li>
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n). <code>n</code> 为 <code>S.length</code>。</li>
+<li>Space complexity : O(n).</li>
 </ul>
+<h2 id="solution-2">Solution 2</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} S
+ * @param {number[]} indexes
+ * @param {string[]} sources
+ * @param {string[]} targets
+ * @return {string}
+ */</span>
+<span class="hljs-keyword">var</span> findReplaceString = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">S, indexes, sources, targets</span>) </span>{
+  <span class="hljs-keyword">var</span> len = indexes.length;
+  <span class="hljs-keyword">var</span> sorted = [];
+  <span class="hljs-keyword">var</span> map = {};
+  <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;
+
+  <span class="hljs-keyword">if</span> (len === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> S;
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+    map[indexes[i]] = i;
+    sorted.push(indexes[i]);
+  }
+
+  sorted.sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a - b);
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = len - <span class="hljs-number">1</span>; j &gt;= <span class="hljs-number">0</span>; j--) {
+    index = map[sorted[j]];
+    <span class="hljs-keyword">if</span> (S.substr(sorted[j], sources[index].length) === sources[index]) {
+      S = S.substr(<span class="hljs-number">0</span>, sorted[j]) + targets[index] + S.substr(sorted[j] + sources[index].length);
+    }
+  }
+
+  <span class="hljs-keyword">return</span> S;
+};
+</code></pre>
 <p><strong>Explain:</strong></p>
 <p>给 <code>indexes</code> 排序，然后从后往前依次替换。</p>
 <p><strong>Complexity:</strong></p>

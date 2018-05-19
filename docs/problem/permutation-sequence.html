@@ -2,60 +2,55 @@
 <p>The set <code>[1,2,3,...,**n**]</code> contains a total of <strong>n</strong>! unique permutations.</p>
 <p>By listing and labeling all of the permutations in order, we get the following sequence for <strong>n</strong> = 3:</p>
 <ul>
-<li>```"123"<pre><code class="hljs">- ```<span class="hljs-string">"132"</span>```
-- ```<span class="hljs-string">"213"</span>```
-- ```<span class="hljs-string">"231"</span>```
-- ```<span class="hljs-string">"312"</span>```
-- ```<span class="hljs-string">"321"</span>```
-
-Given **n** and **k**, return the **k**th permutation sequence.
-
-**Note:**
-
-- Given **n** will be between <span class="hljs-number">1</span> and <span class="hljs-number">9</span> inclusive.
-- Given **k** will be between <span class="hljs-number">1</span> and **n**! inclusive.
-
-**Example <span class="hljs-number">1</span>:**
-
-</code></pre>
-Input: n = 3, k = 3
-Output: "213"</li>
+<li><code>"123"</code></li>
+<li><code>"132"</code></li>
+<li><code>"213"</code></li>
+<li><code>"231"</code></li>
+<li><code>"312"</code></li>
+<li><code>"321"</code></li>
 </ul>
-<pre><code class="hljs">
-*<span class="hljs-strong">*Example 2:*</span>*
-
-</code></pre>
-<p>Input: n = 4, k = 9
-Output: "2314"</p>
-<pre><code class="hljs"><span class="hljs-meta">
-#</span><span class="bash"><span class="hljs-comment"># Solution</span></span>
-
-</code></pre>
-<p>javascript
-/**</p>
+<p>Given <strong>n</strong> and <strong>k</strong>, return the <strong>k</strong>th permutation sequence.</p>
+<p><strong>Note:</strong></p>
 <ul>
-<li><p>@param {number} n</p></li>
-<li><p>@param {number} k</p></li>
-<li><p>@return {string}
-*/
-var getPermutation = function(n, k) {
-var str = '';
-var nums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-var factorial = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880]; // n!
-var tmp1 = 0;
-var tmp2 = 0;</p>
-<p>k--;</p>
-<p>for (var j = n; j &gt;= 1; j--) {
-tmp1 = factorial[j - 1];
-tmp2 = Math.floor(k / tmp1);</p>
-<p>k %= tmp1;
-str += nums[tmp2];</p>
-<p>nums.splice(tmp2, 1);
-}</p>
-<p>return str;
-};
-```</p></li>
+<li>Given <strong>n</strong> will be between 1 and 9 inclusive.</li>
+<li>Given <strong>k</strong> will be between 1 and <strong>n</strong>! inclusive.</li>
 </ul>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> n = <span class="hljs-number">3</span>, k = <span class="hljs-number">3</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-string">"213"</span>
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> n = <span class="hljs-number">4</span>, k = <span class="hljs-number">9</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-string">"2314"</span>
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n
+ * @param {number} k
+ * @return {string}
+ */</span>
+<span class="hljs-keyword">var</span> getPermutation = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n, k</span>) </span>{
+  <span class="hljs-keyword">var</span> str = <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">var</span> nums = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>];
+  <span class="hljs-keyword">var</span> factorial = [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">6</span>, <span class="hljs-number">24</span>, <span class="hljs-number">120</span>, <span class="hljs-number">720</span>, <span class="hljs-number">5040</span>, <span class="hljs-number">40320</span>, <span class="hljs-number">362880</span>]; <span class="hljs-comment">// n!</span>
+  <span class="hljs-keyword">var</span> tmp1 = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> tmp2 = <span class="hljs-number">0</span>;
+
+  k--;
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = n; j &gt;= <span class="hljs-number">1</span>; j--) {
+    tmp1 = factorial[j - <span class="hljs-number">1</span>];
+    tmp2 = <span class="hljs-built_in">Math</span>.floor(k / tmp1);
+
+    k %= tmp1;
+    str += nums[tmp2];
+
+    nums.splice(tmp2, <span class="hljs-number">1</span>);
+  }
+
+  <span class="hljs-keyword">return</span> str;
+};
+</code></pre>
 <p><strong>Explain:</strong></p>
 <p>用回溯的方法会超时，
 需要用数学规律解的.就是依次找出放在第 <code>index</code> 位的数字。</p>

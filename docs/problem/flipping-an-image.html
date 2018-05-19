@@ -16,39 +16,39 @@ Then invert the image: <span class="hljs-string">[[1,1,0,0],[0,1,1,0],[0,0,0,1],
 </code></pre>
 <p><strong>Notes:</strong></p>
 <ul>
-<li>```1 <= A.length = A[0].length <= 20<pre><code class="hljs">- ```<span class="hljs-number">0</span> &lt;= A[i][j] &lt;= <span class="hljs-number">1</span>```
-
-## Solution
-
-</code></pre>javascript
-/**</li>
-<li>@param {number[][]} A</li>
-<li>@return {number[][]}
-*/
-var flipAndInvertImage = function(A) {
-var len = A.length;
-var len2 = Math.ceil(len / 2);
-for (var i = 0; i &lt; len; i++) {
-for (var j = 0; j &lt; len2; j++) {
-  if (j !== len - j - 1) {
-    swap(A[i], j, len - j - 1);
-    reverse(A[i], len - j - 1);
-  }
-  reverse(A[i], j);
-}
-}
-return A;
-};</li>
+<li><code>1 &lt;= A.length = A[0].length &lt;= 20</code></li>
+<li><code>0 &lt;= A[i][j] &lt;= 1</code></li>
 </ul>
-<p>var swap = function (arr, i, j) {
-  var tmp = arr[i];
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} A
+ * @return {number[][]}
+ */</span>
+<span class="hljs-keyword">var</span> flipAndInvertImage = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">A</span>) </span>{
+  <span class="hljs-keyword">var</span> len = A.length;
+  <span class="hljs-keyword">var</span> len2 = <span class="hljs-built_in">Math</span>.ceil(len / <span class="hljs-number">2</span>);
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; len2; j++) {
+      <span class="hljs-keyword">if</span> (j !== len - j - <span class="hljs-number">1</span>) {
+        swap(A[i], j, len - j - <span class="hljs-number">1</span>);
+        reverse(A[i], len - j - <span class="hljs-number">1</span>);
+      }
+      reverse(A[i], j);
+    }
+  }
+  <span class="hljs-keyword">return</span> A;
+};
+
+<span class="hljs-keyword">var</span> swap = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">arr, i, j</span>) </span>{
+  <span class="hljs-keyword">var</span> tmp = arr[i];
   arr[i] = arr[j];
   arr[j] = tmp;
-};</p>
-<p>var reverse = function (arr, i) {
-  arr[i] = arr[i] ? 0 : 1;
 };
-```</p>
+
+<span class="hljs-keyword">var</span> reverse = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">arr, i</span>) </span>{
+  arr[i] = arr[i] ? <span class="hljs-number">0</span> : <span class="hljs-number">1</span>;
+};
+</code></pre>
 <p><strong>Explain:</strong></p>
 <p>nope.</p>
 <p><strong>Complexity:</strong></p>

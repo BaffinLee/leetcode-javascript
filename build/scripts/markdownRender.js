@@ -35,6 +35,11 @@ const renderer = new showdown.Converter({
         },
         {
           type: 'lang',
+          regex: /```(.*?)```/g,
+          replace: (_, code) => `<code>${code}</code>`
+        },
+        {
+          type: 'lang',
           regex: /```([a-zA-Z0-9_\-]*)\n([\s\S]*?)\n```/g,
           replace: (_, lang, code, offset) => {
             codes[offset] = {
@@ -66,7 +71,7 @@ const renderer = new showdown.Converter({
   ]
 });
 
-const markdownRender = function (markdown, html) {
+const markdownRender = function (markdown) {
 	return renderer.makeHtml(markdown);
 };
 

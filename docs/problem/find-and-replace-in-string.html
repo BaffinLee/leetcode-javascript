@@ -1,0 +1,105 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Find And Replace in String - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>862. Find And Replace in String</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/string">String</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>To some string <code>S</code>, we will perform some replacement operations that replace groups of letters with new ones (not necessarily the same size).</p>
+<p>Each replacement operation has <code>3</code> parameters: a starting index <code>i</code>, a source word <code>x</code> and a target word <code>y</code>.  The rule is that if <code>x</code> starts at position <code>i</code> in the <strong>original</strong> <strong>string</strong> <strong><code>S</code></strong>, then we will replace that occurrence of <code>x</code> with <code>y</code>.  If not, we do nothing.</p>
+<p>For example, if we have <code>S = "abcd"</code> and we have some replacement operation <code>i = 2, x = "cd", y = "ffff"</code>, then because <code>"cd"</code> starts at position <code>2</code> in the original string <code>S</code>, we will replace it with <code>"ffff"</code>.</p>
+<p>Using another example on <code>S = "abcd"</code>, if we have both the replacement operation <code>i = 0, x = "ab", y = "eee"</code>, as well as another replacement operation <code>i = 2, x = "ec", y = "ffff"</code>, this second operation does nothing because in the original string <code>S[2] = 'c'</code>, which doesn't match <code>x[0] = 'e'</code>.</p>
+<p>All these operations occur simultaneously.  It's guaranteed that there won't be any overlap in replacement: for example, <code>S = "abc", indexes = [0, 1], sources = ["ab","bc"]</code> is not a valid test case.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs">Input: S = <span class="hljs-string">"abcd"</span>, indexes = [<span class="hljs-number">0</span>,<span class="hljs-number">2</span>], sources = [<span class="hljs-string">"a"</span>,<span class="hljs-string">"cd"</span>], targets = [<span class="hljs-string">"eee"</span>,<span class="hljs-string">"ffff"</span>]
+Output: <span class="hljs-string">"eeebffff"</span>
+Explanation: <span class="hljs-string">"a"</span> starts <span class="hljs-keyword">at</span> index <span class="hljs-number">0</span> <span class="hljs-keyword">in</span> S, so <span class="hljs-keyword">it</span>'s replaced <span class="hljs-keyword">by</span> <span class="hljs-string">"eee"</span>.
+<span class="hljs-string">"cd"</span> starts <span class="hljs-keyword">at</span> index <span class="hljs-number">2</span> <span class="hljs-keyword">in</span> S, so <span class="hljs-keyword">it</span>'s replaced <span class="hljs-keyword">by</span> <span class="hljs-string">"ffff"</span>.
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs">Input: S = <span class="hljs-string">"abcd"</span>, indexes = [<span class="hljs-number">0</span>,<span class="hljs-number">2</span>], sources = [<span class="hljs-string">"ab"</span>,<span class="hljs-string">"ec"</span>], targets = [<span class="hljs-string">"eee"</span>,<span class="hljs-string">"ffff"</span>]
+Output: <span class="hljs-string">"eeecd"</span>
+Explanation: <span class="hljs-string">"ab"</span> starts <span class="hljs-keyword">at</span> index <span class="hljs-number">0</span> <span class="hljs-keyword">in</span> S, so it<span class="hljs-symbol">'s</span> replaced by <span class="hljs-string">"eee"</span>. 
+<span class="hljs-string">"ec"</span> doesn<span class="hljs-symbol">'t</span> starts <span class="hljs-keyword">at</span> index <span class="hljs-number">2</span> <span class="hljs-keyword">in</span> the original S, so we <span class="hljs-keyword">do</span> nothing.
+</code></pre>
+<p>Notes:</p>
+<ul>
+<li><p>```0 <= indexes.length = sources.length = targets.length <= 100<pre><code class="hljs">- ```<span class="hljs-number">0</span> &lt; indexes[i] &lt; S.length &lt;= <span class="hljs-number">1000</span>```
+- All characters <span class="hljs-keyword">in</span> given inputs are lowercase letters.
+
+## Solution <span class="hljs-number">1</span>
+
+</code></pre>javascript
+/**</p></li>
+<li><p>@param {string} S</p></li>
+<li><p>@param {number[]} indexes</p></li>
+<li><p>@param {string[]} sources</p></li>
+<li><p>@param {string[]} targets</p></li>
+<li><p>@return {string}
+*/
+var findReplaceString = function(S, indexes, sources, targets) {
+var len = S.length;
+var len2 = indexes.length;
+var map = {};
+var res = '';
+var i = 0;</p>
+<p>if (len2 === 0) return S;</p>
+<p>for (var k = 0; k &lt; len2; k++) {
+map[indexes[k]] = [sources[k], targets[k]];
+}</p>
+<p>while (i &lt; len) {
+if (map[i] &amp;&amp; S.substr(i, map[i][0].length) === map[i][0]) {
+  res += map[i][1];
+  i += Math.max(map[i][0].length, 1);
+} else {
+  res += S[i];
+  i += 1;
+}
+}</p>
+<p>return res;
+};</p></li>
+</ul>
+<pre><code class="hljs">
+<span class="hljs-strong">**Explain:**</span>
+
+nope.
+
+<span class="hljs-strong">**Complexity:**</span>
+
+<span class="hljs-bullet">* </span>Time complexity : O(n). <span class="hljs-code">`n`</span> 为 <span class="hljs-code">`S.length`</span>。
+<span class="hljs-bullet">* </span>Space complexity : O(n).
+
+<span class="hljs-section">## Solution 2</span>
+
+</code></pre>
+<p>javascript
+/**</p>
+<ul>
+<li><p>@param {string} S</p></li>
+<li><p>@param {number[]} indexes</p></li>
+<li><p>@param {string[]} sources</p></li>
+<li><p>@param {string[]} targets</p></li>
+<li><p>@return {string}
+*/
+var findReplaceString = function(S, indexes, sources, targets) {
+var len = indexes.length;
+var sorted = [];
+var map = {};
+var index = 0;</p>
+<p>if (len === 0) return S;</p>
+<p>for (var i = 0; i &lt; len; i++) {
+map[indexes[i]] = i;
+sorted.push(indexes[i]);
+}</p>
+<p>sorted.sort((a, b) =&gt; a - b);</p>
+<p>for (var j = len - 1; j &gt;= 0; j--) {
+index = map[sorted[j]];
+if (S.substr(sorted[j], sources[index].length) === sources[index]) {
+  S = S.substr(0, sorted[j]) + targets[index] + S.substr(sorted[j] + sources[index].length);
+}
+}</p>
+<p>return S;
+};
+```</p></li>
+</ul>
+<p><strong>Explain:</strong></p>
+<p>给 <code>indexes</code> 排序，然后从后往前依次替换。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * log(n)). <code>n</code> 为 <code>indexes.length</code>。</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

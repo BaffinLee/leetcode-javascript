@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Image Overlap - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>864. Image Overlap</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/array">Array</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Two images <code>A</code> and <code>B</code> are given, represented as binary, square matrices of the same size.  (A binary matrix has only 0s and 1s as values.)</p>
+<p>We translate one image however we choose (sliding it left, right, up, or down any number of units), and place it on top of the other image.  After, the <strong>overlap</strong> of this translation is the number of positions that have a 1 in both images.</p>
+<p>(Note also that a translation does <strong>not</strong> include any kind of rotation.)</p>
+<p>What is the largest possible overlap?</p>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs">Input: A = <span class="hljs-string">[[1,1,0],
+            [0,1,0],
+            [0,1,0]]</span>
+       B = <span class="hljs-string">[[0,0,0],
+            [0,1,1],
+            [0,0,1]]</span>
+Output: <span class="hljs-number">3</span>
+Explanation: We slide A to right by <span class="hljs-number">1</span> unit <span class="hljs-keyword">and</span> down by <span class="hljs-number">1</span> unit.
+</code></pre>
+<p><strong>Notes:</strong> </p>
+<ul>
+<li>```1 <= A.length = A[0].length = B.length = B[0].length <= 30<pre><code class="hljs">- ```<span class="hljs-number">0</span> &lt;= A[i][j], B[i][j] &lt;= <span class="hljs-number">1</span>```
+
+## Solution <span class="hljs-number">1</span>
+
+</code></pre>javascript
+/**</li>
+<li>@param {number[][]} A</li>
+<li>@param {number[][]} B</li>
+<li>@return {number}
+*/
+var largestOverlap = function(A, B) {
+var len = A.length;
+var res = 0;
+var tmp = 0;
+for (var i = 1 - len; i &lt; len; i++) {
+for (var j = 1 - len; j &lt; len; j++) {
+  tmp = 0;
+  for (var k = 0; k &lt; len; k++) {
+    for (var m = 0; m &lt; len; m++) {
+      if (B[k][m] === 1 &amp;&amp; A[k + i] &amp;&amp; A[k + i][m + j] === 1) tmp++;
+    }
+  }
+  res = Math.max(res, tmp);
+}
+}
+return res;
+};</li>
+</ul>
+<pre><code class="hljs">
+<span class="hljs-strong">**Explain:**</span>
+
+nope.
+
+<span class="hljs-strong">**Complexity:**</span>
+
+<span class="hljs-bullet">* </span>Time complexity : O(n^4).
+<span class="hljs-bullet">* </span>Space complexity : O(1).
+
+<span class="hljs-section">## Solution 2</span>
+
+</code></pre>
+<p>javascript
+/**</p>
+<ul>
+<li><p>@param {number[][]} A</p></li>
+<li><p>@param {number[][]} B</p></li>
+<li><p>@return {number}
+*/
+var largestOverlap = function(A, B) {
+var len = A.length;
+var arrA = [];
+var arrB = [];
+var count = {};
+var key = 0;
+var max = 0;</p>
+<p>for (var i = 0; i &lt; len; i++) {
+for (var j = 0; j &lt; len; j++) {
+  if (A[i][j] === 1) arrA.push(i * 100 + j);
+  if (B[i][j] === 1) arrB.push(i * 100 + j);
+}
+}</p>
+<p>for (var m = 0; m &lt; arrA.length; m++) {
+for (var n = 0; n &lt; arrB.length; n++) {
+  key = arrA[m] - arrB[n];
+  if (!count[key]) count[key] = 0;
+  count[key]++;
+}
+}</p>
+<p>for (key in count) {
+max = Math.max(max, count[key]);
+}</p>
+<p>return max;
+};
+```</p></li>
+</ul>
+<p><strong>Explain:</strong></p>
+<p>找出 <code>A</code>, <code>B</code> 中所有的 <code>1</code>。比如 <code>A[1][1] = 1</code> 与 <code>B[2][3] = 1</code>，这两个 <code>1</code> 要对应上的话，<code>A</code> 要下移一位，再右移两位，分配一个独立的 <code>key</code> 代表这个移动，即 <code>1 * 100 + 2</code>。按照移动的类型，统计最大值。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n^2).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

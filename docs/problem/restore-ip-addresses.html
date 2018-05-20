@@ -1,0 +1,95 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Restore IP Addresses - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>93. Restore IP Addresses</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/string">String</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/backtracking">Backtracking</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/ip-to-cidr.html">IP to CIDR</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a string containing only digits, restore it by returning all possible valid IP address combinations.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> <span class="hljs-string">"25525511135"</span>
+<span class="hljs-symbol">Output:</span> [<span class="hljs-string">"255.255.11.135"</span>, <span class="hljs-string">"255.255.111.35"</span>]
+</code></pre>
+<h2 id="solution-1">Solution 1</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} s
+ * @return {string[]}
+ */</span>
+<span class="hljs-keyword">var</span> restoreIpAddresses = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+  <span class="hljs-keyword">var</span> res = [];
+  helper(s, <span class="hljs-number">0</span>, [], res);
+  <span class="hljs-keyword">return</span> res;
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">s, start, now, res</span>) </span>{
+  <span class="hljs-keyword">var</span> str = <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">var</span> num = <span class="hljs-number">0</span>;
+
+  <span class="hljs-keyword">if</span> (now.length === <span class="hljs-number">4</span>) {
+    <span class="hljs-keyword">if</span> (start === s.length) res.push(now.join(<span class="hljs-string">'.'</span>));
+    <span class="hljs-keyword">return</span>;
+  }
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">3</span>; i++) {
+    str = s.substr(start, i);
+    <span class="hljs-keyword">if</span> (str.length === <span class="hljs-number">1</span> || str[<span class="hljs-number">0</span>] !== <span class="hljs-string">'0'</span>) {
+      num = <span class="hljs-built_in">Number</span>(str);
+      <span class="hljs-keyword">if</span> (<span class="hljs-number">0</span> &lt;= num &amp;&amp; num &lt;= <span class="hljs-number">255</span>) {
+        now.push(num);
+        helper(s, start + i, now, res);
+        now.pop();
+      }
+    }
+  }
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(1).</li>
+<li>Space complexity : O(1).</li>
+</ul>
+<h2 id="solution-2">Solution 2</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} s
+ * @return {string[]}
+ */</span>
+<span class="hljs-keyword">var</span> restoreIpAddresses = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+  <span class="hljs-keyword">var</span> res = [];
+  <span class="hljs-keyword">var</span> len = s.length;
+  <span class="hljs-keyword">var</span> str1 = <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">var</span> str2 = <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">var</span> str3 = <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">var</span> str4 = <span class="hljs-string">''</span>;
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">3</span>; i++) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">1</span>; j &lt;= <span class="hljs-number">3</span>; j++) {
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> k = <span class="hljs-number">1</span>; k &lt;= <span class="hljs-number">3</span>; k++) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> m = <span class="hljs-number">1</span>; m &lt;= <span class="hljs-number">3</span>; m++) {
+          str1 = s.substr(<span class="hljs-number">0</span>, i);
+          str2 = s.substr(i, j);
+          str3 = s.substr(i + j, k);
+          str4 = s.substr(i + j + k, m);
+          <span class="hljs-keyword">if</span> (i + j + k + m === len
+              &amp;&amp; isValid(str1)
+              &amp;&amp; isValid(str2)
+              &amp;&amp; isValid(str3)
+              &amp;&amp; isValid(str4)) {
+            res.push(str1 + <span class="hljs-string">'.'</span> + str2 + <span class="hljs-string">'.'</span> + str3 + <span class="hljs-string">'.'</span> + str4);
+          }
+        }
+      }
+    }
+  }
+
+  <span class="hljs-keyword">return</span> res;
+};
+
+<span class="hljs-keyword">var</span> isValid = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">str</span>) </span>{
+  <span class="hljs-keyword">if</span> (str.length &gt; <span class="hljs-number">1</span> &amp;&amp; str[<span class="hljs-number">0</span>] === <span class="hljs-string">'0'</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Number</span>(str) &gt; <span class="hljs-number">255</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(1).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

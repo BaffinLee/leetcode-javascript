@@ -1,0 +1,46 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Subsets II - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>90. Subsets II</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/backtracking">Backtracking</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/subsets.html">Subsets</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a collection of integers that might contain duplicates, <strong><em><em>nums</em></strong></em>, return all possible subsets (the power set).</p>
+<p><strong>Note:</strong> The solution set must not contain duplicate subsets.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="hljs">Input: <span class="hljs-comment">[1,2,2]</span>
+Output:
+<span class="hljs-comment">[
+  <span class="hljs-comment">[2]</span>,
+  <span class="hljs-comment">[1]</span>,
+  <span class="hljs-comment">[1,2,2]</span>,
+  <span class="hljs-comment">[2,2]</span>,
+  <span class="hljs-comment">[1,2]</span>,
+  <span class="hljs-comment">[]</span>
+]</span>
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */</span>
+<span class="hljs-keyword">var</span> subsetsWithDup = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums</span>) </span>{
+  <span class="hljs-keyword">var</span> res = [];
+  nums.sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a - b);
+  helper(nums, <span class="hljs-number">0</span>, res, []);
+  <span class="hljs-keyword">return</span> res;
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">nums, start, res, now</span>) </span>{
+  res.push(<span class="hljs-built_in">Array</span>.from(now));
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = start; i &lt; nums.length; i++) {
+    <span class="hljs-keyword">if</span> (i === start || nums[i] !== nums[i - <span class="hljs-number">1</span>]) {
+      now.push(nums[i]);
+      helper(nums, i + <span class="hljs-number">1</span>, res, now);
+      now.pop();
+    }
+  }
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity :</li>
+<li>Space complexity :</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

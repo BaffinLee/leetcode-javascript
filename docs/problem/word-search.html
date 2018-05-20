@@ -1,0 +1,117 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Word Search - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>79. Word Search</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/backtracking">Backtracking</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/word-search-ii.html">Word Search II</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a 2D board and a word, find if the word exists in the grid.</p>
+<p>The word can be constructed from letters of sequentially adjacent cell, where "adjacent" cells are those horizontally or vertically neighboring. The same letter cell may not be used more than once.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="hljs">board =
+[
+  [<span class="hljs-string">'A'</span>,<span class="hljs-string">'B'</span>,<span class="hljs-string">'C'</span>,<span class="hljs-string">'E'</span>],
+  [<span class="hljs-string">'S'</span>,<span class="hljs-string">'F'</span>,<span class="hljs-string">'C'</span>,<span class="hljs-string">'S'</span>],
+  [<span class="hljs-string">'A'</span>,<span class="hljs-string">'D'</span>,<span class="hljs-string">'E'</span>,<span class="hljs-string">'E'</span>]
+]
+
+Given word = <span class="hljs-string">"ABCCED"</span>, <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>.
+Given word = <span class="hljs-string">"SEE"</span>, <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>.
+Given word = <span class="hljs-string">"ABCB"</span>, <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>.
+</code></pre>
+<h2 id="solution-1">Solution 1</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {character[][]} board
+ * @param {string} word
+ * @return {boolean}
+ */</span>
+<span class="hljs-keyword">var</span> exist = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">board, word</span>) </span>{
+  <span class="hljs-keyword">var</span> len1 = board.length;
+  <span class="hljs-keyword">var</span> len2 = (board[<span class="hljs-number">0</span>] || []).length;
+  <span class="hljs-keyword">var</span> len3 = word.length;
+  <span class="hljs-keyword">var</span> visited = <span class="hljs-literal">null</span>;
+
+  <span class="hljs-keyword">if</span> (!len1 || !len2 || !len3) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len1; i++) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; len2; j++) {
+      visited = <span class="hljs-built_in">Array</span>(len1).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">_</span> =&gt;</span> <span class="hljs-built_in">Array</span>(len2));
+      <span class="hljs-keyword">if</span> (helper(board, word, i, j, <span class="hljs-number">0</span>, visited)) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+  }
+
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">board, word, m, n, k, visited</span>) </span>{
+  <span class="hljs-keyword">if</span> (k === word.length) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+  <span class="hljs-keyword">if</span> (m &lt; <span class="hljs-number">0</span> || m &gt;= board.length) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  <span class="hljs-keyword">if</span> (n &lt; <span class="hljs-number">0</span> || n &gt;= board[m].length) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  <span class="hljs-keyword">if</span> (visited[m][n]) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  <span class="hljs-keyword">if</span> (board[m][n] !== word[k]) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+
+  <span class="hljs-keyword">var</span> res = <span class="hljs-literal">false</span>;
+
+  visited[m][n] = <span class="hljs-literal">true</span>;
+
+  res = helper(board, word, m - <span class="hljs-number">1</span>, n, k + <span class="hljs-number">1</span>, visited)
+        || helper(board, word, m + <span class="hljs-number">1</span>, n, k + <span class="hljs-number">1</span>, visited)
+        || helper(board, word, m, n - <span class="hljs-number">1</span>, k + <span class="hljs-number">1</span>, visited)
+        || helper(board, word, m, n + <span class="hljs-number">1</span>, k + <span class="hljs-number">1</span>, visited);
+
+  <span class="hljs-keyword">if</span> (!res) visited[m][n] = <span class="hljs-literal">false</span>;
+
+  <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(3 * n * n * k). <code>n</code> 为 <code>board 字符总数</code>， <code>k</code> 为 <code>word</code> 长度。</li>
+<li>Space complexity : O(n).</li>
+</ul>
+<h2 id="solution-2">Solution 2</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {character[][]} board
+ * @param {string} word
+ * @return {boolean}
+ */</span>
+<span class="hljs-keyword">var</span> exist = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">board, word</span>) </span>{
+  <span class="hljs-keyword">var</span> len1 = board.length;
+  <span class="hljs-keyword">var</span> len2 = (board[<span class="hljs-number">0</span>] || []).length;
+  <span class="hljs-keyword">var</span> len3 = word.length;
+
+  <span class="hljs-keyword">if</span> (!len1 || !len2 || !len3) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len1; i++) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; len2; j++) {
+      <span class="hljs-keyword">if</span> (helper(board, word, i, j, <span class="hljs-number">0</span>)) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+  }
+
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">board, word, m, n, k</span>) </span>{
+  <span class="hljs-keyword">if</span> (k === word.length) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+  <span class="hljs-keyword">if</span> (m &lt; <span class="hljs-number">0</span> || m &gt;= board.length) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  <span class="hljs-keyword">if</span> (n &lt; <span class="hljs-number">0</span> || n &gt;= board[m].length) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  <span class="hljs-keyword">if</span> (board[m][n] !== word[k]) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+
+  <span class="hljs-keyword">var</span> res = <span class="hljs-literal">false</span>;
+  <span class="hljs-keyword">var</span> char = board[m][n];
+
+  board[m][n] = <span class="hljs-string">'#'</span>;
+
+  res = helper(board, word, m - <span class="hljs-number">1</span>, n, k + <span class="hljs-number">1</span>)
+        || helper(board, word, m + <span class="hljs-number">1</span>, n, k + <span class="hljs-number">1</span>)
+        || helper(board, word, m, n - <span class="hljs-number">1</span>, k + <span class="hljs-number">1</span>)
+        || helper(board, word, m, n + <span class="hljs-number">1</span>, k + <span class="hljs-number">1</span>);
+
+  <span class="hljs-keyword">if</span> (!res) board[m][n] = char;
+
+  <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>上一方法的优化，用过的字符不再用 visited 数组存储，直接修改用过的字符为 <code>#</code>。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(3 * n * k). <code>n</code> 为 <code>board 字符总数</code>， <code>k</code> 为 <code>word</code> 长度。</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

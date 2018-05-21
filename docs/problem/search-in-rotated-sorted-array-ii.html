@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Search in Rotated Sorted Array II - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>81. Search in Rotated Sorted Array II</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/binary-search">Binary Search</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/search-in-rotated-sorted-array.html">Search in Rotated Sorted Array</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.</p>
+<p>(i.e., <code>[0,0,1,2,2,5,6]</code> might become <code>[2,5,6,0,0,1,2]</code>).</p>
+<p>You are given a target value to search. If found in the array return <code>true</code>, otherwise return <code>false</code>.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs"><span class="hljs-attr">Input:</span> <span class="hljs-string">nums</span> <span class="hljs-string">=</span> <span class="hljs-string">[2,5,6,0,0,1,2],</span> <span class="hljs-string">target</span> <span class="hljs-string">=</span> <span class="hljs-number">0</span>
+<span class="hljs-attr">Output:</span> <span class="hljs-literal">true</span>
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs"><span class="hljs-attr">Input:</span> <span class="hljs-string">nums</span> <span class="hljs-string">=</span> <span class="hljs-string">[2,5,6,0,0,1,2],</span> <span class="hljs-string">target</span> <span class="hljs-string">=</span> <span class="hljs-number">3</span>
+<span class="hljs-attr">Output:</span> <span class="hljs-literal">false</span>
+</code></pre>
+<p><strong>Follow up:</strong></p>
+<ul>
+<li>This is a follow up problem to Search in Rotated Sorted Array, where <code>nums</code> may contain duplicates.</li>
+<li>Would this affect the run-time complexity? How and why?</li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {boolean}
+ */</span>
+<span class="hljs-keyword">var</span> search = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums, target</span>) </span>{
+  <span class="hljs-keyword">var</span> left = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> right = nums.length - <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">var</span> mid = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">while</span> (left &lt;= right) {
+    mid = <span class="hljs-built_in">Math</span>.floor((left + right) / <span class="hljs-number">2</span>);
+    <span class="hljs-keyword">if</span> (nums[mid] === target) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">if</span> (nums[mid] &gt; nums[left]) {
+      <span class="hljs-keyword">if</span> (nums[left] &lt;= target &amp;&amp; target &lt; nums[mid]) {
+        right = mid - <span class="hljs-number">1</span>;
+      } <span class="hljs-keyword">else</span> {
+        left = mid + <span class="hljs-number">1</span>;
+      }
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (nums[mid] &lt; nums[left]) {
+      <span class="hljs-keyword">if</span> (nums[mid] &lt; target &amp;&amp; target &lt;= nums[right]) {
+        left = mid + <span class="hljs-number">1</span>;
+      } <span class="hljs-keyword">else</span> {
+        right = mid - <span class="hljs-number">1</span>;
+      }
+    } <span class="hljs-keyword">else</span> {
+      left++;
+    }
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>see <a target="_blank" href="./search-in-rotated-sorted-array.html">Search in Rotated Sorted Array</a>.</p>
+<ol>
+<li>判断哪边是有序的</li>
+<li>判断 <code>target</code> 在有序的那边还是无序的那边</li>
+</ol>
+<p>注意重复数字的情况下，只能一个个移动，因为没法判断在哪边。这样算法最坏的情况就是 <code>O(n)</code> 了。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

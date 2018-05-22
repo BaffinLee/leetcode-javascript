@@ -1,0 +1,38 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Merge Sorted Array - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>88. Merge Sorted Array</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/two-pointers">Two Pointers</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/merge-two-sorted-lists.html">Merge Two Sorted Lists</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given two sorted integer arrays <strong>nums1</strong> and <strong>nums2</strong>, merge <strong>nums2</strong> into <strong>nums1</strong> as one sorted array.</p>
+<p><strong>Note:</strong></p>
+<ul>
+<li>The number of elements initialized in <strong>nums1</strong> and <strong>nums2</strong> are <strong>m</strong> and <strong>n</strong> respectively.</li>
+<li>You may assume that <strong>nums1</strong> has enough space (size that is greater or equal to <strong>m</strong> + <strong>n</strong>) to hold additional elements from <strong>nums2</strong>.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code class="hljs"><span class="hljs-section">Input:</span>
+nums1 = [1,2,3,0,0,0], m = 3
+nums2 = [2,5,6],       n = 3
+
+<span class="hljs-section">Output: [1,2,2,3,5,6]</span>
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums1
+ * @param {number} m
+ * @param {number[]} nums2
+ * @param {number} n
+ * @return {void} Do not return anything, modify nums1 in-place instead.
+ */</span>
+<span class="hljs-keyword">var</span> merge = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums1, m, nums2, n</span>) </span>{
+  <span class="hljs-keyword">var</span> i = m - <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">var</span> j = n - <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">var</span> k = m + n - <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">while</span> (j &gt;= <span class="hljs-number">0</span>) {
+    nums1[k--] = i &gt;= <span class="hljs-number">0</span> &amp;&amp; nums1[i] &gt; nums2[j] ? nums1[i--] : nums2[j--];
+  }
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

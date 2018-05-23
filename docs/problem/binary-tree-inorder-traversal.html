@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Binary Tree Inorder Traversal - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>94. Binary Tree Inorder Traversal</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/stack">Stack</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/tree">Tree</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/validate-binary-search-tree.html">Validate Binary Search Tree</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/binary-tree-preorder-traversal.html">Binary Tree Preorder Traversal</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/binary-tree-postorder-traversal.html">Binary Tree Postorder Traversal</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/binary-search-tree-iterator.html">Binary Search Tree Iterator</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/kth-smallest-element-in-a-bst.html">Kth Smallest Element in a BST</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/closest-binary-search-tree-value-ii.html">Closest Binary Search Tree Value II</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/inorder-successor-in-bst.html">Inorder Successor in BST</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/minimum-distance-between-bst-nodes.html">Minimum Distance Between BST Nodes</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a binary tree, return the <strong>inorder</strong> traversal of its nodes' values.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="hljs">Input: <span class="hljs-string">[1,null,2,3]</span>
+   <span class="hljs-number">1</span>
+    \
+     <span class="hljs-number">2</span>
+    /
+   <span class="hljs-number">3</span>
+
+Output: <span class="hljs-string">[1,3,2]</span>
+</code></pre>
+<p><strong>Follow up:</strong> Recursive solution is trivial, could you do it iteratively?</p>
+<h2 id="solution-1">Solution 1</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */</span>
+<span class="hljs-keyword">var</span> inorderTraversal = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">root</span>) </span>{
+  <span class="hljs-keyword">var</span> res = [];
+  helper(root, res);
+  <span class="hljs-keyword">return</span> res;
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">root, res</span>) </span>{
+  <span class="hljs-keyword">if</span> (!root) <span class="hljs-keyword">return</span>;
+  <span class="hljs-keyword">if</span> (root.left) helper(root.left, res);
+  res.push(root.val);
+  <span class="hljs-keyword">if</span> (root.right) helper(root.right, res);
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul>
+<h2 id="solution-2">Solution 2</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */</span>
+<span class="hljs-keyword">var</span> inorderTraversal = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">root</span>) </span>{
+  <span class="hljs-keyword">var</span> stack = [];
+  <span class="hljs-keyword">var</span> now = root;
+  <span class="hljs-keyword">var</span> res = [];
+
+  <span class="hljs-keyword">while</span> (now || stack.length) {
+    <span class="hljs-keyword">while</span> (now) {
+      stack.push(now);
+      now = now.left;
+    }
+    now = stack.pop();
+    res.push(now.val);
+    now = now.right;
+  }
+
+  <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

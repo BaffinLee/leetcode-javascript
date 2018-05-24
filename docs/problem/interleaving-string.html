@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Interleaving String - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>97. Interleaving String</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/string">String</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given <strong>s1</strong>, <strong>s2</strong>, <strong>s3</strong>, find whether <strong>s3</strong> is formed by the interleaving of <strong>s1</strong> and <strong>s2</strong>.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs">Input: <span class="hljs-attr">s1</span> = <span class="hljs-string">"aabcc"</span>, <span class="hljs-attr">s2</span> = <span class="hljs-string">"dbbca"</span>, <span class="hljs-attr">s3</span> = <span class="hljs-string">"aadbbcbcac"</span>
+Output: <span class="hljs-literal">true</span>
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs">Input: <span class="hljs-attr">s1</span> = <span class="hljs-string">"aabcc"</span>, <span class="hljs-attr">s2</span> = <span class="hljs-string">"dbbca"</span>, <span class="hljs-attr">s3</span> = <span class="hljs-string">"aadbbbaccc"</span>
+Output: <span class="hljs-literal">false</span>
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} s1
+ * @param {string} s2
+ * @param {string} s3
+ * @return {boolean}
+ */</span>
+<span class="hljs-keyword">var</span> isInterleave = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s1, s2, s3</span>) </span>{
+  <span class="hljs-keyword">var</span> dp = {};
+  <span class="hljs-keyword">if</span> (s3.length !== s1.length + s2.length) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  <span class="hljs-keyword">return</span> helper(s1, s2, s3, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, dp);
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">s1, s2, s3, i, j, k, dp</span>) </span>{
+  <span class="hljs-keyword">var</span> res = <span class="hljs-literal">false</span>;
+
+  <span class="hljs-keyword">if</span> (k &gt;= s3.length) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+  <span class="hljs-keyword">if</span> (dp[<span class="hljs-string">''</span> + i + j + k] !== <span class="hljs-literal">undefined</span>) <span class="hljs-keyword">return</span> dp[<span class="hljs-string">''</span> + i + j + k];
+
+  <span class="hljs-keyword">if</span> (s3[k] === s1[i] &amp;&amp; s3[k] === s2[j]) {
+    res = helper(s1, s2, s3, i + <span class="hljs-number">1</span>, j, k + <span class="hljs-number">1</span>, dp) || helper(s1, s2, s3, i, j + <span class="hljs-number">1</span>, k + <span class="hljs-number">1</span>, dp);
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (s3[k] === s1[i]) {
+    res = helper(s1, s2, s3, i + <span class="hljs-number">1</span>, j, k + <span class="hljs-number">1</span>, dp);
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (s3[k] === s2[j]) {
+    res = helper(s1, s2, s3, i, j + <span class="hljs-number">1</span>, k + <span class="hljs-number">1</span>, dp);
+  }
+
+  dp[<span class="hljs-string">''</span> + i + j + k] = res;
+
+  <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n^2). <code>n</code> 为 <code>s3.length</code>。</li>
+<li>Space complexity : O(n^2).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

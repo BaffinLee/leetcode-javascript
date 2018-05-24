@@ -1,0 +1,140 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Recover Binary Search Tree - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>99. Recover Binary Search Tree</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/tree">Tree</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/depth-first-search">Depth-first Search</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Two elements of a binary search tree (BST) are swapped by mistake.</p>
+<p>Recover the tree without changing its structure.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs"><span class="hljs-attribute">Input</span>: [1,3,null,null,2]
+
+<span class="livescript">   <span class="hljs-number">1</span>
+  /
+ <span class="hljs-number">3</span>
+  <span class="hljs-string">\</span>
+   <span class="hljs-number">2</span>
+
+Output: [<span class="hljs-number">3</span>,<span class="hljs-number">1</span>,<span class="hljs-literal">null</span>,<span class="hljs-literal">null</span>,<span class="hljs-number">2</span>]
+
+   <span class="hljs-number">3</span>
+  /
+ <span class="hljs-number">1</span>
+  <span class="hljs-string">\</span>
+   <span class="hljs-number">2</span></span>
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs"><span class="hljs-attribute">Input</span>: [3,1,4,null,null,2]
+
+<span class="livescript">  <span class="hljs-number">3</span>
+ / <span class="hljs-string">\</span>
+<span class="hljs-number">1</span>   <span class="hljs-number">4</span>
+   /
+  <span class="hljs-number">2</span>
+
+Output: [<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">4</span>,<span class="hljs-literal">null</span>,<span class="hljs-literal">null</span>,<span class="hljs-number">3</span>]
+
+  <span class="hljs-number">2</span>
+ / <span class="hljs-string">\</span>
+<span class="hljs-number">1</span>   <span class="hljs-number">4</span>
+   /
+  <span class="hljs-number">3</span></span>
+</code></pre>
+<p><strong>Follow up:</strong></p>
+<ul>
+<li>A solution using O(<strong>n</strong>) space is pretty straight forward.</li>
+<li>Could you devise a constant space solution?</li>
+</ul>
+<h2 id="solution-1">Solution 1</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * @param {TreeNode} root
+ * @return {void} Do not return anything, modify root in-place instead.
+ */</span>
+<span class="hljs-keyword">var</span> recoverTree = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">root</span>) </span>{
+  <span class="hljs-keyword">var</span> data = {
+    <span class="hljs-attr">prev</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">first</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">second</span>: <span class="hljs-literal">null</span>
+  };
+  <span class="hljs-keyword">var</span> tmp = <span class="hljs-number">0</span>;
+
+  helper(root, data);
+
+  tmp = data.first.val;
+  data.first.val = data.second.val;
+  data.second.val = tmp;
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">root, data</span>) </span>{
+  <span class="hljs-keyword">if</span> (!root) <span class="hljs-keyword">return</span>;
+
+  helper(root.left, data);
+
+  <span class="hljs-keyword">if</span> (data.prev &amp;&amp; data.prev.val &gt;= root.val) {
+    <span class="hljs-keyword">if</span> (!data.first) data.first = data.prev;
+    data.second = root;
+  }
+
+  data.prev = root;
+
+  helper(root.right, data);
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n). <code>n</code> 为节点数。</li>
+<li>Space complexity : O(1).</li>
+</ul>
+<h2 id="solution-2">Solution 2</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * @param {TreeNode} root
+ * @return {void} Do not return anything, modify root in-place instead.
+ */</span>
+<span class="hljs-keyword">var</span> recoverTree = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">root</span>) </span>{
+  <span class="hljs-keyword">var</span> prev = <span class="hljs-literal">null</span>;
+  <span class="hljs-keyword">var</span> first = <span class="hljs-literal">null</span>;
+  <span class="hljs-keyword">var</span> second = <span class="hljs-literal">null</span>;
+  <span class="hljs-keyword">var</span> now = root;
+  <span class="hljs-keyword">var</span> stack = [];
+  <span class="hljs-keyword">var</span> tmp = <span class="hljs-number">0</span>;
+
+  <span class="hljs-keyword">while</span> (now || stack.length) {
+    <span class="hljs-keyword">while</span> (now) {
+      stack.push(now);
+      now = now.left;
+    }
+
+    now = stack.pop();
+
+    <span class="hljs-keyword">if</span> (prev &amp;&amp; prev.val &gt;= now.val) {
+      <span class="hljs-keyword">if</span> (!first) first = prev;
+      second = now;
+    }
+
+    prev = now;
+    now = now.right;
+  }
+
+  tmp = first.val;
+  first.val = second.val;
+  second.val = tmp;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n). <code>n</code> 为节点数。</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

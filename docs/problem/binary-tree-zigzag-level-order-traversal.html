@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Binary Tree Zigzag Level Order Traversal - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>103. Binary Tree Zigzag Level Order Traversal</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/stack">Stack</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/tree">Tree</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/breadth-first-search">Breadth-first Search</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/binary-tree-level-order-traversal.html">Binary Tree Level Order Traversal</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a binary tree, return the <em>zigzag level order</em> traversal of its nodes' values. (ie, from left to right, then right to left for the next level and alternate between).</p>
+<p>For example:
+Given binary tree <code>[3,9,20,null,null,15,7]</code>,</p>
+<pre><code class="hljs">    <span class="hljs-number">3</span>
+   / \
+  <span class="hljs-number">9</span>  <span class="hljs-number">20</span>
+    /  \
+   <span class="hljs-number">15</span>   <span class="hljs-number">7</span>
+</code></pre>
+<p>return its zigzag level order traversal as:</p>
+<pre><code class="hljs">[
+  [<span class="hljs-number">3</span>],
+  [<span class="hljs-number">20</span>,<span class="hljs-number">9</span>],
+  [<span class="hljs-number">15</span>,<span class="hljs-number">7</span>]
+]
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * @param {TreeNode} root
+ * @return {number[][]}
+ */</span>
+<span class="hljs-keyword">var</span> zigzagLevelOrder = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">root</span>) </span>{
+  <span class="hljs-keyword">if</span> (!root) <span class="hljs-keyword">return</span> [];
+  <span class="hljs-keyword">return</span> helper([[root]], <span class="hljs-number">0</span>);
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res, level</span>) </span>{
+  <span class="hljs-keyword">var</span> now = res[level];
+  <span class="hljs-keyword">var</span> next = [];
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = now.length - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) {
+    <span class="hljs-keyword">if</span> (level % <span class="hljs-number">2</span>) {
+      <span class="hljs-keyword">if</span> (now[i].left) next.push(now[i].left);
+      <span class="hljs-keyword">if</span> (now[i].right) next.push(now[i].right);
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">if</span> (now[i].right) next.push(now[i].right);
+      <span class="hljs-keyword">if</span> (now[i].left) next.push(now[i].left);
+    }
+
+    now[i] = now[i].val;
+  }
+
+  <span class="hljs-keyword">if</span> (next.length) {
+    res.push(next);
+    helper(res, level + <span class="hljs-number">1</span>);
+  }
+
+  <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

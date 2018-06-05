@@ -1,0 +1,56 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Path Sum II - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>113. Path Sum II</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/tree">Tree</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/depth-first-search">Depth-first Search</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/path-sum.html">Path Sum</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/binary-tree-paths.html">Binary Tree Paths</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/path-sum-iii.html">Path Sum III</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/path-sum-iv.html">Path Sum IV</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum.</p>
+<p><strong>Note:</strong> A leaf is a node with no children.</p>
+<p><strong>Example:</strong></p>
+<p>Given the below binary tree and <code>sum = 22</code>,</p>
+<pre><code class="hljs">      <span class="hljs-number">5</span>
+     / \
+    <span class="hljs-number">4</span>   <span class="hljs-number">8</span>
+   /   / \
+  <span class="hljs-number">11</span>  <span class="hljs-number">13</span>  <span class="hljs-number">4</span>
+ /  \    / \
+<span class="hljs-number">7</span>    <span class="hljs-number">2</span>  <span class="hljs-number">5</span>   <span class="hljs-number">1</span>
+</code></pre>
+<p>Return:</p>
+<pre><code class="hljs">[
+   [<span class="hljs-number">5</span>,<span class="hljs-number">4</span>,<span class="hljs-number">11</span>,<span class="hljs-number">2</span>],
+   [<span class="hljs-number">5</span>,<span class="hljs-number">8</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+]
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * @param {TreeNode} root
+ * @param {number} sum
+ * @return {number[][]}
+ */</span>
+<span class="hljs-keyword">var</span> pathSum = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">root, sum</span>) </span>{
+  <span class="hljs-keyword">var</span> res = [];
+  helper(root, sum, [], res);
+  <span class="hljs-keyword">return</span> res;
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">root, sum, now, res</span>) </span>{
+  <span class="hljs-keyword">if</span> (!root) <span class="hljs-keyword">return</span>;
+
+  now.push(root.val);
+
+  <span class="hljs-keyword">if</span> (root.val === sum &amp;&amp; !root.left &amp;&amp; !root.right) res.push(now);
+
+  helper(root.left, sum - root.val, <span class="hljs-built_in">Array</span>.from(now), res);
+  helper(root.right, sum - root.val, <span class="hljs-built_in">Array</span>.from(now), res);
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity :</li>
+<li>Space complexity :</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

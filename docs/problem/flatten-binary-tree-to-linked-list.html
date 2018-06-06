@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Flatten Binary Tree to Linked List - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>114. Flatten Binary Tree to Linked List</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/tree">Tree</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/depth-first-search">Depth-first Search</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a binary tree, flatten it to a linked list in-place.</p>
+<p>For example, given the following tree:</p>
+<pre><code class="hljs">    <span class="hljs-number">1</span>
+   / \
+  <span class="hljs-number">2</span>   <span class="hljs-number">5</span>
+ / \   \
+<span class="hljs-number">3</span>   <span class="hljs-number">4</span>   <span class="hljs-number">6</span>
+</code></pre>
+<p>The flattened tree should look like:</p>
+<pre><code class="hljs"><span class="hljs-number">1</span>
+ \
+  <span class="hljs-number">2</span>
+   \
+    <span class="hljs-number">3</span>
+     \
+      <span class="hljs-number">4</span>
+       \
+        <span class="hljs-number">5</span>
+         \
+          <span class="hljs-number">6</span>
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * @param {TreeNode} root
+ * @return {void} Do not return anything, modify root in-place instead.
+ */</span>
+<span class="hljs-keyword">var</span> flatten = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">root</span>) </span>{
+  helper(root);
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">root</span>) </span>{
+  <span class="hljs-keyword">if</span> (!root) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+
+  <span class="hljs-keyword">var</span> leftLast = helper(root.left);
+  <span class="hljs-keyword">var</span> rightLast = helper(root.right);
+
+  <span class="hljs-keyword">if</span> (root.left) {
+    leftLast.right = root.right;
+    root.right = root.left;
+  }
+
+  root.left = <span class="hljs-literal">null</span>;
+
+  <span class="hljs-keyword">return</span> rightLast || leftLast || root;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

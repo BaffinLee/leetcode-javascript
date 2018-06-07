@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Friend Circles - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>547. Friend Circles</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/depth-first-search">Depth-first Search</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/union-find">Union Find</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/number-of-connected-components-in-an-undirected-graph.html">Number of Connected Components in an Undirected Graph</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/judge-route-circle.html">Judge Route Circle</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/sentence-similarity.html">Sentence Similarity</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/sentence-similarity-ii.html">Sentence Similarity II</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>There are <strong>N</strong> students in a class. Some of them are friends, while some are not. Their friendship is transitive in nature. For example, if A is a <strong>direct</strong> friend of B, and B is a <strong>direct</strong> friend of C, then A is an <strong>indirect</strong> friend of C. And we defined a friend circle is a group of students who are direct or indirect friends.</p>
+<p>Given a <strong>N*N</strong> matrix <strong>M</strong> representing the friend relationship between students in the class. If M[i][j] = 1, then the ith and jth students are <strong>direct</strong> friends with each other, otherwise not. And you have to output the total number of friend circles among all the students.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs">Input: 
+<span class="hljs-string">[[1,1,0],
+ [1,1,0],
+ [0,0,1]]</span>
+Output: <span class="hljs-number">2</span>
+Explanation:The <span class="hljs-number">0</span>th <span class="hljs-keyword">and</span> <span class="hljs-number">1</span>st students are direct friends, so they are <span class="hljs-keyword">in</span> a friend circle. The <span class="hljs-number">2</span>nd student himself is <span class="hljs-keyword">in</span> a friend circle. So <span class="hljs-keyword">return</span> <span class="hljs-number">2.</span>
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs">Inpu<span class="hljs-variable">t:</span> 
+[[<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>],
+ [<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>],
+ [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]]
+Outpu<span class="hljs-variable">t:</span> <span class="hljs-number">1</span>
+Explanation:The <span class="hljs-number">0</span><span class="hljs-keyword">th</span> <span class="hljs-built_in">and</span> <span class="hljs-number">1</span><span class="hljs-keyword">st</span> students are direct friends, the <span class="hljs-number">1</span><span class="hljs-keyword">st</span> <span class="hljs-built_in">and</span> <span class="hljs-number">2</span>nd students are direct friends, <span class="hljs-keyword">so</span> the <span class="hljs-number">0</span><span class="hljs-keyword">th</span> <span class="hljs-built_in">and</span> <span class="hljs-number">2</span>nd students are indirect friends. All of them are in the same friend circle, <span class="hljs-keyword">so</span> <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>.
+</code></pre>
+<p><strong>Note:</strong></p>
+<ul>
+<li>N is in range [1,200].</li>
+<li>M[i][i] = 1 for all students.</li>
+<li>If M[i][j] = 1, then M[j][i] = 1.</li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} M
+ * @return {number}
+ */</span>
+
+<span class="hljs-keyword">var</span> findCircleNum = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">M</span>) </span>{
+  <span class="hljs-keyword">var</span> count = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> n = M.length;
+  <span class="hljs-keyword">var</span> map = <span class="hljs-built_in">Array</span>(n);
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) {
+    <span class="hljs-keyword">if</span> (!map[i]) {
+      find(map, i, M);
+      count++;
+    }
+  }
+
+  <span class="hljs-keyword">return</span> count;
+};
+
+<span class="hljs-keyword">var</span> find = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">map, i, M</span>) </span>{
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; M.length; j++) {
+    <span class="hljs-keyword">if</span> (i !== j &amp;&amp; M[i][j] === <span class="hljs-number">1</span> &amp;&amp; !map[j]) {
+      map[j] = <span class="hljs-number">1</span>;
+      find(map, j, M);
+    }
+  }
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n^2).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

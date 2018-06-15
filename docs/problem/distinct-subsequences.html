@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Distinct Subsequences - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>115. Distinct Subsequences</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/string">String</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a string <strong>S</strong> and a string <strong>T</strong>, count the number of distinct subsequences of <strong>S</strong> which equals <strong>T</strong>.</p>
+<p>A subsequence of a string is a new string which is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (ie, <code>"ACE"</code> is a subsequence of <code>"ABCDE"</code> while <code>"AEC"</code> is not).</p>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs">Input: S = <span class="hljs-string">"rabbbit"</span>, T = <span class="hljs-string">"rabbit"</span>
+Output: <span class="hljs-number">3</span>
+Explanation:
+
+As shown below, there are <span class="hljs-number">3</span> ways you can <span class="hljs-keyword">generate</span> <span class="hljs-string">"rabbit"</span> from S.
+(The caret symbol ^ means the chosen letters)
+
+rabbbit
+^^^^ ^^
+rabbbit
+^^ ^^^^
+rabbbit
+^^^ ^^^
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> S = <span class="hljs-string">"babgbag"</span>, T = <span class="hljs-string">"bag"</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">5</span>
+<span class="hljs-symbol">Explanation:</span>
+
+As <span class="hljs-keyword">shown </span><span class="hljs-keyword">below, </span>there are <span class="hljs-number">5</span> ways you can generate <span class="hljs-string">"bag"</span> from S.
+(The caret symbol ^ means the chosen letters)
+
+<span class="hljs-keyword">babgbag
+</span>^^ ^
+<span class="hljs-keyword">babgbag
+</span>^^    ^
+<span class="hljs-keyword">babgbag
+</span>^    ^^
+<span class="hljs-keyword">babgbag
+</span>  ^  ^^
+<span class="hljs-keyword">babgbag
+</span>    ^^^
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} s
+ * @param {string} t
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> numDistinct = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s, t</span>) </span>{
+  <span class="hljs-keyword">var</span> dp = <span class="hljs-built_in">Array</span>(s.length).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">_</span> =&gt;</span> <span class="hljs-built_in">Array</span>(t.length));
+  <span class="hljs-keyword">return</span> helper(s, t, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, dp);
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">s, t, sIndex, tIndex, dp</span>) </span>{
+  <span class="hljs-keyword">if</span> (tIndex === t.length) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">if</span> (sIndex === s.length) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">if</span> (dp[sIndex][tIndex] === <span class="hljs-literal">undefined</span>) {
+    <span class="hljs-keyword">if</span> (s[sIndex] === t[tIndex]) {
+      dp[sIndex][tIndex] = helper(s, t, sIndex + <span class="hljs-number">1</span>, tIndex + <span class="hljs-number">1</span>, dp) + helper(s, t, sIndex + <span class="hljs-number">1</span>, tIndex, dp);
+    } <span class="hljs-keyword">else</span> {
+      dp[sIndex][tIndex] = helper(s, t, sIndex + <span class="hljs-number">1</span>, tIndex, dp);
+    }
+  }
+  <span class="hljs-keyword">return</span> dp[sIndex][tIndex];
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(m*n).</li>
+<li>Space complexity : O(m*n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

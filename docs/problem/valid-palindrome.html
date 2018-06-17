@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Valid Palindrome - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>125. Valid Palindrome</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/two-pointers">Two Pointers</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/string">String</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/palindrome-linked-list.html">Palindrome Linked List</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/valid-palindrome-ii.html">Valid Palindrome II</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.</p>
+<p><strong>Note:</strong> For the purpose of this problem, we define empty string as valid palindrome.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs"><span class="hljs-string">Input:</span> <span class="hljs-string">"A man, a plan, a canal: Panama"</span>
+<span class="hljs-string">Output:</span> <span class="hljs-literal">true</span>
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs"><span class="hljs-string">Input:</span> <span class="hljs-string">"race a car"</span>
+<span class="hljs-string">Output:</span> <span class="hljs-literal">false</span>
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} s
+ * @return {boolean}
+ */</span>
+<span class="hljs-keyword">var</span> isPalindrome = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+  <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> j = s.length - <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">var</span> m = <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">var</span> n = <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">while</span> (i &lt; j) {
+    m = s[i].toLowerCase();
+    n = s[j].toLowerCase();
+    <span class="hljs-keyword">if</span> (!isLetterOrDigit(m)) i++;
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!isLetterOrDigit(n)) j--;
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (m === n) { i++; j--; }
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+};
+
+<span class="hljs-keyword">var</span> isLetterOrDigit = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">c</span>) </span>{
+  <span class="hljs-keyword">return</span> (c &gt;= <span class="hljs-string">'a'</span> &amp;&amp; c &lt;= <span class="hljs-string">'z'</span>) || (c &gt;= <span class="hljs-string">'0'</span> &amp;&amp; c &lt;= <span class="hljs-string">'9'</span>);
+};
+
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

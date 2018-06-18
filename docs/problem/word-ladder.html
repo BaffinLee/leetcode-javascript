@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Word Ladder - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>127. Word Ladder</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/breadth-first-search">Breadth-first Search</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/word-ladder-ii.html">Word Ladder II</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/minimum-genetic-mutation.html">Minimum Genetic Mutation</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given two words (<strong>beginWord</strong> and <strong>endWord</strong>), and a dictionary's word list, find the length of shortest transformation sequence from <strong>beginWord</strong> to <strong>endWord</strong>, such that:</p>
+<ul>
+<li>Only one letter can be changed at a time.</li>
+<li>Each transformed word must exist in the word list. Note that <strong>beginWord</strong> is <strong>not</strong> a transformed word.</li>
+</ul>
+<p><strong>Note:</strong></p>
+<ul>
+<li>Return 0 if there is no such transformation sequence.</li>
+<li>All words have the same length.</li>
+<li>All words contain only lowercase alphabetic characters.</li>
+<li>You may assume no duplicates in the word list.</li>
+<li>You may assume <strong>beginWord</strong> and <strong>endWord</strong> are non-empty and are not the same.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs">Input:
+beginWord = <span class="hljs-string">"hit"</span>,
+endWord = <span class="hljs-string">"cog"</span>,
+wordList = [<span class="hljs-string">"hot"</span>,<span class="hljs-string">"dot"</span>,<span class="hljs-string">"dog"</span>,<span class="hljs-string">"lot"</span>,<span class="hljs-string">"log"</span>,<span class="hljs-string">"cog"</span>]
+
+Output: <span class="hljs-number">5</span>
+
+Explanation: As one shortest transformation <span class="hljs-keyword">is</span> <span class="hljs-string">"hit"</span><span class="hljs-function"> -&gt;</span> <span class="hljs-string">"hot"</span><span class="hljs-function"> -&gt;</span> <span class="hljs-string">"dot"</span><span class="hljs-function"> -&gt;</span> <span class="hljs-string">"dog"</span><span class="hljs-function"> -&gt;</span> <span class="hljs-string">"cog"</span>,
+<span class="hljs-keyword">return</span> its length <span class="hljs-number">5.</span>
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs"><span class="hljs-section">Input:</span>
+beginWord = <span class="hljs-string">"hit"</span>
+endWord = <span class="hljs-string">"cog"</span>
+wordList = [<span class="hljs-string">"hot"</span>,<span class="hljs-string">"dot"</span>,<span class="hljs-string">"dog"</span>,<span class="hljs-string">"lot"</span>,<span class="hljs-string">"log"</span>]
+
+<span class="hljs-section">Output: 0</span>
+
+<span class="hljs-section">Explanation: The endWord "cog" is not in wordList, therefore no possible transformation.</span>
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} beginWord
+ * @param {string} endWord
+ * @param {string[]} wordList
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> ladderLength = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">beginWord, endWord, wordList</span>) </span>{
+  <span class="hljs-keyword">var</span> wordSet = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Set</span>(wordList);
+  <span class="hljs-keyword">var</span> queue = [];
+  <span class="hljs-keyword">var</span> step = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> word = <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">var</span> len = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;
+
+  pushNextWord(beginWord, queue, wordSet);
+  step = <span class="hljs-number">2</span>;
+
+  <span class="hljs-keyword">while</span> (len = queue.length) {
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+      word = queue.shift();
+      <span class="hljs-keyword">if</span> (word === endWord) <span class="hljs-keyword">return</span> step;
+      pushNextWord(word, queue, wordSet);
+    }
+    step++;
+  }
+
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+};
+
+<span class="hljs-keyword">var</span> pushNextWord = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">word, queue, wordSet</span>) </span>{
+  <span class="hljs-keyword">var</span> start = <span class="hljs-string">'a'</span>.charCodeAt(<span class="hljs-number">0</span>);
+  <span class="hljs-keyword">var</span> len = word.length;
+  <span class="hljs-keyword">var</span> str = <span class="hljs-string">''</span>;
+
+  wordSet.delete(word);
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">26</span>; j++) {
+      str = word.substr(<span class="hljs-number">0</span>, i) + <span class="hljs-built_in">String</span>.fromCharCode(j + start) + word.substr(i + <span class="hljs-number">1</span>);
+
+      <span class="hljs-keyword">if</span> (wordSet.has(str)) {
+        queue.push(str);
+        wordSet.delete(str);
+      }
+    }
+  }
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

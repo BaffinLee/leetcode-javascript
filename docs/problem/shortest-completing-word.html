@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Shortest Completing Word - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>749. Shortest Completing Word</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Find the minimum length word from a given dictionary <code>words</code>, which has all the letters from the string <code>licensePlate</code>.  Such a word is said to <em>complete</em> the given string <code>licensePlate</code></p>
+<p>Here, for letters we ignore case.  For example, <code>"P"</code> on the <code>licensePlate</code> still matches <code>"p"</code> on the word.</p>
+<p>It is guaranteed an answer exists.  If there are multiple answers, return the one that occurs first in the array.</p>
+<p>The license plate might have the same letter occurring multiple times.  For example, given a <code>licensePlate</code> of <code>"PP"</code>, the word <code>"pair"</code> does not complete the <code>licensePlate</code>, but the word <code>"supper"</code> does.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs">Input: licensePlate = <span class="hljs-string">"1s3 PSt"</span>, words = [<span class="hljs-string">"step"</span>, <span class="hljs-string">"steps"</span>, <span class="hljs-string">"stripe"</span>, <span class="hljs-string">"stepple"</span>]
+Output: <span class="hljs-string">"steps"</span>
+Explanation: The smallest length word that contains the letters <span class="hljs-string">"S"</span>, <span class="hljs-string">"P"</span>, <span class="hljs-string">"S"</span>, <span class="hljs-keyword">and</span> <span class="hljs-string">"T"</span>.<span class="hljs-built_in">
+Note </span>that the answer is <span class="hljs-keyword">not</span> <span class="hljs-string">"step"</span>, because the letter <span class="hljs-string">"s"</span> must occur <span class="hljs-keyword">in</span> the word twice.
+Also<span class="hljs-built_in"> note </span>that we ignored case <span class="hljs-keyword">for</span> the purposes of comparing whether a letter exists <span class="hljs-keyword">in</span> the word.
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs">Input: licensePlate = <span class="hljs-string">"1s3 456"</span>, <span class="hljs-keyword">words</span> = [<span class="hljs-string">"looks"</span>, <span class="hljs-string">"pest"</span>, <span class="hljs-string">"stew"</span>, <span class="hljs-string">"show"</span>]
+Output: <span class="hljs-string">"pest"</span>
+Explanation: There are <span class="hljs-number">3</span> smallest <span class="hljs-built_in">length</span> <span class="hljs-keyword">words</span> that <span class="hljs-keyword">contains</span> <span class="hljs-keyword">the</span> letters <span class="hljs-string">"s"</span>.
+We <span class="hljs-literal">return</span> <span class="hljs-keyword">the</span> <span class="hljs-literal">one</span> that occurred <span class="hljs-keyword">first</span>.
+</code></pre>
+<p><strong>Note:</strong></p>
+<ul>
+<li><code>licensePlate</code> will be a string with length in range <code>[1, 7]</code>.</li>
+<li><code>licensePlate</code> will contain digits, spaces, or letters (uppercase or lowercase).</li>
+<li><code>words</code> will have a length in the range <code>[10, 1000]</code>.</li>
+<li>Every <code>words[i]</code> will consist of lowercase letters, and have length in range <code>[1, 15]</code>.</li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} licensePlate
+ * @param {string[]} words
+ * @return {string}
+ */</span>
+<span class="hljs-keyword">var</span> shortestCompletingWord = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">licensePlate, words</span>) </span>{
+  <span class="hljs-keyword">var</span> count = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> map = <span class="hljs-built_in">Array</span>(<span class="hljs-number">26</span>);
+  <span class="hljs-keyword">var</span> start = <span class="hljs-string">'a'</span>.charCodeAt(<span class="hljs-number">0</span>);
+  <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> testMap = <span class="hljs-literal">null</span>;
+  <span class="hljs-keyword">var</span> testCount = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> minLen = <span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER;
+  <span class="hljs-keyword">var</span> result = <span class="hljs-string">''</span>;
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; licensePlate.length; i++) {
+    index = licensePlate[i].toLowerCase().charCodeAt(<span class="hljs-number">0</span>) - start;
+    <span class="hljs-keyword">if</span> (index &lt; <span class="hljs-number">0</span> || index &gt;= <span class="hljs-number">26</span>) <span class="hljs-keyword">continue</span>;
+    <span class="hljs-keyword">if</span> (!map[index]) {
+      count++;
+      map[index] = <span class="hljs-number">0</span>;
+    }
+    map[index]++;
+  }
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; words.length; j++) {
+    testMap = <span class="hljs-built_in">Array</span>(<span class="hljs-number">26</span>);
+    testCount = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> k = <span class="hljs-number">0</span>; k &lt; words[j].length; k++) {
+      index = words[j][k].toLowerCase().charCodeAt(<span class="hljs-number">0</span>) - start;
+      <span class="hljs-keyword">if</span> (index &lt; <span class="hljs-number">0</span> || index &gt;= <span class="hljs-number">26</span>) <span class="hljs-keyword">continue</span>;
+      <span class="hljs-keyword">if</span> (!testMap[index]) testMap[index] = <span class="hljs-number">1</span>;
+      <span class="hljs-keyword">else</span> testMap[index]++;
+      <span class="hljs-keyword">if</span> (testMap[index] === map[index]) testCount++;
+    }
+    <span class="hljs-keyword">if</span> (testCount === count &amp;&amp; words[j].length &lt; minLen) {
+      minLen = words[j].length;
+      result = words[j];
+    }
+  }
+
+  <span class="hljs-keyword">return</span> result;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity :</li>
+<li>Space complexity :</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

@@ -11,7 +11,13 @@ const create = data => {
 		similarQuestions: JSON.parse(data.similarQuestions).map(q => q.title).join(', '),
 		description: getDescription(data.content),
 	};
-	const dir = getPath(pageData.id, pageData.name);
+  const dir = getPath(pageData.id, pageData.name);
+  
+  if (fs.existsSync(dir)) {
+    console.log(`${chalk.red('file already exists')}: ${chalk.blue(dir)}\n`);
+    return;
+  }
+
 	let str = fs.readFileSync(path.resolve(__dirname, './template.md'), 'utf-8');
 
 	Object.keys(pageData).forEach(name => {

@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Linked List Cycle - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>141. Linked List Cycle</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/linked-list">Linked List</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/two-pointers">Two Pointers</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/linked-list-cycle-ii.html">Linked List Cycle II</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/happy-number.html">Happy Number</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a linked list, determine if it has a cycle in it.</p>
+<p>Follow up:
+Can you solve it without using extra space?</p>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */</span>
+
+<span class="hljs-comment">/**
+ * @param {ListNode} head
+ * @return {boolean}
+ */</span>
+<span class="hljs-keyword">var</span> hasCycle = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">head</span>) </span>{
+  <span class="hljs-keyword">var</span> slow = head;
+  <span class="hljs-keyword">var</span> fast = head;
+  <span class="hljs-keyword">while</span> (slow &amp;&amp; fast) {
+    slow = slow.next;
+    fast = fast.next ? fast.next.next : <span class="hljs-literal">undefined</span>;
+    <span class="hljs-keyword">if</span> (slow === fast) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p><code>fast</code> 每次走两步，<code>slow</code> 每次走一步，如果链表有环的话，它们最终会相遇。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

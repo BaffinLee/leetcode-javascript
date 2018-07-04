@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Word Break - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>139. Word Break</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/word-break-ii.html">Word Break II</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a <strong>non-empty</strong> string <strong>s</strong> and a dictionary <strong>wordDict</strong> containing a list of <strong>non-empty</strong> words, determine if <strong>s</strong> can be segmented into a space-separated sequence of one or more dictionary words.</p>
+<p><strong>Note:</strong></p>
+<ul>
+<li>The same word in the dictionary may be reused multiple times in the segmentation.</li>
+<li>You may assume the dictionary does not contain duplicate words.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs"><span class="hljs-string">Input:</span> s = <span class="hljs-string">"leetcode"</span>, wordDict = [<span class="hljs-string">"leet"</span>, <span class="hljs-string">"code"</span>]
+<span class="hljs-string">Output:</span> <span class="hljs-literal">true</span>
+<span class="hljs-string">Explanation:</span> Return <span class="hljs-literal">true</span> because <span class="hljs-string">"leetcode"</span> can be segmented <span class="hljs-keyword">as</span> <span class="hljs-string">"leet code"</span>.
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs">Input: s = <span class="hljs-string">"applepenapple"</span>, wordDict = [<span class="hljs-string">"apple"</span>, <span class="hljs-string">"pen"</span>]
+Output: <span class="hljs-literal">true</span>
+Explanation: Return <span class="hljs-literal">true</span> because <span class="hljs-string">"applepenapple"</span> can be segmented as <span class="hljs-string">"apple pen apple"</span>.
+            <span class="hljs-built_in"> Note </span>that you are allowed <span class="hljs-keyword">to</span> reuse a dictionary word.
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code class="hljs"><span class="hljs-string">Input:</span> s = <span class="hljs-string">"catsandog"</span>, wordDict = [<span class="hljs-string">"cats"</span>, <span class="hljs-string">"dog"</span>, <span class="hljs-string">"sand"</span>, <span class="hljs-string">"and"</span>, <span class="hljs-string">"cat"</span>]
+<span class="hljs-string">Output:</span> <span class="hljs-literal">false</span>
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} s
+ * @param {string[]} wordDict
+ * @return {boolean}
+ */</span>
+<span class="hljs-keyword">var</span> wordBreak = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s, wordDict</span>) </span>{
+  <span class="hljs-keyword">var</span> len = wordDict.length;
+  <span class="hljs-keyword">var</span> dp = <span class="hljs-built_in">Array</span>(len);
+  <span class="hljs-keyword">var</span> map = {};
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+    map[wordDict[i]] = <span class="hljs-literal">true</span>;
+  }
+  <span class="hljs-keyword">return</span> find(s, map, dp, <span class="hljs-number">0</span>);
+};
+
+<span class="hljs-keyword">var</span> find = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">s, map, dp, index</span>) </span>{
+  <span class="hljs-keyword">if</span> (dp[index] !== <span class="hljs-literal">undefined</span>) <span class="hljs-keyword">return</span> dp[index];
+
+  <span class="hljs-keyword">var</span> str = <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">var</span> res = <span class="hljs-literal">false</span>;
+  <span class="hljs-keyword">var</span> len = s.length;
+
+  <span class="hljs-keyword">if</span> (index === len) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = index; i &lt; len; i++) {
+    str = s.substring(index, i + <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">if</span> (map[str] &amp;&amp; find(s, map, dp, i + <span class="hljs-number">1</span>)) {
+      res = <span class="hljs-literal">true</span>;
+      <span class="hljs-keyword">break</span>;
+    }
+  }
+
+  dp[index] = res;
+  <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p><code>dp[i]</code> 代表 <code>s.substring(i)</code> 是否可以由 <code>wordDict</code> 里的词组成。</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n^2).</li>
+<li>Space complexity : O(n^2).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

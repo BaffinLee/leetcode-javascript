@@ -1,0 +1,110 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>LRU Cache - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>146. LRU Cache</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/design">Design</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/lfu-cache.html">LFU Cache</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/design-in-memory-file-system.html">Design In-Memory File System</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/design-compressed-string-iterator.html">Design Compressed String Iterator</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Design and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: <code>get</code> and <code>put</code>.</p>
+<p><code>get(key)</code> - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.
+<code>put(key, value)</code> - Set or insert the value if the key is not already present. When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.</p>
+<p><strong>Follow up:</strong>
+Could you do both operations in <strong>O(1)</strong> time complexity?</p>
+<p><strong>Example:</strong></p>
+<pre><code class="hljs">LRUCache cache = new LRUCache( <span class="hljs-number">2</span> <span class="hljs-comment">/* capacity */</span> );
+
+cache.put(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>);
+cache.put(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>);
+cache.get(<span class="hljs-number">1</span>);       <span class="hljs-comment">// returns 1</span>
+cache.put(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>);    <span class="hljs-comment">// evicts key 2</span>
+cache.get(<span class="hljs-number">2</span>);       <span class="hljs-comment">// returns -1 (not found)</span>
+cache.put(<span class="hljs-number">4</span>, <span class="hljs-number">4</span>);    <span class="hljs-comment">// evicts key 1</span>
+cache.get(<span class="hljs-number">1</span>);       <span class="hljs-comment">// returns -1 (not found)</span>
+cache.get(<span class="hljs-number">3</span>);       <span class="hljs-comment">// returns 3</span>
+cache.get(<span class="hljs-number">4</span>);       <span class="hljs-comment">// returns 4</span>
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-keyword">var</span> List = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key, val</span>) </span>{
+  <span class="hljs-keyword">this</span>.key = key;
+  <span class="hljs-keyword">this</span>.val = val;
+  <span class="hljs-keyword">this</span>.next = <span class="hljs-literal">null</span>;
+  <span class="hljs-keyword">this</span>.prev = <span class="hljs-literal">null</span>;
+};
+
+<span class="hljs-comment">/**
+ * @param {number} capacity
+ */</span>
+<span class="hljs-keyword">var</span> LRUCache = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">capacity</span>) </span>{
+  <span class="hljs-keyword">this</span>.capacity = capacity;
+  <span class="hljs-keyword">this</span>.length = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">this</span>.map = {};
+  <span class="hljs-keyword">this</span>.head = <span class="hljs-literal">null</span>;
+  <span class="hljs-keyword">this</span>.tail = <span class="hljs-literal">null</span>;
+};
+
+<span class="hljs-comment">/** 
+ * @param {number} key
+ * @return {number}
+ */</span>
+LRUCache.prototype.get = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">key</span>) </span>{
+  <span class="hljs-keyword">var</span> node = <span class="hljs-keyword">this</span>.map[key];
+  <span class="hljs-keyword">if</span> (node) {
+    <span class="hljs-keyword">this</span>.remove(node);
+    <span class="hljs-keyword">this</span>.insert(node.key, node.val);
+    <span class="hljs-keyword">return</span> node.val;
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+  }
+};
+
+<span class="hljs-comment">/** 
+ * @param {number} key 
+ * @param {number} value
+ * @return {void}
+ */</span>
+LRUCache.prototype.put = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">key, value</span>) </span>{
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.map[key]) {
+    <span class="hljs-keyword">this</span>.remove(<span class="hljs-keyword">this</span>.map[key]);
+    <span class="hljs-keyword">this</span>.insert(key, value);
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.length === <span class="hljs-keyword">this</span>.capacity) {
+      <span class="hljs-keyword">this</span>.remove(<span class="hljs-keyword">this</span>.head);
+      <span class="hljs-keyword">this</span>.insert(key, value);
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">this</span>.insert(key, value);
+      <span class="hljs-keyword">this</span>.length++;
+    }
+  }
+};
+
+<span class="hljs-comment">/** 
+ * Your LRUCache object will be instantiated and called as such:
+ * var obj = Object.create(LRUCache).createNew(capacity)
+ * var param_1 = obj.get(key)
+ * obj.put(key,value)
+ */</span>
+
+LRUCache.prototype.remove = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">node</span>) </span>{
+  <span class="hljs-keyword">var</span> prev = node.prev;
+  <span class="hljs-keyword">var</span> next = node.next;
+  <span class="hljs-keyword">if</span> (next) next.prev = prev;
+  <span class="hljs-keyword">if</span> (prev) prev.next = next;
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.head === node) <span class="hljs-keyword">this</span>.head = next;
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.tail === node) <span class="hljs-keyword">this</span>.tail = prev;
+  <span class="hljs-keyword">delete</span> <span class="hljs-keyword">this</span>.map[node.key];
+};
+
+LRUCache.prototype.insert = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key, val</span>) </span>{
+  <span class="hljs-keyword">var</span> node = <span class="hljs-keyword">new</span> List(key, val);
+  <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.tail) {
+    <span class="hljs-keyword">this</span>.tail = node;
+    <span class="hljs-keyword">this</span>.head = node;
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">this</span>.tail.next = node;
+    node.prev = <span class="hljs-keyword">this</span>.tail;
+    <span class="hljs-keyword">this</span>.tail = node;
+  }
+  <span class="hljs-keyword">this</span>.map[key] = node;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(1).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

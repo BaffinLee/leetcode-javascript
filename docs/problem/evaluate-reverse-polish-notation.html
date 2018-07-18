@@ -1,0 +1,76 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Evaluate Reverse Polish Notation - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>150. Evaluate Reverse Polish Notation</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/stack">Stack</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/basic-calculator.html">Basic Calculator</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/expression-add-operators.html">Expression Add Operators</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Evaluate the value of an arithmetic expression in Reverse Polish Notation.</p>
+<p>Valid operators are <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>. Each operand may be an integer or another expression.</p>
+<p><strong>Note:</strong></p>
+<ul>
+<li>Division between two integers should truncate toward zero.</li>
+<li>The given RPN expression is always valid. That means the expression would always evaluate to a result and there won't be any divide by zero operation.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> [<span class="hljs-string">"2"</span>, <span class="hljs-string">"1"</span>, <span class="hljs-string">"+"</span>, <span class="hljs-string">"3"</span>, <span class="hljs-string">"*"</span>]
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">9</span>
+<span class="hljs-symbol">Explanation:</span> ((<span class="hljs-number">2</span> + <span class="hljs-number">1</span>) * <span class="hljs-number">3</span>) = <span class="hljs-number">9</span>
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> [<span class="hljs-string">"4"</span>, <span class="hljs-string">"13"</span>, <span class="hljs-string">"5"</span>, <span class="hljs-string">"/"</span>, <span class="hljs-string">"+"</span>]
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">6</span>
+<span class="hljs-symbol">Explanation:</span> (<span class="hljs-number">4</span> + (<span class="hljs-number">13</span> / <span class="hljs-number">5</span>)) = <span class="hljs-number">6</span>
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code class="hljs">Inp<span class="hljs-symbol">ut:</span> [<span class="hljs-string">"10"</span>, <span class="hljs-string">"6"</span>, <span class="hljs-string">"9"</span>, <span class="hljs-string">"3"</span>, <span class="hljs-string">"+"</span>, <span class="hljs-string">"-11"</span>, <span class="hljs-string">"*"</span>, <span class="hljs-string">"/"</span>, <span class="hljs-string">"*"</span>, <span class="hljs-string">"17"</span>, <span class="hljs-string">"+"</span>, <span class="hljs-string">"5"</span>, <span class="hljs-string">"+"</span>]
+Outp<span class="hljs-symbol">ut:</span> <span class="hljs-number">22</span>
+Explanati<span class="hljs-symbol">on:</span> 
+  ((<span class="hljs-number">10</span> * (<span class="hljs-number">6</span> / ((<span class="hljs-number">9</span> + <span class="hljs-number">3</span>) * -<span class="hljs-number">11</span>))) + <span class="hljs-number">17</span>) + <span class="hljs-number">5</span>
+= ((<span class="hljs-number">10</span> * (<span class="hljs-number">6</span> / (<span class="hljs-number">12</span> * -<span class="hljs-number">11</span>))) + <span class="hljs-number">17</span>) + <span class="hljs-number">5</span>
+= ((<span class="hljs-number">10</span> * (<span class="hljs-number">6</span> / -<span class="hljs-number">132</span>)) + <span class="hljs-number">17</span>) + <span class="hljs-number">5</span>
+= ((<span class="hljs-number">10</span> * <span class="hljs-number">0</span>) + <span class="hljs-number">17</span>) + <span class="hljs-number">5</span>
+= (<span class="hljs-number">0</span> + <span class="hljs-number">17</span>) + <span class="hljs-number">5</span>
+= <span class="hljs-number">17</span> + <span class="hljs-number">5</span>
+= <span class="hljs-number">22</span>
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string[]} tokens
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> evalRPN = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">tokens</span>) </span>{
+  <span class="hljs-keyword">var</span> stack = [];
+  <span class="hljs-keyword">var</span> len = tokens.length;
+  <span class="hljs-keyword">var</span> n1 = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> n2 = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> n3 = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> token = <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+    token = tokens[i];
+    <span class="hljs-keyword">switch</span> (token) {
+      <span class="hljs-keyword">case</span> <span class="hljs-string">'+'</span>:
+        stack.push(stack.pop() + stack.pop());
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> <span class="hljs-string">'-'</span>:
+        n1 = stack.pop();
+        n2 = stack.pop();
+        stack.push(n2 - n1);
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> <span class="hljs-string">'*'</span>:
+        stack.push(stack.pop() * stack.pop());
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> <span class="hljs-string">'/'</span>:
+        n1 = stack.pop();
+        n2 = stack.pop();
+        n3 = n2 / n1;
+        stack.push(n3 &gt; <span class="hljs-number">0</span> ? <span class="hljs-built_in">Math</span>.floor(n3) : <span class="hljs-built_in">Math</span>.ceil(n3));
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">default</span>:
+        stack.push(<span class="hljs-built_in">Number</span>(token));
+    }
+  }
+  <span class="hljs-keyword">return</span> stack.pop();
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

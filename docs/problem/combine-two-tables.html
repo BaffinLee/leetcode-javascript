@@ -1,0 +1,36 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Combine Two Tables - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>175. Combine Two Tables</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/employee-bonus.html">Employee Bonus</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Table: <code>Person</code></p>
+<pre><code class="hljs"><span class="hljs-code">+-------------+</span>---------+
+<span class="hljs-section">| Column Name | Type    |
++-------------+---------+</span>
+| PersonId    | int     |
+| FirstName   | varchar |
+<span class="hljs-section">| LastName    | varchar |
++-------------+---------+</span>
+PersonId is the primary key column for this table.
+</code></pre>
+<p>Table: <code>Address</code></p>
+<pre><code class="hljs"><span class="hljs-code">+-------------+</span>---------+
+<span class="hljs-section">| Column Name | Type    |
++-------------+---------+</span>
+| AddressId   | int     |
+| PersonId    | int     |
+| City        | varchar |
+<span class="hljs-section">| State       | varchar |
++-------------+---------+</span>
+AddressId is the primary key column for this table.
+</code></pre>
+<p>Write a SQL query for a report that provides the following information for each person in the Person table, regardless if there is an address for each of those people:</p>
+<pre><code class="hljs"><span class="hljs-built_in">FirstName,</span> LastName, City, State
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-sql"># Write your MySQL query statement below
+select a.FirstName, a.LastName, b.City, b.State from Person a left join Address b on a.PersonId = b.PersonId;
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : </li>
+<li>Space complexity : </li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

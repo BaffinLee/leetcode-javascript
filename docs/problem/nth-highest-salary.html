@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Nth Highest Salary - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>177. Nth Highest Salary</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Write a SQL query to get the <strong>n</strong>th highest salary from the <code>Employee</code> table.</p>
+<pre><code class="hljs"><span class="hljs-code">+----+</span>--------+
+<span class="hljs-section">| Id | Salary |
++----+--------+</span>
+| 1  | 100    |
+| 2  | 200    |
+<span class="hljs-section">| 3  | 300    |
++----+--------+</span>
+</code></pre>
+<p>For example, given the above Employee table, the <strong>n</strong>th highest salary where <strong>n</strong> = 2 is <code>200</code>. If there is no <strong>n</strong>th highest salary, then the query should return <code>null</code>.</p>
+<pre><code class="hljs"><span class="hljs-code">+------------------------+</span>
+<span class="hljs-section">| getNthHighestSalary(2) |
++------------------------+</span>
+<span class="hljs-section">| 200                    |
++------------------------+</span>
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">FUNCTION</span> getNthHighestSalary(N <span class="hljs-built_in">INT</span>) <span class="hljs-keyword">RETURNS</span> <span class="hljs-built_in">INT</span>
+<span class="hljs-keyword">BEGIN</span>
+  <span class="hljs-keyword">RETURN</span> (
+      # Write your MySQL <span class="hljs-keyword">query</span> <span class="hljs-keyword">statement</span> below.
+      <span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">DISTINCT</span> Salary <span class="hljs-keyword">FROM</span> Employee <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> Salary <span class="hljs-keyword">DESC</span> <span class="hljs-keyword">LIMIT</span> M, <span class="hljs-number">1</span>
+  );
+<span class="hljs-keyword">END</span>
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity :</li>
+<li>Space complexity :</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Dungeon Game - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>174. Dungeon Game</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/binary-search">Binary Search</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/unique-paths.html">Unique Paths</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/minimum-path-sum.html">Minimum Path Sum</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/cherry-pickup.html">Cherry Pickup</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>The demons had captured the princess (<strong>P</strong>) and imprisoned her in the bottom-right corner of a dungeon. The dungeon consists of M x N rooms laid out in a 2D grid. Our valiant knight (<strong>K</strong>) was initially positioned in the top-left room and must fight his way through the dungeon to rescue the princess.</p>
+<p>The knight has an initial health point represented by a positive integer. If at any point his health point drops to 0 or below, he dies immediately.</p>
+<p>Some of the rooms are guarded by demons, so the knight loses health (<strong>negative</strong> integers) upon entering these rooms; other rooms are either empty (<strong>0's</strong>) or contain magic orbs that increase the knight's health (<strong>positive</strong> integers).</p>
+<p>In order to reach the princess as quickly as possible, the knight decides to move only rightward or downward in each step.</p>
+<p><strong>Write a function to determine the knight's minimum initial health so that he is able to rescue the princess.</strong></p>
+<p>For example, given the dungeon below, the initial health of the knight must be at least <strong>7</strong> if he follows the optimal path <code>RIGHT-&gt; RIGHT -&gt; DOWN -&gt; DOWN</code>.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-2 (K)</td>
+<td>-3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>-5</td>
+<td>-10</td>
+<td>1</td>
+</tr>
+<tr>
+<td>10</td>
+<td>30</td>
+<td>-5 (P)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note:</strong></p>
+<ul>
+<li>The knight's health has no upper bound.</li>
+<li>Any room can contain threats or power-ups, even the first room the knight enters and the bottom-right room where the princess is imprisoned.</li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} dungeon
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> calculateMinimumHP = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">dungeon</span>) </span>{
+  <span class="hljs-keyword">var</span> m = dungeon.length;
+  <span class="hljs-keyword">var</span> n = dungeon[<span class="hljs-number">0</span>].length;
+  <span class="hljs-keyword">var</span> dp = <span class="hljs-built_in">Array</span>(m + <span class="hljs-number">1</span>).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">_</span> =&gt;</span> <span class="hljs-built_in">Array</span>(n + <span class="hljs-number">1</span>).fill(<span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER));
+  <span class="hljs-keyword">var</span> tmp = <span class="hljs-number">0</span>;
+
+  dp[m][ n - <span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;
+  dp[m - <span class="hljs-number">1</span>][n] = <span class="hljs-number">1</span>;
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = m - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = n - <span class="hljs-number">1</span>; j &gt;= <span class="hljs-number">0</span>; j--) {
+      tmp = <span class="hljs-built_in">Math</span>.min(dp[i][j + <span class="hljs-number">1</span>], dp[i + <span class="hljs-number">1</span>][j]) - dungeon[i][j];
+      dp[i][j] = tmp &lt;= <span class="hljs-number">0</span> ? <span class="hljs-number">1</span> : tmp;
+    }
+  }
+
+  <span class="hljs-keyword">return</span> dp[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>];
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(m*n).</li>
+<li>Space complexity : O(m*n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

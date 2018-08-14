@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Reshape the Matrix - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>566. Reshape the Matrix</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/array">Array</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>In MATLAB, there is a very useful function called 'reshape', which can reshape a matrix into a new one with different size but keep its original data.</p>
+<p>You're given a matrix represented by a two-dimensional array, and two <strong>positive</strong> integers <strong>r</strong> and <strong>c</strong> representing the <strong>row</strong> number and <strong>column</strong> number of the wanted reshaped matrix, respectively.</p>
+<p>The reshaped matrix need to be filled with all the elements of the original matrix in the same <strong>row-traversing</strong> order as they were.</p>
+<p>If the 'reshape' operation with given parameters is possible and legal, output the new reshaped matrix; Otherwise, output the original matrix.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs">Input: 
+nums = 
+[[1,2],
+ [3,4]]
+r = 1, c = 4
+Output: 
+[[1,2,3,4]]
+Explanation:The row-traversing of nums is [1,2,3,4]. The<span class="hljs-built_in"> new </span>reshaped matrix is a 1 * 4 matrix,<span class="hljs-built_in"> fill </span>it row by row by using the previous list.
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs">Input: 
+nums = 
+<span class="hljs-string">[[1,2],
+ [3,4]]</span>
+r = <span class="hljs-number">2</span>, c = <span class="hljs-number">4</span>
+Output: 
+<span class="hljs-string">[[1,2],
+ [3,4]]</span>
+Explanation:There is no way to reshape a <span class="hljs-number">2</span> * <span class="hljs-number">2</span> matrix to a <span class="hljs-number">2</span> * <span class="hljs-number">4</span> matrix. So <span class="hljs-built_in">output</span> the original matrix.
+</code></pre>
+<p><strong>Note:</strong></p>
+<ul>
+<li>The height and width of the given matrix is in range [1, 100].</li>
+<li>The given r and c are all positive.</li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} nums
+ * @param {number} r
+ * @param {number} c
+ * @return {number[][]}
+ */</span>
+<span class="hljs-keyword">var</span> matrixReshape = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums, r, c</span>) </span>{
+  <span class="hljs-keyword">var</span> m = nums.length;
+  <span class="hljs-keyword">var</span> n = nums[<span class="hljs-number">0</span>].length;
+
+  <span class="hljs-keyword">if</span> (m * n !== r * c) <span class="hljs-keyword">return</span> nums;
+
+  <span class="hljs-keyword">var</span> res = <span class="hljs-built_in">Array</span>(r).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">_</span> =&gt;</span> <span class="hljs-built_in">Array</span>(c));
+  <span class="hljs-keyword">var</span> num = r * c;
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; num; i++) {
+    res[<span class="hljs-built_in">Math</span>.floor(i / c)][i % c] = nums[<span class="hljs-built_in">Math</span>.floor(i / n)][i % n];
+  }
+
+  <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(r*c).</li>
+<li>Space complexity : O(r*c).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

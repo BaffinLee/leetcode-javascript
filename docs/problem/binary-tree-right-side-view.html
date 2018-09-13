@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Binary Tree Right Side View - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>199. Binary Tree Right Side View</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/tree">Tree</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/depth-first-search">Depth-first Search</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/breadth-first-search">Breadth-first Search</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/populating-next-right-pointers-in-each-node.html">Populating Next Right Pointers in Each Node</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/boundary-of-binary-tree.html">Boundary of Binary Tree</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a binary tree, imagine yourself standing on the <strong>right</strong> side of it, return the values of the nodes you can see ordered from top to bottom.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="hljs"><span class="hljs-type">Input</span>: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,null,<span class="hljs-number">5</span>,null,<span class="hljs-number">4</span>]
+<span class="hljs-type">Output</span>: [<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]
+<span class="hljs-type">Explanation</span>:
+
+   <span class="hljs-number">1</span>            &lt;-<span class="hljs-comment">--</span>
+ /   \
+<span class="hljs-number">2</span>     <span class="hljs-number">3</span>         &lt;-<span class="hljs-comment">--</span>
+ \     \
+  <span class="hljs-number">5</span>     <span class="hljs-number">4</span>       &lt;-<span class="hljs-comment">--</span>
+</code></pre>
+<h2 id="solution-1">Solution 1</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */</span>
+<span class="hljs-keyword">var</span> rightSideView = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">root</span>) </span>{
+  <span class="hljs-keyword">var</span> queue = [{ <span class="hljs-attr">node</span>: root, <span class="hljs-attr">level</span>: <span class="hljs-number">0</span> }];
+  <span class="hljs-keyword">var</span> result = [];
+  <span class="hljs-keyword">var</span> now = <span class="hljs-literal">null</span>;
+  <span class="hljs-keyword">while</span> (now = queue.shift()) {
+    <span class="hljs-keyword">if</span> (!now.node) <span class="hljs-keyword">continue</span>;
+    result[now.level] = now.node.val;
+    queue.push({ <span class="hljs-attr">node</span>: now.node.left, <span class="hljs-attr">level</span>: now.level + <span class="hljs-number">1</span> });
+    queue.push({ <span class="hljs-attr">node</span>: now.node.right, <span class="hljs-attr">level</span>: now.level + <span class="hljs-number">1</span> });
+  }
+  <span class="hljs-keyword">return</span> result;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul>
+<h2 id="solution-2">Solution 2</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */</span>
+<span class="hljs-keyword">var</span> rightSideView = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">root</span>) </span>{
+  <span class="hljs-keyword">var</span> result = [];
+  helper(root, <span class="hljs-number">0</span>, result);
+  <span class="hljs-keyword">return</span> result;
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">node, level, result</span>) </span>{
+  <span class="hljs-keyword">if</span> (!node) <span class="hljs-keyword">return</span>;
+  result[level] = node.val;
+  helper(node.left, level + <span class="hljs-number">1</span>, result);
+  helper(node.right, level + <span class="hljs-number">1</span>, result);
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

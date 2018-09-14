@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>House Robber - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>198. House Robber</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/maximum-product-subarray.html">Maximum Product Subarray</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/house-robber-ii.html">House Robber II</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/paint-house.html">Paint House</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/paint-fence.html">Paint Fence</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/house-robber-iii.html">House Robber III</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/non-negative-integers-without-consecutive-ones.html">Non-negative Integers without Consecutive Ones</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/coin-path.html">Coin Path</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/delete-and-earn.html">Delete and Earn</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security system connected and <strong>it will automatically contact the police if two adjacent houses were broken into on the same night</strong>.</p>
+<p>Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight <strong>without alerting the police</strong>.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs">Input: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>]
+Output: <span class="hljs-number">4</span>
+Explanation: Rob house <span class="hljs-number">1</span> (<span class="hljs-attr">money</span> = <span class="hljs-number">1</span>) <span class="hljs-literal">and</span> <span class="hljs-keyword">then</span> rob house <span class="hljs-number">3</span> (<span class="hljs-attr">money</span> = <span class="hljs-number">3</span>).
+             Total amount you can <span class="hljs-attr">rob</span> = <span class="hljs-number">1</span> + <span class="hljs-number">3</span> = <span class="hljs-number">4</span>.
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs">Input: [2,7,9,3,1]
+Output: 12
+Explanation: Rob house<span class="hljs-number"> 1 </span>(money = 2), rob house<span class="hljs-number"> 3 </span>(money = 9) and rob house<span class="hljs-number"> 5 </span>(money = 1).
+             Total amount you can rob =<span class="hljs-number"> 2 </span>+<span class="hljs-number"> 9 </span>+<span class="hljs-number"> 1 </span>= 12.
+</code></pre>
+<h2 id="solution-1">Solution 1</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> rob = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">nums</span>) </span>{
+  <span class="hljs-keyword">return</span> helper([], <span class="hljs-number">0</span>, nums);
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">dp, i, nums</span>) </span>{
+  <span class="hljs-keyword">if</span> (i &gt;= nums.length) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">if</span> (dp[i] === <span class="hljs-literal">undefined</span>) {
+    dp[i] = <span class="hljs-built_in">Math</span>.max(
+      helper(dp, i + <span class="hljs-number">1</span>, nums),
+      nums[i] + helper(dp, i + <span class="hljs-number">2</span>, nums)
+    );
+  }
+  <span class="hljs-keyword">return</span> dp[i];
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul>
+<h2 id="solution-2">Solution 2</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> rob = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">nums</span>) </span>{
+  <span class="hljs-keyword">var</span> len = nums.length;
+  <span class="hljs-keyword">var</span> dp = <span class="hljs-built_in">Array</span>(len);
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = len - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) {
+    dp[i] = <span class="hljs-built_in">Math</span>.max(
+      dp[i + <span class="hljs-number">1</span>] || <span class="hljs-number">0</span>,
+      nums[i] + (dp[i + <span class="hljs-number">2</span>] || <span class="hljs-number">0</span>)
+    );
+  }
+  <span class="hljs-keyword">return</span> dp[<span class="hljs-number">0</span>] || <span class="hljs-number">0</span>;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul>
+<h2 id="solution-3">Solution 3</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> rob = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">nums</span>) </span>{
+  <span class="hljs-keyword">var</span> len = nums.length;
+  <span class="hljs-keyword">var</span> dp = [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>];
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = len - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) {
+    dp = [<span class="hljs-built_in">Math</span>.max(dp[<span class="hljs-number">0</span>], nums[i] + dp[<span class="hljs-number">1</span>]), dp[<span class="hljs-number">0</span>]];
+  }
+  <span class="hljs-keyword">return</span> dp[<span class="hljs-number">0</span>];
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

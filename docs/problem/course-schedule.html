@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Course Schedule - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>207. Course Schedule</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/depth-first-search">Depth-first Search</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/breadth-first-search">Breadth-first Search</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/graph">Graph</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/tag/topological-sort">Topological Sort</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/course-schedule-ii.html">Course Schedule II</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/graph-valid-tree.html">Graph Valid Tree</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/minimum-height-trees.html">Minimum Height Trees</a></li><li><a href="https://baffinlee.github.io/leetcode-javascript/problem/course-schedule-iii.html">Course Schedule III</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>There are a total of <em>n</em> courses you have to take, labeled from <code>0</code> to <code>n-1</code>.</p>
+<p>Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: <code>[0,1]</code></p>
+<p>Given the total number of courses and a list of prerequisite <strong>pairs</strong>, is it possible for you to finish all courses?</p>
+<p><strong>Example 1:</strong></p>
+<pre><code class="hljs">Input: <span class="hljs-number">2</span>, [[<span class="hljs-number">1</span>,<span class="hljs-number">0</span>]] 
+Output: <span class="hljs-keyword">true</span>
+Explanation: There are a total <span class="hljs-keyword">of</span> <span class="hljs-number">2</span> courses <span class="hljs-keyword">to</span> <span class="hljs-keyword">take</span>. 
+             <span class="hljs-keyword">To</span> <span class="hljs-keyword">take</span> course <span class="hljs-number">1</span> you should have finished course <span class="hljs-number">0</span>. So it <span class="hljs-keyword">is</span> possible.
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code class="hljs">Input: <span class="hljs-number">2</span>, [[<span class="hljs-number">1</span>,<span class="hljs-number">0</span>],[<span class="hljs-number">0</span>,<span class="hljs-number">1</span>]]
+Output: <span class="hljs-keyword">false</span>
+Explanation: There are a total <span class="hljs-keyword">of</span> <span class="hljs-number">2</span> courses <span class="hljs-keyword">to</span> <span class="hljs-keyword">take</span>. 
+             <span class="hljs-keyword">To</span> <span class="hljs-keyword">take</span> course <span class="hljs-number">1</span> you should have finished course <span class="hljs-number">0</span>, <span class="hljs-keyword">and</span> <span class="hljs-keyword">to</span> <span class="hljs-keyword">take</span> course <span class="hljs-number">0</span> you should
+             also have finished course <span class="hljs-number">1</span>. So it <span class="hljs-keyword">is</span> impossible.
+</code></pre>
+<p><strong>Note:</strong></p>
+<ul>
+<li>The input prerequisites is a graph represented by <strong>a list of edges</strong>, not adjacency matrices. Read more about how a graph is represented.</li>
+<li>You may assume that there are no duplicate edges in the input prerequisites.</li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} numCourses
+ * @param {number[][]} prerequisites
+ * @return {boolean}
+ */</span>
+<span class="hljs-keyword">var</span> canFinish = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">numCourses, prerequisites</span>) </span>{
+  <span class="hljs-keyword">var</span> edges = <span class="hljs-built_in">Array</span>(numCourses).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">_</span> =&gt;</span> <span class="hljs-built_in">Array</span>(numCourses).fill(<span class="hljs-number">0</span>));
+  <span class="hljs-keyword">var</span> incoming = <span class="hljs-built_in">Array</span>(numCourses).fill(<span class="hljs-number">0</span>);
+  <span class="hljs-keyword">var</span> len = prerequisites.length;
+  <span class="hljs-keyword">var</span> post = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> prev = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> queue = [];
+  <span class="hljs-keyword">var</span> num = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> count = <span class="hljs-number">0</span>;
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+    prev = prerequisites[i][<span class="hljs-number">1</span>];
+    post = prerequisites[i][<span class="hljs-number">0</span>];
+    <span class="hljs-keyword">if</span> (edges[prev][post] === <span class="hljs-number">0</span>) {
+      incoming[post]++;
+      edges[prev][post] = <span class="hljs-number">1</span>;
+    }
+  }
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; numCourses; j++) {
+    <span class="hljs-keyword">if</span> (incoming[j] === <span class="hljs-number">0</span>) queue.push(j);
+  }
+
+  <span class="hljs-keyword">while</span> (queue.length) {
+    count++;
+    num = queue.pop()
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> k = <span class="hljs-number">0</span>; k &lt; numCourses; k++) {
+      <span class="hljs-keyword">if</span> (edges[num][k] === <span class="hljs-number">1</span> &amp;&amp; --incoming[k] === <span class="hljs-number">0</span>) queue.push(k);
+    }
+  }
+
+  <span class="hljs-keyword">return</span> count === numCourses;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n^2).</li>
+<li>Space complexity : O(n^2).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

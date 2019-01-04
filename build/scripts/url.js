@@ -1,4 +1,4 @@
-const home = 'https://baffinlee.github.io/leetcode-javascript';
+const home = 'https://baffinlee.com/leetcode-javascript';
 const github = 'https://github.com/BaffinLee/leetcode-javascript';
 
 function difficulty (slug, num = 1) {

@@ -30,6 +30,6 @@
     "fs-extra": "^6.0.0",
     "highlight.js": "^9.12.0",
     "react-jsx": "^1.0.0",
-    "showdown": "^1.8.6"
+    "showdown": "^1.9.1"
   }
 }

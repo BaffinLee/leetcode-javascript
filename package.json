@@ -28,7 +28,7 @@
     "chalk": "^2.4.1",
     "cheerio": "^1.0.0-rc.2",
     "fs-extra": "^6.0.0",
-    "highlight.js": "^9.12.0",
+    "highlight.js": "^10.1.2",
     "react-jsx": "^1.0.0",
     "showdown": "^1.8.6"
   }

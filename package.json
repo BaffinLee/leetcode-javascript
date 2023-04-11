@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "node build/index.js",
+    "create:random": "node create/random.js",
     "create": "node create/index.js"
   },
   "repository": {

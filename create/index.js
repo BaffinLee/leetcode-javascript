@@ -4,7 +4,7 @@ const create = data => {
 	const path = require('path');
 	const chalk = require('chalk');
 	const pageData = {
-		id: data.questionId,
+		id: data.questionFrontendId || data.questionId,
 		name: data.questionTitle,
 		difficulty: data.difficulty,
 		relatedTopics: data.topicTags.map(t => t.name).join(', '),
@@ -92,7 +92,7 @@ const getName = url => {
 
 const queryAndCreate = name => {
   const axios = require('axios');
-  const url = `https://leetcode.com/graphql?query=query%20getQuestionDetail($titleSlug:%20String!)%20%7B%0A%20%20question(titleSlug:%20$titleSlug)%20%7B%0A%20%20%20%20questionId%0A%20%20%20%20questionTitle%0A%20%20%20%20content%0A%20%20%20%20difficulty%0A%20%20%20%20stats%0A%20%20%20%20similarQuestions%0A%20%20%20%20topicTags%20%7B%0A%20%20%20%20%20%20name%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A&operationName=getQuestionDetail&variables=%7B%22titleSlug%22:%22${name}%22%7D`;
+  const url = `https://leetcode.com/graphql?query=query%20getQuestionDetail($titleSlug:%20String!)%20%7B%0A%20%20question(titleSlug:%20$titleSlug)%20%7B%0A%20%20%20%20questionId%0A%20%20%20%20questionFrontendId%0A%20%20%20%20questionTitle%0A%20%20%20%20content%0A%20%20%20%20difficulty%0A%20%20%20%20stats%0A%20%20%20%20similarQuestions%0A%20%20%20%20topicTags%20%7B%0A%20%20%20%20%20%20name%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A&operationName=getQuestionDetail&variables=%7B%22titleSlug%22:%22${name}%22%7D`;
   
   axios.get(url).then(res => {
     create(res.data.data.question);

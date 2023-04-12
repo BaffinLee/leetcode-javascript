@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Frequency of the Most Frequent Element - LeetCode javascript solutions</title><link rel="shortcut icon" href="https://baffinlee.com/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href="https://baffinlee.com/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1838. Frequency of the Most Frequent Element</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href="https://baffinlee.com/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.com/leetcode-javascript/tag/array">Array</a></li><li><a href="https://baffinlee.com/leetcode-javascript/tag/binary-search">Binary Search</a></li><li><a href="https://baffinlee.com/leetcode-javascript/tag/greedy">Greedy</a></li><li><a href="https://baffinlee.com/leetcode-javascript/tag/sliding-window">Sliding Window</a></li><li><a href="https://baffinlee.com/leetcode-javascript/tag/sorting">Sorting</a></li><li><a href="https://baffinlee.com/leetcode-javascript/tag/prefix-sum">Prefix Sum</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href="https://baffinlee.com/leetcode-javascript/problem/find-all-lonely-numbers-in-the-array.html">Find All Lonely Numbers in the Array</a></li><li><a href="https://baffinlee.com/leetcode-javascript/problem/longest-nice-subarray.html">Longest Nice Subarray</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>The <strong>frequency</strong> of an element is the number of times it occurs in an array.</p>
+<p>You are given an integer array <code>nums</code> and an integer <code>k</code>. In one operation, you can choose an index of <code>nums</code> and increment the element at that index by <code>1</code>.</p>
+<p>Return **the *<em>maximum possible frequency</em>* of an element after performing <strong>at most</strong> <strong><code>k</code></strong> operations**.</p>
+<p>Example 1:</p>
+<pre><code class="hljs">Input: nums = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">4</span>], k = <span class="hljs-number">5</span>
+Output: <span class="hljs-number">3</span>
+Explanation: Increment <span class="hljs-keyword">the</span> <span class="hljs-keyword">first</span> <span class="hljs-keyword">element</span> <span class="hljs-literal">three</span> times <span class="hljs-keyword">and</span> <span class="hljs-keyword">the</span> <span class="hljs-keyword">second</span> <span class="hljs-keyword">element</span> <span class="hljs-literal">two</span> times <span class="hljs-built_in">to</span> make nums = [<span class="hljs-number">4</span>,<span class="hljs-number">4</span>,<span class="hljs-number">4</span>].
+<span class="hljs-number">4</span> has <span class="hljs-keyword">a</span> frequency <span class="hljs-keyword">of</span> <span class="hljs-number">3.</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: nums = [<span class="hljs-number">1</span>,<span class="hljs-number">4</span>,<span class="hljs-number">8</span>,<span class="hljs-number">13</span>], k = <span class="hljs-number">5</span>
+Output: <span class="hljs-number">2</span>
+Explanation: There are multiple optimal solutions:
+- Increment <span class="hljs-keyword">the</span> <span class="hljs-keyword">first</span> <span class="hljs-keyword">element</span> <span class="hljs-literal">three</span> times <span class="hljs-built_in">to</span> make nums = [<span class="hljs-number">4</span>,<span class="hljs-number">4</span>,<span class="hljs-number">8</span>,<span class="hljs-number">13</span>]. <span class="hljs-number">4</span> has <span class="hljs-keyword">a</span> frequency <span class="hljs-keyword">of</span> <span class="hljs-number">2.</span>
+- Increment <span class="hljs-keyword">the</span> <span class="hljs-keyword">second</span> <span class="hljs-keyword">element</span> <span class="hljs-literal">four</span> times <span class="hljs-built_in">to</span> make nums = [<span class="hljs-number">1</span>,<span class="hljs-number">8</span>,<span class="hljs-number">8</span>,<span class="hljs-number">13</span>]. <span class="hljs-number">8</span> has <span class="hljs-keyword">a</span> frequency <span class="hljs-keyword">of</span> <span class="hljs-number">2.</span>
+- Increment <span class="hljs-keyword">the</span> <span class="hljs-keyword">third</span> <span class="hljs-keyword">element</span> <span class="hljs-literal">five</span> times <span class="hljs-built_in">to</span> make nums = [<span class="hljs-number">1</span>,<span class="hljs-number">4</span>,<span class="hljs-number">13</span>,<span class="hljs-number">13</span>]. <span class="hljs-number">13</span> has <span class="hljs-keyword">a</span> frequency <span class="hljs-keyword">of</span> <span class="hljs-number">2.</span>
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> nums = [<span class="hljs-number">3</span>,<span class="hljs-number">9</span>,<span class="hljs-number">6</span>], k = <span class="hljs-number">2</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">1</span>
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= nums.length &lt;= 105</code></p></li>
+<li><p><code>1 &lt;= nums[i] &lt;= 105</code></p></li>
+<li><p><code>1 &lt;= k &lt;= 105</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> maxFrequency = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums, k</span>) </span>{
+    nums.sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a - b);
+
+    <span class="hljs-keyword">var</span> sums = <span class="hljs-built_in">Array</span>(nums.length);
+    nums.forEach(<span class="hljs-function">(<span class="hljs-params">num, i</span>) =&gt;</span> sums[i] = (sums[i - <span class="hljs-number">1</span>] || <span class="hljs-number">0</span>) + num);
+
+    <span class="hljs-keyword">var</span> max = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; nums.length; i++) {
+        <span class="hljs-keyword">var</span> frequency = i + <span class="hljs-number">1</span> - binarySearch(nums, sums, i, k);
+        max = <span class="hljs-built_in">Math</span>.max(max, frequency);
+    }
+
+    <span class="hljs-keyword">return</span> max;
+};
+
+<span class="hljs-keyword">var</span> binarySearch = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums, sums, i, k</span>) </span>{
+    <span class="hljs-keyword">var</span> left = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> right = i;
+    <span class="hljs-keyword">var</span> getValue = <span class="hljs-function">(<span class="hljs-params">j</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> nums[i] * (i - j + <span class="hljs-number">1</span>) - (sums[i] - sums[j] + nums[j]);
+    };
+    <span class="hljs-keyword">while</span> (left &lt;= right) {
+        <span class="hljs-keyword">var</span> mid = left + <span class="hljs-built_in">Math</span>.floor((right - left) / <span class="hljs-number">2</span>);
+        <span class="hljs-keyword">var</span> midValue = getValue(mid);
+        <span class="hljs-keyword">if</span> (midValue === k) {
+            <span class="hljs-keyword">return</span> mid;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (midValue &gt; k) {
+            left = mid + <span class="hljs-number">1</span>;
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">if</span> (mid === left) <span class="hljs-keyword">return</span> mid;
+            right = mid;
+        }
+    }
+    <span class="hljs-keyword">return</span> i;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<ol>
+<li>sort the array of nums by ascending order</li>
+<li>calculate prefix sum array</li>
+<li>for every nums[i], binary search possible index in [0, i],
+which can use k operates, to make every num in [index, i] equals nums[i]</li>
+</ol>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(nlog(n)).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src="https://baffinlee.com/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

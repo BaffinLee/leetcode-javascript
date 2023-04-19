@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
+const fse = require('fs-extra');
 
 const url = require('./scripts/url');
 const meta = require('./scripts/meta');
@@ -155,10 +156,18 @@ function buildDifficulties () {
 	});
 }
 
+function copyStaticFile() {
+  fse.copySync(
+    path.resolve(__dirname, './static'),
+    path.resolve(__dirname, '../docs/static')
+  );
+}
+
 buildProblems();
 sortProblems();
 buildPages();
 buildTags();
 buildDifficulties();
+copyStaticFile();
 
 console.log(`\n${chalk.blue('Done!')}\n`);

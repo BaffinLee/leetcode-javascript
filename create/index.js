@@ -38,7 +38,7 @@ const getDescription = (description) => {
     },
     {
       regexp: /<code>(.*?)<\/code>/ig,
-      replacer: (_, $1) => `\`\`\`${$1}\`\`\``
+      replacer: (_, $1) => `\`${$1}\``
     },
     {
       regexp: /<i>(.*?)<\/i>/ig,

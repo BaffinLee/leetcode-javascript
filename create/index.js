@@ -96,7 +96,7 @@ const queryAndCreate = name => {
   
   axios.get(url).then(res => {
     if (!res.data?.data?.question) {
-      console.error('fetch question info error, probably wrong problem url');
+      console.error('fetch question info error, probably wrong problem url\n');
       return;
     }
     create(res.data.data.question);

@@ -11,7 +11,7 @@ const create = data => {
 		similarQuestions: JSON.parse(data.similarQuestions).map(q => q.title).join(', '),
 		description: getDescription(data.content),
 	};
-  const dir = getPath(pageData.id, pageData.name);
+  const dir = getPath(pageData.id, pageData.name.replace(/\?/g, ''));
   
   if (fs.existsSync(dir)) {
     console.log(`${chalk.red('file already exists')}: ${chalk.blue(dir)}\n`);

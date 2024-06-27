@@ -13,7 +13,7 @@
 		<div className="row">
 			<div className="name">Difficulty:</div>
 			<div className="value">
-				<a href={url.difficulty(difficulty.slug)} className="tag">{difficulty.name}</a>
+				<a href={url.difficulty(difficulty.slug)} className={`tag ${difficulty.slug} selected`}>{difficulty.name}</a>
 			</div>
 		</div>
 		<div className="row">

@@ -14,7 +14,7 @@
 			<div className="value">
 				<ul className="clearfix">
 					{difficultyList.map((item, index) => (
-						<li key={index} className={item.slug === meta.difficulty.slug ? 'selected' : ''}>
+						<li key={index} className={item.slug === meta.difficulty.slug ? `tag ${item.slug} selected` : `tag ${item.slug}`}>
 							<a href={item.slug === meta.difficulty.slug ? url.home : url.difficulty(item.slug)}>{item.name}</a>
 						</li>
 					))}
@@ -34,7 +34,7 @@
 			</div>
 		</div>
 	</header>
-	<main>
+	<main className="list-container">
 		<table>
 			<thead>
 				<tr>
